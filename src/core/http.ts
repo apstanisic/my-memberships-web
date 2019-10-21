@@ -10,21 +10,15 @@ export function addStoragePrefix(url: string) {
 }
 
 /** Http module with base url and some sane headers */
-const http = Axios.create({
+export const http = Axios.create({
   baseURL: apiUrl,
   headers: {
     "Access-Control-Allow-Origin": "*"
   }
 });
 
+/** @todo set pagination type */
 export interface PaginationResult<T = any> {
-  pagination: PaginationData;
+  pagination: Record<string, any>;
   data: T[];
 }
-export interface PaginationData {
-  lastPage: boolean;
-  page: number;
-  perPage: number;
-}
-
-export default http;

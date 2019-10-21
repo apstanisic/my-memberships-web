@@ -1,8 +1,8 @@
-import { IUser } from "core/IUser";
-import Storage from "core/storage";
-import http from "../http";
-import AuthManagePassword from "./_AuthManagePassword";
-import AuthManageUser from "./_AuthManageUser";
+import { IUser } from "core/auth/IUser";
+import { ManagePassword } from "./_ManagePassword";
+import { ManageUserData } from "./_ManageUserData";
+import { Storage } from "core/Storage";
+import { http } from "core/http";
 
 /* Keys to access auth store items */
 export enum StorageKeys {
@@ -16,8 +16,8 @@ export enum StorageKeys {
  */
 class AuthController<User extends IUser = IUser> {
   private storage: Storage = new Storage("auth");
-  manageUser = new AuthManageUser(this.storage, this.logout);
-  managePassword = new AuthManagePassword();
+  manageUser = new ManageUserData(this.storage, this.logout);
+  managePassword = new ManagePassword();
 
   /** Initialize auth. Return logged user if exists */
   async init(): Promise<User | void> {
@@ -72,4 +72,4 @@ class AuthController<User extends IUser = IUser> {
   }
 }
 
-export const Auth = new AuthController();
+export const auth = new AuthController();

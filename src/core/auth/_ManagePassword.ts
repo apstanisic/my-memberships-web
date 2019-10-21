@@ -1,0 +1,43 @@
+import { http } from "core/http";
+import { IUser } from "core/auth/IUser";
+
+/** Params needed for password reset */
+interface ResetPasswordParams {
+  password: string;
+  email: string;
+  token: string;
+}
+
+/** Params needed for changing password */
+interface ChangePasswordData {
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+}
+
+/* class used to manage user password */
+export class ManagePassword<User extends IUser> {
+  /* Change user's password */
+  async changePassword(data: ChangePasswordData): Promise<User> {
+    return http.put("/auth/password", data).then(res => res.data);
+  }
+
+  /**
+   * Request that email be sent to this account's email
+   * with instruction to reset forgotten password.
+   */
+  async requestPasswordResetEmail(email: string): Promise<void> {
+    await http.post(`/auth/forgot-password/${email}`);
+  }
+
+  /* Reset password with token for reseting */
+  async resetPassword({
+    email,
+    token,
+    password
+  }: ResetPasswordParams): Promise<User> {
+    return http
+      .post(`/auth/reset-password/${email}`, { password, token })
+      .then(res => res.data);
+  }
+}
