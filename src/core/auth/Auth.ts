@@ -2,7 +2,7 @@ import { IUser } from "core/auth/IUser";
 import { ManagePassword } from "./_ManagePassword";
 import { ManageUserData } from "./_ManageUserData";
 import { Storage } from "core/Storage";
-import { http } from "core/http";
+import { Http } from "core/http";
 
 /* Keys to access auth store items */
 export enum StorageKeys {
@@ -29,11 +29,17 @@ class AuthController<User extends IUser = IUser> {
     }
   }
 
+  async isLogged() {
+    const token = await this.storage.get(StorageKeys.Token);
+    if (!token) return Promise.reject();
+  }
+
   /** Attempt to login user. Throw error if invalid */
   async attemptLogin(email: string, password: string): Promise<User> {
-    const { user, token } = await http
-      .post<{ user: User; token: string }>("/auth/login", { email, password })
-      .then(res => res.data);
+    const { user, token } = await Http.post<{ user: User; token: string }>(
+      "/auth/login",
+      { email, password }
+    ).then(res => res.data);
 
     this.setAuthHeader(token);
     await this.storage.set(StorageKeys.Token, token);
@@ -47,9 +53,10 @@ class AuthController<User extends IUser = IUser> {
     password: string
   ): Promise<{ user: User; token: string }> {
     const body = { email, password };
-    const { user, token } = await http
-      .post<{ user: User; token: string }>("/auth/register", { body })
-      .then(res => res.data);
+    const { user, token } = await Http.post<{ user: User; token: string }>(
+      "/auth/register",
+      { body }
+    ).then(res => res.data);
 
     this.setAuthHeader(token);
 
@@ -63,12 +70,12 @@ class AuthController<User extends IUser = IUser> {
   async logout(): Promise<void> {
     await this.storage.delete(StorageKeys.Token);
     await this.storage.delete(StorageKeys.User);
-    delete http.defaults.headers["Authorization"];
+    delete Http.defaults.headers["Authorization"];
   }
 
   /* Set Auth token */
   private setAuthHeader(token: string): void {
-    http.defaults.headers["Authorization"] = `Bearer ${token}`;
+    Http.defaults.headers["Authorization"] = `Bearer ${token}`;
   }
 }
 
