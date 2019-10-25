@@ -1,44 +1,27 @@
-export interface Company {
-  id: string;
-  /** Company name */
+import { BaseEntity, UUID } from "types";
+
+export class Company implements BaseEntity {
+  id: UUID;
+  createdAt: Date;
   name: string;
-
-  /** Owner id */
-  ownerId: string;
-
-  /** All subscriptions in this company (valid, expired and deleted) */
-  //   subscriptions: Subscription[];
-
-  /** What type of business is this company. Must cloned because of readonly */
+  ownerId: UUID;
   category: string;
-
-  /** Description of company, it's prices */
   description: string;
-
-  /** Company's main phone numbers */
   phoneNumbers: string[];
-
-  /** Company's main emails */
   emails: string[];
-
-  /** How many credit company have for buying stuff */
   credit: number;
-
-  /** On which pricing plan is company */
-  //   plans: PricingPlan[];
-
-  /** All company locations */
-  locations: Location[];
-
-  /** All roles this company have. */
-  //   roles: Role[];
-
-  /**TODO Implement this */
-  //   tier: Tier;
-
-  /** Path to images of company. Currently 5 images max */
   images: any[];
 
-  // All payments for this company
-  //   payments: PaymentRecord;
+  constructor(company: any) {
+    this.id = company.id;
+    this.createdAt = new Date(company.createdAt);
+    this.name = company.name;
+    this.ownerId = company.ownerId;
+    this.category = company.category;
+    this.description = company.description;
+    this.phoneNumbers = JSON.parse(company.phoneNumbers);
+    this.emails = JSON.parse(company.emails);
+    this.credit = company.credit;
+    this.images = company.images;
+  }
 }

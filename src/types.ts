@@ -11,6 +11,8 @@ export interface ImageSizes {
 }
 
 export interface BaseEntity {
-  id: string;
+  id: UUID;
   createdAt: Date;
 }
+
+export type UUID = string;

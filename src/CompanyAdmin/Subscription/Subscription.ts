@@ -1,8 +1,10 @@
-import { BaseEntity } from "types";
+import { BaseEntity, UUID } from "types";
 
-export interface Subscription extends BaseEntity {
+export class Subscription implements BaseEntity {
+  id: UUID;
+  createdAt: Date;
   companyId: string;
-  ownerId: string;
+  ownerId: UUID;
   startsAt: Date;
   expiresAt: Date;
   price: number;
@@ -10,12 +12,20 @@ export interface Subscription extends BaseEntity {
   allowedUses?: number;
   active: boolean;
   usedAmount: number;
-  arrivalIds: string[];
-}
+  arrivalIds: UUID[];
 
-export function parseSubscription(sub: any) {
-  const parsed: Subscription = { ...sub };
-  parsed.createdAt = new Date(sub.createdAt);
-  parsed.startsAt = new Date(sub.startsAt);
-  parsed.expiresAt = new Date(sub.expiresAt);
+  constructor(subscription: any) {
+    this.id = subscription.id;
+    this.companyId = subscription.companyId;
+    this.ownerId = subscription.ownerId;
+    this.price = subscription.price;
+    this.type = subscription.type;
+    this.allowedUses = subscription.allowedUses;
+    this.active = subscription.active;
+    this.usedAmount = subscription.usedAmount;
+    this.arrivalIds = subscription.arrivalIds;
+    this.createdAt = new Date(subscription.createdAt);
+    this.startsAt = new Date(subscription.startsAt);
+    this.expiresAt = new Date(subscription.expiresAt);
+  }
 }

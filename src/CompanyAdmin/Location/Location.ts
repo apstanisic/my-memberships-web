@@ -1,4 +1,4 @@
-import { Image } from "types";
+import { Image, UUID } from "types";
 
 export interface Workhours {
   monday: string;
@@ -11,8 +11,8 @@ export interface Workhours {
 }
 
 /** Location object */
-export interface Location {
-  id: string;
+export class Location {
+  id: UUID;
   createdAt: Date;
   companyId: string;
   address: string;
@@ -22,17 +22,17 @@ export interface Location {
   long?: number;
   workingHours: Workhours;
   images: Image[];
-}
 
-/**
- * Request will return working hours as an json string. This method
- * parses jsons where needed
- */
-export function parseLocations(location: any): Location {
-  const parsed: Location = { ...location };
-  parsed.createdAt = new Date(location.createdAt);
-  parsed.workingHours = JSON.parse(location.workingHours);
-  parsed.images = JSON.parse(location.images);
-
-  return parsed;
+  constructor(location: any) {
+    this.createdAt = new Date(location.createdAt);
+    this.workingHours = JSON.parse(location.workingHours);
+    this.images = JSON.parse(location.images);
+    this.id = location.id;
+    this.companyId = location.companyId;
+    this.address = location.address;
+    this.phoneNumber = location.phoneNumber;
+    this.email = location.email;
+    this.lat = location.lat;
+    this.long = location.long;
+  }
 }
