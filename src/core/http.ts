@@ -25,15 +25,15 @@ export function file(url: string): string {
 }
 
 /** Pagination response */
-export interface PaginationResult<T = any> {
-  pagination: {
-    amount: number;
-    isLastPage: boolean;
-    startsAt?: string;
-    endsAt?: string;
-    next?: string;
-    previous?: string;
-    [key: string]: any;
-  };
-  data: T[];
-}
+// export interface PaginationResult<T = any> {
+//   pagination: {
+//     amount: number;
+//     isLastPage: boolean;
+//     startsAt?: string;
+//     endsAt?: string;
+//     next?: string;
+//     previous?: string;
+//     [key: string]: any;
+//   };
+//   data: T[];
+// }

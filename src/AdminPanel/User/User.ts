@@ -1,4 +1,5 @@
 import { BaseEntity, UUID, Image } from "types";
+import { Role } from "AdminPanel/Roles/Role";
 
 export class User implements BaseEntity {
   id: UUID;
@@ -7,6 +8,7 @@ export class User implements BaseEntity {
   name: string;
   avatar?: Image;
   phoneNumber?: string;
+  roles?: Role[];
 
   constructor(user: any) {
     this.id = user.id;

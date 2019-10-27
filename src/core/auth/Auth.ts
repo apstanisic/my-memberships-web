@@ -3,6 +3,7 @@ import { ManagePassword } from "./_ManagePassword";
 import { ManageUserData } from "./_ManageUserData";
 import { Storage } from "core/Storage";
 import { Http } from "core/http";
+import { Role } from "AdminPanel/Roles/Role";
 
 /* Keys to access auth store items */
 export enum StorageKeys {
@@ -18,6 +19,7 @@ class AuthController<User extends IUser = IUser> {
   private storage: Storage = new Storage("auth");
   manageUser = new ManageUserData(this.storage, this.logout);
   managePassword = new ManagePassword();
+  user?: User;
 
   /** Initialize auth. Return logged user if exists */
   async init(): Promise<User | void> {
@@ -25,6 +27,7 @@ class AuthController<User extends IUser = IUser> {
     if (token !== undefined) {
       const user = await this.storage.get<User>(StorageKeys.User);
       this.setAuthHeader(token);
+      this.user = user;
       return user;
     }
   }
@@ -36,14 +39,20 @@ class AuthController<User extends IUser = IUser> {
 
   /** Attempt to login user. Throw error if invalid */
   async attemptLogin(email: string, password: string): Promise<User> {
-    const { user, token } = await Http.post<{ user: User; token: string }>(
+    const { user, token }: { user: User; token: string } = await Http.post(
       "/auth/login",
       { email, password }
     ).then(res => res.data);
 
     this.setAuthHeader(token);
+    const roles = await Http.get<Role[]>("/auth/account/roles").then(
+      res => res.data
+    );
+    user.roles = roles;
+
     await this.storage.set(StorageKeys.Token, token);
     await this.storage.set(StorageKeys.User, user);
+    this.user = user;
     return user;
   }
 

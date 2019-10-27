@@ -7,10 +7,11 @@ import {
   TextField,
   EditButton
 } from "react-admin";
+import { Pagination } from "AdminPanel/common/Pagination";
 
 export function CompanyList(props: any) {
   return (
-    <List {...props}>
+    <List {...props} pagination={<Pagination />}>
       <Datagrid rowClick="edit">
         <TextField source="id" />
         <DateField source="createdAt" showTime locales="sr-RS" />

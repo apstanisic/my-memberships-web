@@ -3,7 +3,7 @@ import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
 import { AdminPanel } from "Admin";
 import "./App.css";
 import { Http } from "core/http";
-import { Company } from "CompanyAdmin/Company/Company";
+import { Company } from "AdminPanel/Company/Company";
 import { auth } from "core/auth/Auth";
 
 function App() {
@@ -13,23 +13,40 @@ function App() {
     auth.init().then(() => {
       Http.get<Company[]>("companies/user").then(res => {
         setCompanies(res.data);
+        console.log(auth.user);
       });
     });
   }, []);
 
   return (
     <BrowserRouter>
-      {companies.map(company => (
-        <Link to={`/companies/${company.id}`} key={company.id}>
-          {company.name}
-        </Link>
-      ))}
+      {/* {auth.user} */}
       <Switch>
-        <Route path="/companies/:id">
-          <div className="App">
-            <AdminPanel />
+        {/* <Route path="/">
+          <div>
+            {companies.map(company => (
+              <Link to={`/companies/${company.id}`} key={company.id}>
+                {company.name}
+                {"   "}
+                {
+                  auth.user!.roles.filter(role => role.domain === company.id)[0]
+                    .name
+                }
+                <br />
+              </Link>
+            ))}
           </div>
+        </Route> */}
+
+        {/* <Route>
+          <AdminPanel></AdminPanel>
+        </Route> */}
+        <Route path="/companies/:id">
+          <div className="App">{auth.user && <AdminPanel />}</div>
         </Route>
+        {/* <Route>
+          <AdminPanel />
+        </Route> */}
       </Switch>
     </BrowserRouter>
   );
