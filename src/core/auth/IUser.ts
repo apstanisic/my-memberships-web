@@ -1,4 +1,4 @@
-import { Role } from "AdminPanel/Roles/Role";
+import { Role } from "components/AdminPanel/Roles/Role";
 
 /** User in every app must have this fields */
 export interface IUser {

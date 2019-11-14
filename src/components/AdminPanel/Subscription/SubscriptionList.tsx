@@ -20,7 +20,7 @@ import { Subscription } from "./Subscription";
 import { useLocation, useHistory, Link } from "react-router-dom";
 import { stringify } from "query-string";
 import { Button } from "@material-ui/core";
-import { Pagination } from "AdminPanel/common/Pagination";
+import { Pagination } from "components/AdminPanel/common/Pagination";
 
 export function SubscriptionList(props: any) {
   const url = useLocation().pathname.substring(1);

@@ -10,7 +10,7 @@ import {
   TextField,
   ReferenceField
 } from "react-admin";
-import { Pagination } from "AdminPanel/common/Pagination";
+import { Pagination } from "components/AdminPanel/common/Pagination";
 
 export function RoleList(props: any) {
   return (

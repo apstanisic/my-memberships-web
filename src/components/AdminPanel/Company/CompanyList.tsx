@@ -7,7 +7,7 @@ import {
   TextField,
   EditButton
 } from "react-admin";
-import { Pagination } from "AdminPanel/common/Pagination";
+import { Pagination } from "components/AdminPanel/common/Pagination";
 
 export function CompanyList(props: any) {
   return (

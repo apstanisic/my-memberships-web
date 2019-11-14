@@ -1,5 +1,5 @@
 import { BaseEntity, UUID, Image } from "types";
-import { Role } from "AdminPanel/Roles/Role";
+import { Role } from "components/AdminPanel/Roles/Role";
 
 export class User implements BaseEntity {
   id: UUID;

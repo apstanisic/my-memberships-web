@@ -1,54 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
-import { AdminPanel } from "Admin";
-import "./App.css";
-import { Http } from "core/http";
-import { Company } from "AdminPanel/Company/Company";
-import { auth } from "core/auth/Auth";
+import React from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { store } from "store/store";
+import AdminPanel from "./components/AdminPanel/Admin";
+import { Auth } from "components/Auth/AuthRouter";
 
 function App() {
-  const [companies, setCompanies] = useState<Company[]>([]);
+  // const [companies, setCompanies] = useState<Company[]>([]);
+  // // const AdminPanel = React.lazy(() => import("./AdminPanel/Admin"));
 
-  useEffect(() => {
-    auth.init().then(() => {
-      Http.get<Company[]>("companies/user").then(res => {
-        setCompanies(res.data);
-        console.log(auth.user);
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   auth.init().then(() => {
+  //     Http.get<Company[]>("companies/user").then(res => {
+  //       setCompanies(res.data);
+  //       console.log(auth.user);
+  //     });
+  //   });
+  // }, []);
+  // return <AdminPanel />;
 
   return (
-    <BrowserRouter>
-      {/* {auth.user} */}
-      <Switch>
-        {/* <Route path="/">
-          <div>
-            {companies.map(company => (
-              <Link to={`/companies/${company.id}`} key={company.id}>
-                {company.name}
-                {"   "}
-                {
-                  auth.user!.roles.filter(role => role.domain === company.id)[0]
-                    .name
-                }
-                <br />
-              </Link>
-            ))}
-          </div>
-        </Route> */}
-
-        {/* <Route>
-          <AdminPanel></AdminPanel>
-        </Route> */}
-        <Route path="/companies/:id">
-          <div className="App">{auth.user && <AdminPanel />}</div>
-        </Route>
-        {/* <Route>
-          <AdminPanel />
-        </Route> */}
-      </Switch>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            Home page
+          </Route>
+          <Route path="/kontakt">Home page</Route>
+          <Route path="/o-nama">Home page</Route>
+          <Route path="/auth">
+            <Auth />
+          </Route>
+          <Route path="/panel">
+            <AdminPanel />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

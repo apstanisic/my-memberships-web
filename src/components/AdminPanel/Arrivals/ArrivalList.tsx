@@ -8,7 +8,7 @@ import {
   TextField
 } from "react-admin";
 import { useParams, useLocation } from "react-router-dom";
-import { Pagination } from "AdminPanel/common/Pagination";
+import { Pagination } from "components/AdminPanel/common/Pagination";
 
 export function ArrivalList(props: any) {
   const url = useLocation().pathname.substring(1);

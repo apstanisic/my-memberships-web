@@ -3,12 +3,17 @@ import { ManagePassword } from "./_ManagePassword";
 import { ManageUserData } from "./_ManageUserData";
 import { Storage } from "core/Storage";
 import { Http } from "core/http";
-import { Role } from "AdminPanel/Roles/Role";
+import { Role } from "components/AdminPanel/Roles/Role";
 
 /* Keys to access auth store items */
 export enum StorageKeys {
   User = "user",
   Token = "token"
+}
+
+interface UserAndToken<User extends IUser = IUser> {
+  user: User;
+  token: string;
 }
 
 /**
@@ -39,10 +44,10 @@ class AuthController<User extends IUser = IUser> {
 
   /** Attempt to login user. Throw error if invalid */
   async attemptLogin(email: string, password: string): Promise<User> {
-    const { user, token }: { user: User; token: string } = await Http.post(
-      "/auth/login",
-      { email, password }
-    ).then(res => res.data);
+    const { user, token }: UserAndToken<User> = await Http.post("/auth/login", {
+      email,
+      password
+    }).then(res => res.data);
 
     this.setAuthHeader(token);
     const roles = await Http.get<Role[]>("/auth/account/roles").then(
@@ -57,10 +62,7 @@ class AuthController<User extends IUser = IUser> {
   }
 
   /* Register new user */
-  async register(
-    email: string,
-    password: string
-  ): Promise<{ user: User; token: string }> {
+  async register(email: string, password: string): Promise<User> {
     const body = { email, password };
     const { user, token } = await Http.post<{ user: User; token: string }>(
       "/auth/register",
@@ -72,7 +74,7 @@ class AuthController<User extends IUser = IUser> {
     await this.storage.set(StorageKeys.Token, token);
     await this.storage.set(StorageKeys.User, user);
 
-    return { user, token };
+    return user;
   }
 
   /* Logout user */

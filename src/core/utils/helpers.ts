@@ -15,7 +15,6 @@ interface WithId {
 
 /**
  * Generate numbers between.
- * @Todo Fix !. when TS 3.7 is released
  */
 export function between(
   start: number,
@@ -25,8 +24,8 @@ export function between(
     inc: number;
   }
 ): number[] {
-  const inc = options!.inc || 1;
-  const order = options!.order || "asc";
+  const inc = options?.inc ?? 1;
+  const order = options?.order ?? "asc";
   const numbers: number[] = [];
   if (order === "asc") {
     for (let i = start; i <= finish; i += inc) {

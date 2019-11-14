@@ -1,23 +1,23 @@
-import { authProvider } from "AdminPanel/authProvider";
-import { CompanyCreate } from "AdminPanel/Company/CompanyCreate";
-import { CompanyEdit } from "AdminPanel/Company/CompanyEdit";
-import { CompanyList } from "AdminPanel/Company/CompanyList";
-import { dataProvider } from "AdminPanel/dataProvider";
-import { SubscriptionList } from "AdminPanel/Subscription/SubscriptionList";
+import { authProvider } from "components/AdminPanel/authProvider";
+import { CompanyCreate } from "components/AdminPanel/Company/CompanyCreate";
+import { CompanyEdit } from "components/AdminPanel/Company/CompanyEdit";
+import { CompanyList } from "components/AdminPanel/Company/CompanyList";
+import { dataProvider } from "components/AdminPanel/dataProvider";
+import { SubscriptionList } from "components/AdminPanel/Subscription/SubscriptionList";
 import React from "react";
 import { Admin, EditGuesser, Resource, ListGuesser } from "react-admin";
 import { useHistory, useParams } from "react-router-dom";
-import { SubscriptionEdit } from "AdminPanel/Subscription/SubscriptionEdit";
-import { SubscriptionCreate } from "AdminPanel/Subscription/SubscriptionCreate";
-import { ArrivalList } from "AdminPanel/Arrivals/ArrivalList";
-import { ArrivalEdit } from "AdminPanel/Arrivals/ArrivalEdit";
-import { ArrivalCreate } from "AdminPanel/Arrivals/ArrivalCreate";
-import { LocationList } from "AdminPanel/Location/LocationList";
-import { LocationEdit } from "AdminPanel/Location/LocationEdit";
-import { RoleList } from "AdminPanel/Roles/RoleList";
-import { RoleEdit } from "AdminPanel/Roles/RoleEdit";
-import { RoleCreate } from "AdminPanel/Roles/RoleCreate";
-import { SubscriptionShow } from "AdminPanel/Subscription/SubscriptionShow";
+import { SubscriptionEdit } from "components/AdminPanel/Subscription/SubscriptionEdit";
+import { SubscriptionCreate } from "components/AdminPanel/Subscription/SubscriptionCreate";
+import { ArrivalList } from "components/AdminPanel/Arrivals/ArrivalList";
+import { ArrivalEdit } from "components/AdminPanel/Arrivals/ArrivalEdit";
+import { ArrivalCreate } from "components/AdminPanel/Arrivals/ArrivalCreate";
+import { LocationList } from "components/AdminPanel/Location/LocationList";
+import { LocationEdit } from "components/AdminPanel/Location/LocationEdit";
+import { RoleList } from "components/AdminPanel/Roles/RoleList";
+import { RoleEdit } from "components/AdminPanel/Roles/RoleEdit";
+import { RoleCreate } from "components/AdminPanel/Roles/RoleCreate";
+import { SubscriptionShow } from "components/AdminPanel/Subscription/SubscriptionShow";
 
 export function AdminPanel() {
   const { id } = useParams();
@@ -32,7 +32,7 @@ export function AdminPanel() {
         name="companies/ff12a2ab-99ae-4a25-9fc1-ec153fd08d17/locations"
         list={ListGuesser}
       ></Resource> */}
-      <Resource
+      {/* <Resource
         name={`companies/${id}/subscriptions`}
         list={SubscriptionList}
         edit={SubscriptionEdit}
@@ -71,7 +71,9 @@ export function AdminPanel() {
         list={CompanyList}
         edit={CompanyEdit}
         create={CompanyCreate}
-      ></Resource>
+      ></Resource> */}
     </Admin>
   );
 }
+
+export default AdminPanel;
