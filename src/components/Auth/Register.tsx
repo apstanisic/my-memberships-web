@@ -2,12 +2,12 @@ import { ErrorMessage, Field, Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { registerUser } from "store/auth/authActions";
-import { AsyncDispatch } from "store/stateTypes";
+import { registerUser } from "store/authSlice";
+import { AppDispatch } from "store/store";
 import { registerValidation } from "./authValidation";
 
 export function Register() {
-  const dispatch: AsyncDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
 
   return (

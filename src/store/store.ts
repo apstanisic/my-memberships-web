@@ -1,7 +1,22 @@
-import { applyMiddleware, createStore } from "redux";
-import { createLogger } from "redux-logger";
-import thunk from "redux-thunk";
-import { reducers } from "./reducers";
+import { configureStore, Action, combineReducers } from "@reduxjs/toolkit";
+import { ThunkAction } from "redux-thunk";
+import { authReducer } from "./authSlice";
+import { uiReducer } from "./uiSlice";
 
-const middleware = applyMiddleware(thunk, createLogger({ collapsed: true }));
-export const store = createStore(reducers, middleware);
+const reducer = combineReducers({
+  auth: authReducer,
+  ui: uiReducer
+});
+
+export const store = configureStore({ reducer });
+
+export type RootState = ReturnType<typeof reducer>;
+
+export type AppDispatch = typeof store.dispatch;
+
+export type AppThunk<Return = void> = ThunkAction<
+  Return,
+  RootState,
+  null,
+  Action<string>
+>;

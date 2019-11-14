@@ -1,13 +1,13 @@
+import { ErrorMessage, Field, Formik } from "formik";
 import React from "react";
-import { Formik, Field, ErrorMessage } from "formik";
-import { attemptLogin } from "store/auth/authActions";
-import { AsyncDispatch } from "store/stateTypes";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { attemptLogin } from "store/authSlice";
 import { loginValidation } from "./authValidation";
+import { AppDispatch } from "store/store";
 
 export function Login() {
-  const dispatch: AsyncDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
 
   return (
