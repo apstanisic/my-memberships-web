@@ -19,7 +19,7 @@ export const Http = Axios.create({
  * wont be saved for easier migration. Use this helper method
  * when wanting a file.
  */
-export function file(url: string): string {
+export function storage(url: string): string {
   const fileUrl = url.startsWith("/") ? url : `/${url}`;
   return `${storageUrl}${fileUrl}`;
 }

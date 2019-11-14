@@ -1,7 +1,9 @@
 import { configureStore, Action, combineReducers } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
-import { authReducer } from "./authSlice";
+import { authReducer } from "../components/Auth/authSlice";
 import { uiReducer } from "./uiSlice";
+import { Http } from "core/http";
+import { AxiosError } from "axios";
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -20,3 +22,11 @@ export type AppThunk<Return = void> = ThunkAction<
   null,
   Action<string>
 >;
+
+// This will intergrate Http into Redux (handle errors)
+Http.interceptors.response.use(
+  r => r,
+  (error: AxiosError) => {
+    console.log(error);
+  }
+);

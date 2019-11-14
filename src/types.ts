@@ -35,3 +35,8 @@ export interface PaginationResult<T = any> {
   /** Retrived data */
   data: T[];
 }
+
+export interface WithChildren {
+  children?: any;
+  [key: string]: any;
+}

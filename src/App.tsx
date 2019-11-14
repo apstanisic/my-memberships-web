@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { store } from "store/store";
 import AdminPanel from "./components/AdminPanel/Admin";
 import { Auth } from "components/Auth/AuthRouter";
+import { CssBaseline } from "@material-ui/core";
 
 function App() {
   // const [companies, setCompanies] = useState<Company[]>([]);
@@ -21,21 +22,24 @@ function App() {
 
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            Home page
-          </Route>
-          <Route path="/kontakt">Home page</Route>
-          <Route path="/o-nama">Home page</Route>
-          <Route path="/auth">
-            <Auth />
-          </Route>
-          <Route path="/panel">
-            <AdminPanel />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <CssBaseline />
+      <div className="min-h-screen">
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/">
+              Home page
+            </Route>
+            <Route path="/kontakt">Home page</Route>
+            <Route path="/o-nama">Home page</Route>
+            <Route path="/auth">
+              <Auth />
+            </Route>
+            <Route path="/panel">
+              <AdminPanel />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </div>
     </Provider>
   );
 }
