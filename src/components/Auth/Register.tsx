@@ -1,15 +1,15 @@
-import { ErrorMessage, Field, Formik } from "formik";
+import { Button, TextField } from "@material-ui/core";
+import { registerUser } from "components/Auth/authSlice";
+import { Center } from "components/common/Center";
+import { Padding } from "components/common/Padding";
+import { Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { registerUser } from "components/Auth/authSlice";
 import { AppDispatch } from "store/store";
-import { registerValidation } from "./authValidation";
-import { Center } from "components/common/Center";
 import { AuthCard } from "./AuthCard";
-import { Padding } from "components/common/Padding";
-import { TextField, Button } from "@material-ui/core";
 import { AuthFooter } from "./AuthFooter";
+import { registerValidation } from "./authValidation";
 
 export function Register() {
   const dispatch: AppDispatch = useDispatch();
@@ -17,14 +17,14 @@ export function Register() {
 
   return (
     <Formik
-      initialValues={{ email: "", password: "", confirm: "" }}
+      initialValues={{ email: "", password: "", confirmed: "" }}
       validationSchema={registerValidation}
       validateOnChange={false}
       onSubmit={async (data, helpers) => {
         const { email, password } = data;
         try {
           await dispatch(registerUser(email, password));
-          history.push("panel");
+          history.push("/panel");
         } catch (error) {}
       }}
     >
@@ -38,39 +38,46 @@ export function Register() {
                   onChange={props.handleChange}
                   type="email"
                   label="Email"
-                  name="password"
+                  name="email"
                   variant="outlined"
                   fullWidth
+                  {...(props.errors.email && {
+                    error: true,
+                    helperText: props.errors.email
+                  })}
                 />
               </Padding>
-              <ErrorMessage name="email" component="div" />
               <Padding side="y" size={2}>
                 <TextField
-                  value={props.values.email}
+                  value={props.values.password}
                   onChange={props.handleChange}
                   label="Password"
                   type="password"
                   name="password"
                   variant="outlined"
-                  error={Boolean(props.errors.password)}
-                  fullWidth={true}
+                  fullWidth
+                  {...(props.errors.password && {
+                    error: true,
+                    helperText: props.errors.password
+                  })}
                 />
               </Padding>
-              <ErrorMessage name="password" component="div" />
 
               <Padding side="y" size={2}>
                 <TextField
-                  value={props.values.confirm}
+                  value={props.values.confirmed}
                   onChange={props.handleChange}
                   label="Confirm password"
                   type="password"
                   name="confirmed"
                   variant="outlined"
-                  error={Boolean(props.errors.confirm)}
                   fullWidth={true}
+                  {...(props.errors.confirmed && {
+                    error: true,
+                    helperText: props.errors.confirmed
+                  })}
                 />
               </Padding>
-              <ErrorMessage name="password" component="div" />
               <Padding size={2} side="y">
                 <Button
                   type="submit"

@@ -25,6 +25,8 @@ const PostTitle = ({ record }: any) => {
 };
 
 export function SubscriptionShow(props: any) {
+  console.log("subshow");
+
   return (
     <Show title={<PostTitle />} {...props}>
       <SimpleShowLayout>

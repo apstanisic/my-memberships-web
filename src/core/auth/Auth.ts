@@ -27,7 +27,7 @@ class AuthController<User extends IUser = IUser> {
   user?: User;
 
   /** Initialize auth. Return logged user if exists */
-  async init(): Promise<User | void> {
+  async init(): Promise<User | undefined> {
     const token = await this.storage.get<string>(StorageKeys.Token);
     if (token !== undefined) {
       const user = await this.storage.get<User>(StorageKeys.User);
@@ -50,10 +50,12 @@ class AuthController<User extends IUser = IUser> {
     }).then(res => res.data);
 
     this.setAuthHeader(token);
-    const roles = await Http.get<Role[]>("/auth/account/roles").then(
-      res => res.data
-    );
-    user.roles = roles;
+    try {
+      const roles = await Http.get<Role[]>("/auth/account/roles").then(
+        res => res.data
+      );
+      user.roles = roles;
+    } catch (error) {}
 
     await this.storage.set(StorageKeys.Token, token);
     await this.storage.set(StorageKeys.User, user);

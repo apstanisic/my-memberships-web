@@ -7,6 +7,12 @@ const authSlice = createSlice({
   name: "auth",
   initialState: { isLogged: false, user: undefined as IUser | undefined },
   reducers: {
+    initLoginState(state, action: PayloadAction<IUser | undefined>) {
+      if (action.payload) {
+        state.isLogged = true;
+        state.user = action.payload;
+      }
+    },
     loginUser(state, action: PayloadAction<IUser>) {
       state.isLogged = true;
       state.user = action.payload;
@@ -25,6 +31,8 @@ const authSlice = createSlice({
 });
 
 const { actions } = authSlice;
+
+export const { initLoginState } = actions;
 
 /** Logs out current user */
 export const logoutUser = (): AppThunk => async dispatch => {

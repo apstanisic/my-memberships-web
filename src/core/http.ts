@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 /** Url for api requests */
-export const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3030";
+export const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:4000";
 /** Url where files are stored */
 const storageUrl = process.env.REACT_APP_STORAGE_URL || "";
 

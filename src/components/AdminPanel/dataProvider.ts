@@ -18,6 +18,9 @@ export const dataProvider = {
    * not show cause it converts array to object where id is key.
    */
   async getList<T = any>(resource: string, params: any): Promise<any> {
+    console.log(resource);
+
+    // resource = resource.replace("/panel/", "");
     const filter = params.filter ? `?${stringify(params.filter)}` : "";
     const url = `${resource}${filter}`;
 
@@ -30,8 +33,6 @@ export const dataProvider = {
       pagination: response.pagination
     }));
 
-    // @ts-ignore
-
     // Just return any number for total, it does not metter.
     return { data, total: 1000 };
   },
@@ -39,7 +40,10 @@ export const dataProvider = {
   async getOne<T = any>(
     resource: string,
     params: { id: string }
-  ): Promise<Data<T>> {
+  ): Promise<Data<any>> {
+    // resource = resource.replace("/panel/", "");
+    console.log(params.id);
+
     return Http.request({ url: `${resource}/${params.id}` });
   },
 

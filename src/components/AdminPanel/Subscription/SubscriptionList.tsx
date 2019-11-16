@@ -23,22 +23,24 @@ import { Button } from "@material-ui/core";
 import { Pagination } from "components/AdminPanel/common/Pagination";
 
 export function SubscriptionList(props: any) {
+  console.log("sublist");
+
   const url = useLocation().pathname.substring(1);
   const arrivals = url.replace("subscriptions", "arrivals");
   // const subscriptions = url.replace("arrivals", "subscriptions");
-  const ArrivalsField = ({ source, record = {} }: any) => {
-    const filter = JSON.stringify({ subscriptionId: record.id });
-    const url = `/${arrivals}?filter=${filter}`;
-    return <Link to={url}>Pogledaj</Link>;
-  };
+  // const ArrivalsField = ({ source, record = {} }: any) => {
+  //   const filter = JSON.stringify({ subscriptionId: record.id });
+  //   const url = `/${arrivals}?filter=${filter}`;
+  //   return <Link to={url}>Pogledaj</Link>;
+  // };
 
   return (
     <List {...props} title="Subscriptions" pagination={<Pagination />}>
       <Datagrid rowClick="show">
         {/* <DateField source="createdAt" /> */}
-        <ReferenceField source="ownerId" reference="auth/users">
+        {/* <ReferenceField source="ownerId" reference="auth/users">
           <TextField source="name" />
-        </ReferenceField>
+        </ReferenceField> */}
         <BooleanField source="active" />
         <TextField source="type" />
         <DateField source="startsAt" />
@@ -51,7 +53,7 @@ export function SubscriptionList(props: any) {
           }
         />
         <NumberField source="price" />
-        <ArrivalsField source="arrivalIds" />
+        {/* <ArrivalsField source="arrivalIds" /> */}
         <EditButton />
         {/* <DeleteButton /> */}
       </Datagrid>

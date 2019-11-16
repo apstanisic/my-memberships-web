@@ -1,79 +1,71 @@
 import { authProvider } from "components/AdminPanel/authProvider";
-import { CompanyCreate } from "components/AdminPanel/Company/CompanyCreate";
-import { CompanyEdit } from "components/AdminPanel/Company/CompanyEdit";
-import { CompanyList } from "components/AdminPanel/Company/CompanyList";
 import { dataProvider } from "components/AdminPanel/dataProvider";
-import { SubscriptionList } from "components/AdminPanel/Subscription/SubscriptionList";
 import React from "react";
-import { Admin, EditGuesser, Resource, ListGuesser } from "react-admin";
-import { useHistory, useParams } from "react-router-dom";
-import { SubscriptionEdit } from "components/AdminPanel/Subscription/SubscriptionEdit";
-import { SubscriptionCreate } from "components/AdminPanel/Subscription/SubscriptionCreate";
-import { ArrivalList } from "components/AdminPanel/Arrivals/ArrivalList";
-import { ArrivalEdit } from "components/AdminPanel/Arrivals/ArrivalEdit";
-import { ArrivalCreate } from "components/AdminPanel/Arrivals/ArrivalCreate";
-import { LocationList } from "components/AdminPanel/Location/LocationList";
-import { LocationEdit } from "components/AdminPanel/Location/LocationEdit";
-import { RoleList } from "components/AdminPanel/Roles/RoleList";
-import { RoleEdit } from "components/AdminPanel/Roles/RoleEdit";
-import { RoleCreate } from "components/AdminPanel/Roles/RoleCreate";
-import { SubscriptionShow } from "components/AdminPanel/Subscription/SubscriptionShow";
+// import { Admin, Resource } from "react-admin";
+// import { Admin, Resource } from "react-admin";
+import {
+  AuthContext,
+  DataProviderContext,
+  TranslationProvider,
+  Resource
+} from "react-admin";
+import { Provider, useSelector } from "react-redux";
+import { history, store } from "store/store";
+import { ArrivalResource } from "./Arrivals/ArrivalResource";
+import { CompanyResource } from "./Company/CompanyResource";
+import { LocationResource } from "./Location/LocationResource";
+import { SubscriptionResource } from "./Subscription/SubscriptionResource";
+import { auth } from "core/auth/Auth";
+import { Http } from "core/http";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AppScaffold } from "components/Scaffold/Scaffold";
+import { Switch, Route, useLocation } from "react-router-dom";
+import { CompanyCreate } from "./Company/CompanyCreate";
 
 export function AdminPanel() {
-  const { id } = useParams();
-  const history = useHistory();
+  const location = useLocation();
+  // auth.user?
+  // Http.get("companies/64db674e-740a-4e79-9535-c7097444188c")
+  //   .then(r => r.data)
+  //   .then(console.log);
+  // const history = useHistory();
+  // const history = createHa
   return (
-    <Admin
-      dataProvider={dataProvider}
-      authProvider={authProvider}
-      history={history}
-    >
-      {/* <Resource
-        name="companies/ff12a2ab-99ae-4a25-9fc1-ec153fd08d17/locations"
-        list={ListGuesser}
-      ></Resource> */}
-      {/* <Resource
-        name={`companies/${id}/subscriptions`}
-        list={SubscriptionList}
-        edit={SubscriptionEdit}
-        create={SubscriptionCreate}
-        show={SubscriptionShow}
-        options={{ label: "Subscriptions" }}
-      ></Resource>
-
-      <Resource
-        name={`companies/${id}/arrivals`}
-        list={ArrivalList}
-        edit={ArrivalEdit}
-        create={ArrivalCreate}
-        options={{ label: "Arrivals" }}
-      ></Resource>
-
-      <Resource
-        name={`companies/${id}/locations`}
-        list={LocationList}
-        edit={LocationEdit}
-        // create={ArrivalCreate}
-        options={{ label: "Locations" }}
-      ></Resource>
-
-      <Resource
-        name={`companies/${id}/roles`}
-        list={RoleList}
-        edit={RoleEdit}
-        create={RoleCreate}
-        options={{ label: "Roles" }}
-      ></Resource>
-
-      <Resource name="auth/users"></Resource>
-      <Resource
-        name="companies"
-        list={CompanyList}
-        edit={CompanyEdit}
-        create={CompanyCreate}
-      ></Resource> */}
-    </Admin>
+    // <AuthContext.Provider value={authProvider}>
+    <DataProviderContext.Provider value={dataProvider}>
+      {/* <TranslationProvider locale={locale} i18nProvider={i18nProvider}> */}
+      {/* <ThemeProvider> */}
+      {/* <Resource name={location.pathname} intent="registration" /> */}
+      {/* <Switch> */}
+      {/* <Route exact path="/" component={Dashboard} /> */}
+      {/* <Route path="/companies/:companyId/subscriptions"> */}
+      {/* <CompanyCreate /> */}
+      {/* <CompanyResource /> */}
+      <SubscriptionResource />
+      {/* </Route> */}
+      {/* </Switch> */}
+      <AppScaffold />
+      {/* </ThemeProvider> */}
+      {/* </TranslationProvider> */}
+    </DataProviderContext.Provider>
+    // {/* </AuthContext.Provider> */}
   );
+  // return (
+  // <Provider store={store}>
+  // <Admin
+  //   dataProvider={dataProvider}
+  //   authProvider={authProvider}
+  //   history={history}
+  //   dashboard={() => <div>admin</div>}
+  // >
+  // {/* <LocationResource /> */}
+  // {/* <SubscriptionResource /> */}
+  // {/* <ArrivalResource /> */}
+  // {/* <CompanyResource /> */}
+  // {/* <Resource name="auth/users"></Resource> */}
+  // </Admin>
+  // </Provider>
+  // );
 }
 
 export default AdminPanel;

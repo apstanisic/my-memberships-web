@@ -9,6 +9,7 @@ import {
 } from "react-admin";
 
 export function SubscriptionEdit(props: any) {
+  console.log("subedit");
   return (
     <Edit {...props}>
       <SimpleForm>

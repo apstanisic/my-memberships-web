@@ -33,6 +33,8 @@ import {
 // }
 
 export function SubscriptionCreate(props: any) {
+  console.log("subcreate");
+
   return (
     <Create {...props}>
       <SimpleForm>

@@ -24,7 +24,7 @@ export function Login() {
         const { email, password } = data;
         try {
           await dispatch(attemptLogin(email, password));
-          history.push("panel");
+          history.push("/");
         } catch (error) {}
       }}
     >
@@ -36,27 +36,33 @@ export function Login() {
                 <TextField
                   value={props.values.email}
                   onChange={props.handleChange}
+                  // error={Boolean(props.errors.email)}
                   type="email"
                   label="Email"
-                  name="password"
+                  name="email"
                   variant="outlined"
                   fullWidth
+                  {...(props.errors.email && {
+                    error: true,
+                    helperText: props.errors.email
+                  })}
                 />
               </Padding>
-              <ErrorMessage name="email" component="div" />
               <Padding side="y" size={2}>
                 <TextField
-                  value={props.values.email}
+                  value={props.values.password}
                   onChange={props.handleChange}
                   label="Password"
                   type="password"
                   name="password"
                   variant="outlined"
-                  error={Boolean(props.errors.password)}
                   fullWidth={true}
+                  {...(props.errors.password && {
+                    error: true,
+                    helperText: props.errors.password
+                  })}
                 />
               </Padding>
-              <ErrorMessage name="password" component="div" />
               <Padding size={2} side="y">
                 <Button
                   type="submit"
