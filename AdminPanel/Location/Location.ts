@@ -24,9 +24,17 @@ export class Location {
   images: Image[];
 
   constructor(location: any) {
+    if (typeof location.images === "string") {
+      this.images = JSON.parse(location.images);
+    } else {
+      this.images = location.images;
+    }
+    if (typeof location.workingHours === "string") {
+      this.workingHours = JSON.parse(location.workingHours);
+    } else {
+      this.workingHours = location.workingHours;
+    }
     this.createdAt = new Date(location.createdAt);
-    this.workingHours = JSON.parse(location.workingHours);
-    this.images = JSON.parse(location.images);
     this.id = location.id;
     this.companyId = location.companyId;
     this.address = location.address;

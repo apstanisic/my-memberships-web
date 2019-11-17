@@ -4,33 +4,30 @@ import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { PaginationResult } from "types";
-import { EmailField } from "../EmailField";
 import { tableIcons } from "../Icons";
-import { Location } from "./Location";
+import { Subscription } from "./Subscription";
 // import { Pagination } from "components/AdminPanel/common/Pagination";
 
-export function LocationList(props: any) {
+export function SubscriptionList(props: any) {
   const [isLoading, setIsLoading] = useState(true);
-  const [locations, setLocations] = useState<Location[]>([]);
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const history = useHistory();
-
   const path = useLocation().pathname.replace("/admin-panel", "");
 
   useEffect(() => {
-    Http.get<PaginationResult<Partial<Location>>>(path).then(res => {
-      setLocations(res.data.data.map(l => new Location(l)));
+    Http.get<PaginationResult<Partial<Subscription>>>(path).then(res => {
+      setSubscriptions(res.data.data.map(l => new Subscription(l)));
       setIsLoading(false);
     });
   }, [path]);
-  console.log();
 
-  async function onDelete(row: Location) {
+  async function onDelete(row: Subscription) {
     setIsLoading(true);
     try {
-      const deleted = await Http.delete<Location>(`${path}/${row.id}`).then(
+      const deleted = await Http.delete<Subscription>(`${path}/${row.id}`).then(
         r => r.data
       );
-      setLocations(locations.filter(l => l.id !== deleted.id));
+      setSubscriptions(subscriptions.filter(l => l.id !== deleted.id));
     } catch (error) {
       alert("errror");
     } finally {
@@ -38,18 +35,18 @@ export function LocationList(props: any) {
     }
   }
 
-  function onEdit(row: Location) {
-    history.push(`locations/${row.id}/edit`);
+  function onEdit(row: Subscription) {
+    history.push(`subscriptions/${row.id}/edit`);
   }
 
-  function onView(row: Location) {
-    history.push(`locations/${row.id}/show`);
+  function onView(row: Subscription) {
+    history.push(`subscriptions/${row.id}/show`);
   }
 
   return (
     <MaterialTable
       icons={tableIcons}
-      data={locations}
+      data={subscriptions}
       localization={{
         pagination: { labelDisplayedRows: "" },
         header: { actions: "Delete" }
@@ -72,7 +69,7 @@ export function LocationList(props: any) {
       title="Locations"
       actions={[
         {
-          tooltip: "Remove All Selected locations",
+          tooltip: "Remove All Selected subscriptions",
           icon: tableIcons.Delete as any,
           onClick: (evt, data) => alert("You want to delete " + data + " rows")
         },
@@ -84,20 +81,19 @@ export function LocationList(props: any) {
         }
       ]}
       columns={[
+        { field: "active", title: "Active", type: "boolean" },
+        { field: "type", title: "Type" },
+        { field: "startsAt", title: "Starts At", type: "date" },
+        { field: "expiresAt", title: "Expires at", type: "date" },
         {
-          field: "name",
-          emptyValue: "No name",
-          title: "Name"
+          title: "Uses",
+          render: ({ allowedUses, usedAmount }: Subscription) =>
+            `${usedAmount} / ${allowedUses ? allowedUses : "∞"}`
         },
-        { field: "address", title: "Address" },
-        { field: "phoneNumber", title: "Phone number" },
-        {
-          title: "Email",
-          render: (row: Location) => <EmailField email={row.email} />
-        },
+        { field: "price", title: "Price" },
         {
           title: "View",
-          render: (row: Location) => (
+          render: (row: Subscription) => (
             <IconButton onClick={() => onView(row)}>
               <tableIcons.Visibility />
             </IconButton>
@@ -105,7 +101,7 @@ export function LocationList(props: any) {
         },
         {
           title: "Edit",
-          render: (row: Location) => (
+          render: (row: Subscription) => (
             <IconButton onClick={() => onEdit(row)}>
               <tableIcons.Edit />
             </IconButton>
@@ -115,33 +111,3 @@ export function LocationList(props: any) {
     ></MaterialTable>
   );
 }
-// return (
-//   <MUIDataTable
-//     options={{
-//       page: 2,
-//       serverSide: true,
-//       onTableChange: (action, tableState) => {
-//         console.log(action, tableState);
-
-//         // this.xhrRequest("my.api.com/tableData", result => {
-//         //   this.setState({ data: result });
-//         // });
-//       }
-//     }}
-//     data={locations}
-//     title="Locations"
-//     columns={[
-//       { name: "name", label: "Name" },
-//       { name: "address", label: "Address" },
-//       { name: "phoneNumber", label: "Phone number" },
-//       {
-//         label: "Email",
-//         name: "email",
-//         options: {
-//           customBodyRender: val => <EmailField email={val} />
-//         }
-//       },
-//       { name: "createdAt", label: "Created at" }
-//     ]}
-//   />
-// );

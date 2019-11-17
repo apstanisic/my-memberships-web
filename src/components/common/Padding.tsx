@@ -5,15 +5,19 @@ interface Props {
   size?: number;
   side?: "t" | "b" | "l" | "r" | "x" | "y";
   className?: any;
+  grow?: boolean;
 }
 
 /**
  *
  * @todo switch from || to ?? when enabled in cra
  */
-export function Padding({ size, side, children, className }: Props) {
+export function Padding({ grow, size, side, children, className }: Props) {
   return (
-    <div className={`p${side || ""}-${size || 4} ${className || ""}`}>
+    <div
+      className={`${grow ? "flex flex-grow" : ""} justify- p${side ||
+        ""}-${size || 4} ${className || ""}`}
+    >
       {children}
     </div>
   );

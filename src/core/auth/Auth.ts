@@ -3,7 +3,7 @@ import { ManagePassword } from "./_ManagePassword";
 import { ManageUserData } from "./_ManageUserData";
 import { Storage } from "core/Storage";
 import { Http } from "core/http";
-import { Role } from "components/AdminPanel/Roles/Role";
+import { Role } from "./Role";
 
 /* Keys to access auth store items */
 export enum StorageKeys {
@@ -25,16 +25,22 @@ class AuthController<User extends IUser = IUser> {
   manageUser = new ManageUserData(this.storage, this.logout);
   managePassword = new ManagePassword();
   user?: User;
+  /** Is auth controlle inited */
+  isInited: boolean = false;
 
   /** Initialize auth. Return logged user if exists */
   async init(): Promise<User | undefined> {
     const token = await this.storage.get<string>(StorageKeys.Token);
+
     if (token !== undefined) {
       const user = await this.storage.get<User>(StorageKeys.User);
+
       this.setAuthHeader(token);
       this.user = user;
+      this.isInited = true;
       return user;
     }
+    this.isInited = true;
   }
 
   async isLogged() {

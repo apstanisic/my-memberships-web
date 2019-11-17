@@ -5,9 +5,14 @@ import { auth } from "core/auth/Auth";
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { isLogged: false, user: undefined as IUser | undefined },
+  initialState: {
+    isInited: false,
+    isLogged: false,
+    user: undefined as IUser | undefined
+  },
   reducers: {
     initLoginState(state, action: PayloadAction<IUser | undefined>) {
+      state.isInited = true;
       if (action.payload) {
         state.isLogged = true;
         state.user = action.payload;

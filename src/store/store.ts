@@ -1,38 +1,17 @@
-import {
-  Action,
-  combineReducers,
-  configureStore,
-  createStore
-} from "@reduxjs/toolkit";
-import { authProvider } from "components/AdminPanel/authProvider";
-import { dataProvider } from "components/AdminPanel/dataProvider";
+import { Action, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
 import { authReducer, initLoginState } from "../components/Auth/authSlice";
-import createAdminStore from "./createAdminStore";
 import { uiReducer } from "./uiSlice";
 import { auth } from "core/auth/Auth";
-import { createBrowserHistory } from "history";
-
-export const history = createBrowserHistory();
-
-const admin = createAdminStore({
-  authProvider,
-  dataProvider,
-  history
-});
-
-// setTimeout(() => history.push("/panel"), 3000);
+import { adminReducer } from "./adminSlice";
 
 const reducer = combineReducers({
   auth: authReducer,
   ui: uiReducer,
-  router: admin.reducers.router,
-  admin: admin.reducers.admin as () => object
+  admin: adminReducer
 });
 
 export const store = configureStore({ reducer });
-
-// admin.init();
 
 export type RootState = ReturnType<typeof reducer>;
 

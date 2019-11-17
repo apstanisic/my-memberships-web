@@ -9,8 +9,7 @@ export function HomePage() {
   const { auth } = useSelector((state: RootState) => state);
 
   return (
-    <AppScaffold>
-      <div className="w-full h-64 bg-gray-600"></div>
-    </AppScaffold>
+    <AppScaffold />
+    // {/* <div className="w-full h-64 bg-gray-600"></div> */}
   );
 }
