@@ -1,7 +1,7 @@
 import { CssBaseline } from "@material-ui/core";
 import { Auth } from "components/Auth/AuthRouter";
 import { HomePage } from "components/HomePage";
-import { NewAdminPanel } from "components/NewAdminPanel/NewAdminPanel";
+import { NewAdminPanel } from "components/AdminPanel/AdminPanel";
 import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";

@@ -22,6 +22,7 @@ export class Location {
   long?: number;
   workingHours: Workhours;
   images: Image[];
+  name?: string;
 
   constructor(location: any) {
     if (typeof location.images === "string") {
@@ -36,6 +37,7 @@ export class Location {
     }
     this.createdAt = new Date(location.createdAt);
     this.id = location.id;
+    this.name = location.name;
     this.companyId = location.companyId;
     this.address = location.address;
     this.phoneNumber = location.phoneNumber;

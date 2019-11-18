@@ -2,7 +2,7 @@ import { Padding } from "components/common/Padding";
 import { AppScaffold } from "components/Scaffold/Scaffold";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { CompanyHomePage } from "./Company/CompanyHomePage";
+import { CompanyRouter } from "./Company/CompanyHomePage";
 import { Dashboard } from "./Dashboard";
 
 export function NewAdminPanel() {
@@ -11,7 +11,7 @@ export function NewAdminPanel() {
       <Padding size={3}>
         <Switch>
           <Route path="/admin-panel/companies/:companyId">
-            <CompanyHomePage />
+            <CompanyRouter />
           </Route>
           <Route path="/admin-panel">
             <Dashboard />

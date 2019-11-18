@@ -3,15 +3,18 @@ import { Padding } from "components/common/Padding";
 import { Http } from "core/http";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import { TextInput } from "../TextInput";
 import { Location } from "./Location";
 import { validLocation } from "./LocationValidation";
 
 export function LocationEdit() {
   const history = useHistory();
-  const { companyId, locationId } = useParams();
-  const url = `/companies/${companyId}/locations/${locationId}`;
+  // const { companyId, locationId } = useParams();
+  // const url = `/companies/${companyId}/locations/${locationId}`;
+  const url = useLocation()
+    .pathname.replace("/admin-panel", "")
+    .replace("/edit", "");
   const [location, setLocation] = useState<Partial<Location>>({});
   const [tab, setTab] = useState(0);
 
@@ -22,6 +25,9 @@ export function LocationEdit() {
   function onSubmit(values: Partial<Location>) {
     Http.put(`${url}`, values).then(() => history.push(`${url}/show`));
   }
+  // const useEdit = {
+  //   data
+  // }
 
   return (
     <Formik
@@ -45,6 +51,7 @@ export function LocationEdit() {
             <Form>
               {tab === 0 ? (
                 <div>
+                  <TextInput name="name" form={props} />
                   <TextInput name="address" form={props} />
                   <TextInput
                     name="phoneNumber"

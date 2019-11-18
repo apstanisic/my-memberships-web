@@ -5,7 +5,7 @@ import { setCompany } from "store/adminSlice";
 import { LocationResource } from "../Location/LocationResource";
 import { SubscriptionResource } from "../Subscription/SubscriptionResource";
 
-export function CompanyHomePage() {
+export function CompanyRouter() {
   const { companyId } = useParams();
   const dispatch = useDispatch();
 

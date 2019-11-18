@@ -24,8 +24,11 @@ export function between(
     inc: number;
   }
 ): number[] {
-  const inc = options?.inc ?? 1;
-  const order = options?.order ?? "asc";
+  // const inc = options?.inc ?? 1;
+  // const order = options?.order ?? "asc";
+  // @TODO fix this when cra support is available
+  const inc = options ? options.inc || 1 : 1;
+  const order = options ? options.order || "asc" : "asc";
   const numbers: number[] = [];
   if (order === "asc") {
     for (let i = start; i <= finish; i += inc) {
