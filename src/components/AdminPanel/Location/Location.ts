@@ -1,4 +1,4 @@
-import { Image, UUID } from "types";
+import { BaseEntity, Image, UUID } from "types";
 
 export interface Workhours {
   monday: string;
@@ -11,7 +11,16 @@ export interface Workhours {
 }
 
 /** Location object */
-export class Location {
+export class Location implements BaseEntity {
+  /** Static name for this resource, used by reducer */
+  static readonly NAME = "locations";
+
+  /** Factory method to convert object to class */
+  static create(location: any) {
+    return new Location(location);
+  }
+
+  // All fields
   id: UUID;
   createdAt: Date;
   companyId: string;
@@ -24,6 +33,7 @@ export class Location {
   images: Image[];
   name?: string;
 
+  // Constructor accepts object literal that parses to this class
   constructor(location: any) {
     if (typeof location.images === "string") {
       this.images = JSON.parse(location.images);

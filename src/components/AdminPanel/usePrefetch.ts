@@ -17,12 +17,18 @@ export function usePrefetch<T extends WithId>(
   const path = useLocation().pathname;
 
   useEffect(() => {
-    const url = path.replace("/admin-panel", "").replace("/show", "");
+    const url = path
+      .replace("/admin-panel", "")
+      .replace("/show", "")
+      .replace("/edit", "");
     Http.get<T>(url).then(res => setResource(transform(res.data)));
   }, [path, transform]);
 
   if (prefetched && !resource) {
-    setResource(prefetched.find(item => item.id === resourceId));
+    const found = prefetched.find(item => item.id === resourceId);
+    if (found) {
+      setResource(transform(found));
+    }
   }
   return resource;
 }

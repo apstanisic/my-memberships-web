@@ -1,7 +1,7 @@
 import MaterialTable from "material-table";
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { useResource } from "../useResource";
+import { useResource } from "../Common/useResource";
 import { Subscription } from "./Subscription";
 
 export function SubscriptionList(props: any) {

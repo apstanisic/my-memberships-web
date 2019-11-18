@@ -3,7 +3,7 @@ import { AxiosRequestConfig } from "axios";
 import { Http } from "core/http";
 import { stringify } from "query-string";
 import { Struct } from "core/utils/helpers";
-import { PaginationResult } from "types";
+import { PaginationResult, UUID, WithId } from "types";
 
 interface Data<T = any> {
   data: T;
@@ -18,11 +18,9 @@ export const dataProvider = {
    */
   async getList<T = any>(
     path: string,
-    params: any
+    search?: string
   ): Promise<PaginationResult<T>> {
-    const filter = params.filter ? `?${stringify(params.filter)}` : "";
-    const url = `${path}${filter}`;
-
+    const url = `${path}${search || ""}`;
     return Http.get<PaginationResult<T>>(url).then(res => res.data);
   },
 
@@ -57,15 +55,22 @@ export const dataProvider = {
 
   async update<T = any>(
     resource: string,
-    params: { id: string; data: Struct; previousData: Struct }
+    params: { data: WithId }
   ): Promise<Data<T>> {
-    return Http.put(`${resource}/${params.id}`, params.data);
+    return Http.put(`${resource}/${params.data.id}`, params.data);
   },
 
   async delete<T = any>(
     resource: string,
-    params: { id: string; previousData: Struct }
+    params?: { id: UUID }
   ): Promise<Data<T>> {
-    return Http.delete(`${resource}/${params.id}`);
+    if (resource.startsWith("/admin-panel")) {
+      resource = resource.replace("/admin-panel", "");
+    }
+    if (params) {
+      return Http.delete(`${resource}/${params.id}`);
+    } else {
+      return Http.delete(`${resource}`);
+    }
   }
 };

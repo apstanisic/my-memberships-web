@@ -8,6 +8,8 @@ interface Resources<T extends WithId = any> {
 const adminSlice = createSlice({
   name: "admin",
   initialState: {
+    // Url where admin panel is located
+    adminUrl: "/admin-panel",
     companyId: undefined as string | undefined,
     resources: {} as Resources
   },

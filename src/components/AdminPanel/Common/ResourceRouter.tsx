@@ -5,10 +5,11 @@ interface Props {
   Edit?: React.ComponentType;
   Show?: React.ComponentType;
   List?: React.ComponentType;
+  Create?: React.ComponentType;
   remoteUrl: string;
 }
 
-export function ResourceRouter({ Edit, Show, List, remoteUrl }: Props) {
+export function ResourceRouter({ Create, Edit, Show, List, remoteUrl }: Props) {
   return (
     <Switch>
       <Route path={`/admin-panel/${remoteUrl}/:resourceId/edit`}>
@@ -16,6 +17,9 @@ export function ResourceRouter({ Edit, Show, List, remoteUrl }: Props) {
       </Route>
       <Route path={`/admin-panel/${remoteUrl}/:resourceId/show`}>
         {Show ? <Show /> : ""}
+      </Route>
+      <Route path={`/admin-panel/${remoteUrl}/create`}>
+        {Create ? <Create /> : ""}
       </Route>
       <Route path={`/admin-panel/${remoteUrl}`}>{List ? <List /> : ""}</Route>
     </Switch>

@@ -1,6 +1,12 @@
 import { BaseEntity, UUID } from "types";
 
 export class Subscription implements BaseEntity {
+  static readonly NAME = "subscriptions";
+
+  static create(subscription: any): Subscription {
+    return new Subscription(subscription);
+  }
+
   id: UUID;
   createdAt: Date;
   companyId: string;

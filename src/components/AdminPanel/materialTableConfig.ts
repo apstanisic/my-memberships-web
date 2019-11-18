@@ -1,5 +1,5 @@
 import { Localization, Options } from "material-table";
-import { tableIcons } from "./Icons";
+import { AppIcons } from "./Icons";
 
 export const options: Options = {
   selection: true,
@@ -17,4 +17,4 @@ export const localization: Localization = {
   header: { actions: "Delete" }
 };
 
-export const icons = tableIcons;
+export const icons = AppIcons;

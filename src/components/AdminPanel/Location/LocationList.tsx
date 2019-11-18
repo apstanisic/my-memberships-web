@@ -1,25 +1,68 @@
+import {
+  Hidden,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Typography
+} from "@material-ui/core";
 import MaterialTable from "material-table";
-import React from "react";
-import { EmailField } from "../EmailField";
-import { useResource } from "../useResource";
+import React, { Fragment } from "react";
+import { EmailField } from "../Common/EmailField";
+import { useResource } from "../Common/useResource";
 import { Location } from "./Location";
 
-export function LocationList(props: any) {
-  const [_, helpers] = useResource<Location>("Locations");
+export function LocationList() {
+  const [locations, helpers] = useResource<Location>(Location.NAME);
 
   return (
-    <MaterialTable
-      {...helpers.config}
-      columns={[
-        { field: "name", emptyValue: "No name", title: "Name" },
-        { field: "address", title: "Address" },
-        { field: "phoneNumber", title: "Phone number" },
-        {
-          title: "Email",
-          render: row => <EmailField email={row.email} />
-        },
-        ...helpers.viewAndEdit
-      ]}
-    ></MaterialTable>
+    <Fragment>
+      <Hidden xsDown>
+        <MaterialTable
+          {...helpers.config}
+          title="Locations"
+          columns={[
+            { field: "name", emptyValue: "No name", title: "Name" },
+            { field: "address", title: "Address" },
+            { field: "phoneNumber", title: "Phone number" },
+            {
+              title: "Email",
+              render: ({ email }) => <EmailField email={email} />
+            },
+            ...helpers.viewAndEdit
+          ]}
+        />
+      </Hidden>
+      <Hidden smUp>
+        <Paper>
+          <List>
+            <ListItem>
+              <ListItemText
+                primary={
+                  <Typography component="span" variant="h5">
+                    Locations
+                  </Typography>
+                }
+              />
+            </ListItem>
+            {locations.map(location => (
+              <ListItem
+                button
+                onClick={() => helpers.view(location)}
+                key={location.id}
+              >
+                <ListItemText
+                  primary={
+                    location.name ??
+                    `No name ${parseInt(Math.random() * 100 + "")}`
+                  }
+                  secondary={location.address}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
+      </Hidden>
+    </Fragment>
   );
 }

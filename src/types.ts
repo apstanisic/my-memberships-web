@@ -1,8 +1,18 @@
-export interface Image extends ImageSizes {
-  id: string; // uuid
-  position: number; // In case of storing image in array. Zero index
+/** Type alias for hinting */
+export type UUID = string;
+
+/** Object must have id */
+export interface WithId {
+  id: UUID;
 }
 
+/** Base entity field */
+export interface BaseEntity extends WithId {
+  id: UUID;
+  createdAt: Date;
+}
+
+/** Image sizes */
 export interface ImageSizes {
   xs?: string; // 168px
   sm?: string; // 320px
@@ -10,17 +20,20 @@ export interface ImageSizes {
   lg?: string; // 1280px
 }
 
-export interface BaseEntity {
-  id: UUID;
-  createdAt: Date;
+/** Image in array of images */
+export interface Image extends ImageSizes {
+  id: UUID; // uuid
+  position: number; // In case of storing image in array. Zero index
 }
 
-export interface WithId {
-  id: UUID;
+/** Response from pagination request */
+export interface PaginationResult<T = any> {
+  pagination: PaginationMetadata;
+  /** Retrived data */
+  data: T[];
 }
 
-export type UUID = string;
-
+/** Pagination metadata from response */
 export interface PaginationMetadata {
   amount: number; // number of results
   perPage: number; // limit per page
@@ -30,12 +43,7 @@ export interface PaginationMetadata {
   previous?: string; // cursor for previous page
 }
 
-export interface PaginationResult<T = any> {
-  pagination: PaginationMetadata;
-  /** Retrived data */
-  data: T[];
-}
-
+/** Props that accept children */
 export interface WithChildren {
   children?: any;
   [key: string]: any;

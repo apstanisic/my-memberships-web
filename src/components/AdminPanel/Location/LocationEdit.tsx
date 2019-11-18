@@ -1,37 +1,19 @@
 import { Button, Card, CardContent, Tab, Tabs } from "@material-ui/core";
 import { Padding } from "components/common/Padding";
-import { Http } from "core/http";
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams, useLocation } from "react-router-dom";
-import { TextInput } from "../TextInput";
+import React, { Fragment, useState } from "react";
+import { TextInput } from "../Common/TextInput";
+import { useEdit } from "../Common/useEdit";
 import { Location } from "./Location";
-import { validLocation } from "./LocationValidation";
+import { validLocation } from "./validLocation";
 
 export function LocationEdit() {
-  const history = useHistory();
-  // const { companyId, locationId } = useParams();
-  // const url = `/companies/${companyId}/locations/${locationId}`;
-  const url = useLocation()
-    .pathname.replace("/admin-panel", "")
-    .replace("/edit", "");
-  const [location, setLocation] = useState<Partial<Location>>({});
   const [tab, setTab] = useState(0);
-
-  useEffect(() => {
-    Http.get(url).then(res => setLocation(new Location(res.data)));
-  }, [url]);
-
-  function onSubmit(values: Partial<Location>) {
-    Http.put(`${url}`, values).then(() => history.push(`${url}/show`));
-  }
-  // const useEdit = {
-  //   data
-  // }
+  const [location, onSubmit, goBack] = useEdit(Location.NAME, Location.create);
 
   return (
     <Formik
-      initialValues={location}
+      initialValues={location || {}}
       enableReinitialize={true}
       validateOnChange={false}
       onSubmit={onSubmit}
@@ -101,49 +83,66 @@ export function LocationEdit() {
                   />
                 </div>
               )}
-              {tab === 0 ? (
-                <Button
-                  type="button"
-                  onClick={() => setTab(1)}
-                  fullWidth
-                  /* https://github.com/jaredpalmer/formik/issues/2004 */
-                  key="nosubmit"
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                >
-                  Next page
-                </Button>
-              ) : (
-                <div className="flex">
-                  <Padding grow={true} side="r" size={1}>
+              <div className="flex">
+                <Padding side="r" size={2} grow>
+                  <Button
+                    type="button"
+                    onClick={goBack}
+                    fullWidth
+                    /* https://github.com/jaredpalmer/formik/issues/2004 */
+                    key="nosubmit"
+                    variant="contained"
+                    size="large"
+                  >
+                    Cancel
+                  </Button>
+                </Padding>
+                {tab === 0 ? (
+                  <Padding size={0} side="l" grow>
                     <Button
                       type="button"
-                      onClick={() => setTab(0)}
+                      onClick={() => setTab(1)}
                       fullWidth
                       /* https://github.com/jaredpalmer/formik/issues/2004 */
                       key="nosubmit"
                       variant="contained"
-                      size="large"
-                    >
-                      Previous
-                    </Button>
-                  </Padding>
-                  <Padding grow={true} side="l" size={1}>
-                    <Button
-                      type="submit"
-                      className="pl-1"
-                      disabled={props.isSubmitting}
-                      fullWidth
-                      variant="contained"
                       color="primary"
                       size="large"
                     >
-                      Submit
+                      Next page
                     </Button>
                   </Padding>
-                </div>
-              )}
+                ) : (
+                  <Fragment>
+                    <Padding grow side="r" size={1}>
+                      <Button
+                        type="button"
+                        onClick={() => setTab(0)}
+                        fullWidth
+                        /* https://github.com/jaredpalmer/formik/issues/2004 */
+                        key="nosubmit"
+                        variant="contained"
+                        size="large"
+                      >
+                        Previous
+                      </Button>
+                    </Padding>
+                    <Padding grow side="l" size={1}>
+                      <Button
+                        type="submit"
+                        className="pl-1"
+                        disabled={props.isSubmitting}
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                      >
+                        Submit
+                      </Button>
+                    </Padding>
+                  </Fragment>
+                )}
+              </div>
             </Form>
           </CardContent>
         </Card>

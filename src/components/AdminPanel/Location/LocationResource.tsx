@@ -1,5 +1,5 @@
 import React from "react";
-import { ResourceRouter } from "../ResourceRouter";
+import { ResourceRouter } from "../Common/ResourceRouter";
 import { LocationEdit } from "./LocationEdit";
 import { LocationList } from "./LocationList";
 import { LocationShow } from "./LocationShow";
@@ -11,6 +11,7 @@ export function LocationResource() {
       Edit={LocationEdit}
       Show={LocationShow}
       List={LocationList}
+      Create={LocationEdit}
     />
   );
 }
