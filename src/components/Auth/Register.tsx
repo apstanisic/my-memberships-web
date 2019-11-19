@@ -43,7 +43,7 @@ export function Register() {
                   fullWidth
                   {...(props.errors.email && {
                     error: true,
-                    helperText: props.errors.email
+                    helperText: props.errors.email,
                   })}
                 />
               </Padding>
@@ -58,7 +58,7 @@ export function Register() {
                   fullWidth
                   {...(props.errors.password && {
                     error: true,
-                    helperText: props.errors.password
+                    helperText: props.errors.password,
                   })}
                 />
               </Padding>
@@ -74,7 +74,7 @@ export function Register() {
                   fullWidth={true}
                   {...(props.errors.confirmed && {
                     error: true,
-                    helperText: props.errors.confirmed
+                    helperText: props.errors.confirmed,
                   })}
                 />
               </Padding>

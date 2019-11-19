@@ -9,8 +9,8 @@ const useStyles = makeStyles({
   card: {
     marginTop: "-10%",
     width: 500,
-    maxWidth: "100%"
-  }
+    maxWidth: "100%",
+  },
 });
 
 export function AuthCard({ children }: WithChildren) {

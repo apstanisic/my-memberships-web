@@ -2,6 +2,7 @@ import React from "react";
 import { TextField } from "@material-ui/core";
 import { FormikProps } from "formik";
 import { Padding } from "components/common/Padding";
+import { getNestedValue } from "./getNestedValue";
 
 interface Props {
   name: string;
@@ -18,15 +19,7 @@ function upperCase(val: string) {
 }
 
 export function TextInput(props: Props) {
-  let value;
-  try {
-    // https://stackoverflow.com/questions/6393943
-    value = props.name.split(".").reduce((o, i) => o[i], props.form.values);
-    if (!value) value = "";
-  } catch (error) {
-    value = "";
-  }
-
+  const value = getNestedValue(props.name, props.form);
   return (
     <Padding side="y" size={2}>
       <TextField
@@ -39,7 +32,7 @@ export function TextInput(props: Props) {
         fullWidth
         {...(props.form.errors[props.name] && {
           error: true,
-          helperText: props.form.errors[props.name]
+          helperText: props.form.errors[props.name],
         })}
       />
     </Padding>

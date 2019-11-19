@@ -14,5 +14,5 @@ export const validLocation = object().shape<Partial<Location>>({
     .max(90),
   long: number()
     .min(-180)
-    .max(180)
+    .max(180),
 });

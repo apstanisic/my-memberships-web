@@ -3,45 +3,46 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import { ScaffoldAppBar } from "./AppBar";
 import { AppDrawer } from "./AppDrawer";
+import { AppAlert } from "./AppAlert";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex"
+      display: "flex",
     },
     drawer: {
       [theme.breakpoints.up("md")]: {
         width: drawerWidth,
-        flexShrink: 0
-      }
+        flexShrink: 0,
+      },
     },
     appBar: {
       [theme.breakpoints.up("md")]: {
         width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth
-      }
+        marginLeft: drawerWidth,
+      },
     },
     menuButton: {
       marginRight: theme.spacing(2),
       [theme.breakpoints.up("md")]: {
-        display: "none"
-      }
+        display: "none",
+      },
     },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
-      width: drawerWidth
+      width: drawerWidth,
     },
     content: {
       flexGrow: 1,
       padding: theme.spacing(3, 1, 3, 1),
       // paddingBottom: theme.spacing(2),
       [theme.breakpoints.up("md")]: {
-        maxWidth: `calc(100% - ${drawerWidth}px)`
-      }
-    }
-  })
+        maxWidth: `calc(100% - ${drawerWidth}px)`,
+      },
+    },
+  }),
 );
 
 export function AppScaffold(props: any) {
@@ -52,6 +53,7 @@ export function AppScaffold(props: any) {
       <CssBaseline />
       <ScaffoldAppBar classes={classes} />
       <AppDrawer classes={classes} />
+      <AppAlert />
 
       <main className={classes.content}>
         <div className={classes.toolbar} />

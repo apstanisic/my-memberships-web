@@ -8,7 +8,7 @@ import { adminReducer } from "./adminSlice";
 const reducer = combineReducers({
   auth: authReducer,
   ui: uiReducer,
-  admin: adminReducer
+  admin: adminReducer,
 });
 
 export const store = configureStore({ reducer });

@@ -6,24 +6,27 @@ import { Subscription } from "./Subscription";
 
 export function SubscriptionList(props: any) {
   const path = useLocation().pathname;
-  const [subscriptions, helpers] = useResource<Subscription>(path);
+  const [subscriptions, helpers] = useResource(Subscription.create);
 
   return (
     <MaterialTable
       {...helpers.config}
       title="Subscriptions"
       columns={[
-        { field: "active", title: "Active", type: "boolean" },
         { field: "type", title: "Type" },
-        { field: "startsAt", title: "Starts At", type: "date" },
+        { field: "active", title: "Active", type: "boolean" },
+        // { field: "startsAt", title: "Starts At", type: "date" },
         { field: "expiresAt", title: "Expires at", type: "date" },
         {
           title: "Uses",
-          render: ({ allowedUses, usedAmount }) =>
-            `${usedAmount} / ${allowedUses ? allowedUses : "∞"}`
+          render: ({ allowedUses, usedAmount }) => (
+            <span className="whitespace-no-wrap">
+              {usedAmount} / {allowedUses ?? "∞"}
+            </span>
+          ),
         },
-        { field: "price", title: "Price" },
-        ...helpers.viewAndEdit
+        // { field: "price", title: "Price" },
+        ...helpers.CustomActions,
       ]}
     ></MaterialTable>
   );

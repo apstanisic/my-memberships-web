@@ -5,7 +5,7 @@ const uiSlice = createSlice({
   initialState: {
     showSidebar: false,
     showLoader: false,
-    darkTheme: false
+    darkTheme: false,
   },
   reducers: {
     toggleTheme(state) {
@@ -16,8 +16,8 @@ const uiSlice = createSlice({
     },
     showLoader(state, action: PayloadAction<boolean>) {
       state.showLoader = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const { toggleSidebar, toggleTheme, showLoader } = uiSlice.actions;

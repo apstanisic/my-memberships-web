@@ -25,7 +25,7 @@ export class ManageUserData<User extends IUser> {
   /**  Change user's info */
   async changeUsersInfo(newInfo: Partial<User>): Promise<User> {
     const updatedUser = await Http.put<User>("/auth", newInfo).then(
-      res => res.data
+      res => res.data,
     );
 
     await this.storage.set(StorageKeys.User, updatedUser);
@@ -36,7 +36,7 @@ export class ManageUserData<User extends IUser> {
   async deleteUser(password: string): Promise<void> {
     const { email } = await this.storage.get<User>(StorageKeys.User);
     await Http.delete<User>("/auth/account", {
-      data: { email, password }
+      data: { email, password },
     });
 
     await this.logout();
@@ -45,7 +45,7 @@ export class ManageUserData<User extends IUser> {
   /** Confirm user's email */
   async confirmUsersEmail(email: string, token: string): Promise<User> {
     return Http.put<User>(`/auth/confirm-account/${email}/${token}`).then(
-      res => res.data
+      res => res.data,
     );
   }
 }

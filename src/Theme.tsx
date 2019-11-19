@@ -8,7 +8,7 @@ export function AppTheme({ children }: any) {
   const { darkTheme } = useSelector((state: RootState) => state.ui);
 
   const theme = createMuiTheme({
-    palette: { type: darkTheme ? "dark" : "light", primary: blue }
+    palette: { type: darkTheme ? "dark" : "light", primary: blue },
   });
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;

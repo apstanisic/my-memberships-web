@@ -5,7 +5,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@material-ui/core";
 import { Inbox } from "@material-ui/icons";
 import React from "react";
@@ -23,7 +23,7 @@ export function AppDrawer({ classes }: { classes: any }) {
     { name: "Locations", path: "locations" },
     { name: "Roles", path: "roles" },
     { name: "Arrivals", path: "arrivals" },
-    { name: "Payments", path: "payments" }
+    { name: "Payments", path: "payments" },
   ];
 
   const drawer = (
@@ -58,10 +58,10 @@ export function AppDrawer({ classes }: { classes: any }) {
           open={ui.showSidebar}
           onClose={() => dispatch(toggleSidebar())}
           classes={{
-            paper: classes.drawerPaper
+            paper: classes.drawerPaper,
           }}
           ModalProps={{
-            keepMounted: true // Better open performance on mobile.
+            keepMounted: true, // Better open performance on mobile.
           }}
         >
           {drawer}
@@ -70,7 +70,7 @@ export function AppDrawer({ classes }: { classes: any }) {
       <Hidden smDown implementation="css">
         <Drawer
           classes={{
-            paper: classes.drawerPaper
+            paper: classes.drawerPaper,
           }}
           variant="permanent"
           open

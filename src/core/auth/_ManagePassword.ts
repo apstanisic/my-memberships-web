@@ -34,10 +34,10 @@ export class ManagePassword<User extends IUser> {
   async resetPassword({
     email,
     token,
-    password
+    password,
   }: ResetPasswordParams): Promise<User> {
     return Http.post(`/auth/reset-password/${email}`, { password, token }).then(
-      res => res.data
+      res => res.data,
     );
   }
 }

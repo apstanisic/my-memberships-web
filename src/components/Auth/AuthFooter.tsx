@@ -5,7 +5,7 @@ import {
   CardContent,
   Button,
   makeStyles,
-  Paper
+  Paper,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
@@ -16,13 +16,13 @@ interface Props {
 const useStyles = makeStyles({
   card: {
     width: 500,
-    maxWidth: "100%"
+    maxWidth: "100%",
   },
   bottomButtons: {
     display: "flex",
     justifyContent: "stretch",
-    padding: 16
-  }
+    padding: 16,
+  },
 });
 
 export function AuthFooter({ type }: Props) {

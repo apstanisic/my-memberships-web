@@ -22,7 +22,7 @@ export function between(
   options?: {
     order: "asc" | "desc";
     inc: number;
-  }
+  },
 ): number[] {
   // const inc = options?.inc ?? 1;
   // const order = options?.order ?? "asc";
@@ -100,7 +100,7 @@ export function wait(time: number): Promise<void> {
  */
 export async function asyncForEach<R = any, T = any>(
   array: T[],
-  callback: (item: T, index?: number, array?: T[]) => Promise<R>
+  callback: (item: T, index?: number, array?: T[]) => Promise<R>,
 ) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
@@ -128,4 +128,9 @@ export function mergeArrayWithIds<T extends WithId>(arr1: T[], arr2: T[]) {
   });
   // Return merged array
   return newArray;
+}
+
+export function capitalize(val: string) {
+  if (val === "") return val;
+  return val.split(" ").map(word => word[0].toUpperCase() + word.substr(1));
 }

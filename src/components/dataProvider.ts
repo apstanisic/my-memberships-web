@@ -18,7 +18,7 @@ export const dataProvider = {
    */
   async getList<T = any>(
     path: string,
-    search?: string
+    search?: string,
   ): Promise<PaginationResult<T>> {
     const url = `${path}${search || ""}`;
     return Http.get<PaginationResult<T>>(url).then(res => res.data);
@@ -26,21 +26,15 @@ export const dataProvider = {
 
   async getOne<T = any>(
     resource: string,
-    params: { id: string }
+    params: { id: string },
   ): Promise<Data<any>> {
     let path = resource.replace("/admin-panel", "");
-    // if (path.endsWith('/show')) {
-    //   path = path.replace('/show', '');
-    // }
-    // if (path.endsWith('/edit')) {
-    //   path = path.replace('/edit', '');
-    // }
 
     return Http.request({ url: `${path}/${params.id}` });
   },
   async getByIds<T = any>(
     resource: string,
-    params: { ids: string[] }
+    params: { ids: string[] },
   ): Promise<Data<T[]>> {
     const ids = (params.ids as string[]).join(",");
     return Http.get(`${resource}/ids?${stringify({ ids })}`);
@@ -48,29 +42,26 @@ export const dataProvider = {
 
   async create<T = any>(
     resource: string,
-    params: { data: Struct }
+    params: { data: Struct },
   ): Promise<Data<T>> {
     return Http.post(resource, params.data);
   },
 
   async update<T = any>(
     resource: string,
-    params: { data: WithId }
+    params: { data: WithId },
   ): Promise<Data<T>> {
     return Http.put(`${resource}/${params.data.id}`, params.data);
   },
 
   async delete<T = any>(
     resource: string,
-    params?: { id: UUID }
+    params?: { id: UUID },
   ): Promise<Data<T>> {
-    if (resource.startsWith("/admin-panel")) {
-      resource = resource.replace("/admin-panel", "");
-    }
     if (params) {
       return Http.delete(`${resource}/${params.id}`);
     } else {
       return Http.delete(`${resource}`);
     }
-  }
+  },
 };

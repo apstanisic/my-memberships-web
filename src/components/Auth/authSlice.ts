@@ -8,7 +8,7 @@ const authSlice = createSlice({
   initialState: {
     isInited: false,
     isLogged: false,
-    user: undefined as IUser | undefined
+    user: undefined as IUser | undefined,
   },
   reducers: {
     initLoginState(state, action: PayloadAction<IUser | undefined>) {
@@ -31,8 +31,8 @@ const authSlice = createSlice({
     },
     changeUserInfo(state, action: PayloadAction<IUser>) {
       state.user = action.payload;
-    }
-  }
+    },
+  },
 });
 
 const { actions } = authSlice;
@@ -48,7 +48,7 @@ export const logoutUser = (): AppThunk => async dispatch => {
 /** Login user */
 export const attemptLogin = (
   email: string,
-  password: string
+  password: string,
 ): AppThunk<Promise<IUser>> => async dispatch => {
   const user = await auth.attemptLogin(email, password);
   dispatch(actions.loginUser(user));
@@ -58,7 +58,7 @@ export const attemptLogin = (
 /** Register new user and store him in the state */
 export const registerUser = (
   email: string,
-  password: string
+  password: string,
 ): AppThunk<Promise<IUser>> => async dispatch => {
   const user = await auth.register(email, password);
   dispatch(actions.registerUser(user));
@@ -67,7 +67,7 @@ export const registerUser = (
 
 /** Change user's informations */
 export const changeUserInfo = (
-  data: Partial<IUser>
+  data: Partial<IUser>,
 ): AppThunk<Promise<IUser>> => async dispatch => {
   const user = await auth.manageUser.changeUsersInfo(data);
   dispatch(actions.changeUserInfo(user));

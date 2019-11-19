@@ -23,7 +23,7 @@ export function Image({ src, alt, height, width, center }: Props) {
         // height,
         height,
         width,
-        margin: center ? "0 auto" : ""
+        margin: center ? "0 auto" : "",
       }}
     />
   );

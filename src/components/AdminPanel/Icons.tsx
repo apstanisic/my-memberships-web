@@ -16,7 +16,7 @@ import {
   SaveAlt,
   Search,
   ViewColumn,
-  Visibility
+  Visibility,
 } from "@material-ui/icons";
 import React, { forwardRef } from "react";
 
@@ -83,5 +83,5 @@ export const AppIcons = {
   )),
   ArrowBack: forwardRef<SVGSVGElement>((props, ref) => (
     <ArrowBack {...props} ref={ref} />
-  ))
+  )),
 };

@@ -16,5 +16,5 @@ export const validSubscription = object().shape<Partial<Subscription>>({
     .integer(),
   type: string()
     .min(2)
-    .max(150)
+    .max(150),
 });

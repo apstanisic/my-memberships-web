@@ -1,27 +1,43 @@
-import { IconButton } from "@material-ui/core";
-import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { AppIcons } from "../Icons";
-import { usePrefetch } from "../usePrefetch";
+import { IconButton, Typography } from "@material-ui/core";
 import { dataProvider } from "components/dataProvider";
+import React, { Fragment } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { setUrlData, urlHelper } from "store/adminSlice";
+import { RootState } from "store/store";
+import { AppIcons } from "../Icons";
+import { useProvider } from "../usePrefetch";
+import { useDelete } from "./useDelete";
+import { WithId } from "./../../../types";
 
 type ShowData<T> = [
-  T,
-  {
-    editButton: JSX.Element;
-    backButton: JSX.Element;
-    deleteButton: JSX.Element;
-  }
+  T | undefined,
+  React.ComponentType<any>,
+  // {
+  //   editButton: JSX.Element;
+  //   backButton: JSX.Element;
+  //   deleteButton: JSX.Element;
+  //   deleting: {
+  //     button: JSX.Element;
+  //     alert: JSX.Element;
+  //   };
+  // },
 ];
 
-export function useShow<T>(
+export function useShow<T extends WithId>(
   name: string,
-  transform: (val: any) => T
+  transform: (val: any) => T,
 ): ShowData<T> {
-  const location = usePrefetch<any>(name, transform);
+  const dispatch = useDispatch();
+  const { resourceId } = useParams<{ resourceId: string }>();
+  dispatch(setUrlData({ resourceId }));
+  const path = useSelector((state: RootState) => state.admin.url);
+  const editPath = urlHelper.edit(path);
+  const remotePath = urlHelper.remote(path);
+
+  const deleting = useDelete(() => dataProvider.delete(remotePath));
+  const resource = useProvider<T>(name, transform);
   const history = useHistory();
-  const basePath = useLocation().pathname.replace("/show", "");
-  const editPath = `${basePath}/edit`;
 
   const editButton = (
     <IconButton onClick={() => history.push(editPath)}>
@@ -29,11 +45,13 @@ export function useShow<T>(
     </IconButton>
   );
 
-  const deleteButton = (
-    <IconButton onClick={() => dataProvider.delete(basePath)}>
-      <AppIcons.Delete />
-    </IconButton>
-  );
+  const deleteButton = deleting.button;
+  // const deleteAlert = delete
+  // (
+  //   <IconButton onClick={() => dataProvider.delete(basePath)}>
+  //     <AppIcons.Delete />
+  //   </IconButton>
+  // );
 
   const backButton = (
     <IconButton onClick={() => history.goBack()}>
@@ -41,5 +59,22 @@ export function useShow<T>(
     </IconButton>
   );
 
-  return [location, { editButton, backButton, deleteButton }];
+  const Header = ({ title }: { title: string }) => (
+    <Fragment>
+      {deleting.alert}
+      <div className="flex justify-between items-center pb-4">
+        {backButton}
+        <Typography variant="h5" component="h2">
+          {title}
+        </Typography>
+        <div className="flex">
+          {editButton}
+          {deleting.button}
+        </div>
+      </div>
+    </Fragment>
+  );
+
+  // { editButton, backButton, deleteButton, deleting }
+  return [resource, Header];
 }

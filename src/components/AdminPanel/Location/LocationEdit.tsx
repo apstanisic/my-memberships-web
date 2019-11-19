@@ -9,7 +9,7 @@ import { validLocation } from "./validLocation";
 
 export function LocationEdit() {
   const [tab, setTab] = useState(0);
-  const [location, onSubmit, goBack] = useEdit(Location.NAME, Location.create);
+  const [location, onSubmit, cancel] = useEdit(Location.create);
 
   return (
     <Formik
@@ -87,7 +87,7 @@ export function LocationEdit() {
                 <Padding side="r" size={2} grow>
                   <Button
                     type="button"
-                    onClick={goBack}
+                    onClick={cancel}
                     fullWidth
                     /* https://github.com/jaredpalmer/formik/issues/2004 */
                     key="nosubmit"
@@ -103,7 +103,6 @@ export function LocationEdit() {
                       type="button"
                       onClick={() => setTab(1)}
                       fullWidth
-                      /* https://github.com/jaredpalmer/formik/issues/2004 */
                       key="nosubmit"
                       variant="contained"
                       color="primary"
@@ -119,7 +118,6 @@ export function LocationEdit() {
                         type="button"
                         onClick={() => setTab(0)}
                         fullWidth
-                        /* https://github.com/jaredpalmer/formik/issues/2004 */
                         key="nosubmit"
                         variant="contained"
                         size="large"

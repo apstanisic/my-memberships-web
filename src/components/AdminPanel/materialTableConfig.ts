@@ -9,12 +9,13 @@ export const options: Options = {
   actionsColumnIndex: -1,
   search: false,
   showFirstLastPageButtons: false,
-  emptyRowsWhenPaging: false
+  emptyRowsWhenPaging: false,
+  padding: "dense",
 };
 
 export const localization: Localization = {
   pagination: { labelDisplayedRows: "" },
-  header: { actions: "Delete" }
+  header: { actions: "Delete" },
 };
 
 export const icons = AppIcons;

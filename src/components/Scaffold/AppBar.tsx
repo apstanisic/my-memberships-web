@@ -3,7 +3,7 @@ import {
   Button,
   Toolbar,
   Typography,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 import React, { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,7 +29,7 @@ export function ScaffoldAppBar({ classes }: { classes?: any }) {
           <Menu />
         </IconButton>
         <Link to="/">
-          <Typography variant="h5" component="span">
+          <Typography variant="h6" component="span">
             <h1>My subscriptions</h1>
           </Typography>
         </Link>

@@ -6,9 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { addToResource } from "store/adminSlice";
 import { RootState } from "store/store";
-import { WithId } from "types";
+import { WithId, PaginationMetadata } from "types";
 import * as tableConfig from "../materialTableConfig";
 import { AppIcons } from "./../Icons";
+import { Pagination } from "./Pagination";
+import { useDelete } from "./useDelete";
+import { useUrls } from "./useUrls";
 
 interface ConfigOptions<T extends object>
   extends Omit<Partial<MaterialTableProps<T>>, "data"> {
@@ -24,45 +27,53 @@ type Return<T extends object> = [
     create: (row: WithId) => void;
     onDelete: (rows: WithId | WithId[]) => Promise<any>;
     config: ConfigOptions<T>;
-    viewAndEdit: [Column<T>, Column<T>];
-  }
+    CustomActions: [Column<T>, Column<T>, Column<T>];
+    alertDialog: JSX.Element;
+  },
 ];
 
+const returnFunc = (val: any) => val;
+
 export function useResource<T extends WithId = any>(
-  resource: string
+  transform: (val: any) => T = returnFunc,
 ): Return<T> {
+  const deleting = useDelete(onDelete);
   // Urls
-  const adminUrl = useSelector((state: RootState) => state.admin.adminUrl);
-  const { pathname, search } = useLocation();
-  const remoteUrl = pathname.replace(adminUrl, "");
+  const urls = useUrls();
+  const remoteUrl = urls.remoteBase();
+  const { search } = useLocation();
 
   const [resources, setResource] = useState<T[]>([]);
+  const [meta, setMeta] = useState<PaginationMetadata>();
   const [isLoading, setIsLoading] = useState(true);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const view = (row: WithId) => history.push(`${pathname}/${row.id}/show`);
-  const edit = (row: WithId) => history.push(`${pathname}/${row.id}/edit`);
-  const create = (row: WithId) => history.push(`${pathname}/create`);
+  const view = (row: WithId) => history.push(urls.show(row.id));
+  const edit = (row: WithId) => history.push(urls.edit(row.id));
+  const create = (row: WithId) => history.push(urls.create());
 
   useEffect(() => {
+    setIsLoading(true);
     dataProvider
       .getList<T>(remoteUrl, search)
       .then(res => {
-        dispatch(addToResource({ resource, data: res.data }));
-        setResource(res.data);
+        const data = res.data.map(item => transform(item));
+        dispatch(addToResource({ data: res.data }));
+        setResource(data);
+        setMeta(res.pagination);
         setIsLoading(false);
       })
       .catch(() => setIsLoading(false));
-  }, [remoteUrl, dispatch, search, resource]);
+  }, [remoteUrl, dispatch, search, transform]);
 
-  async function onDelete(rows: WithId | WithId[]) {
+  async function onDelete(rows?: WithId | WithId[]) {
     interface ResourceData {
       item: T;
       position: number;
     }
-    console.log("delete");
+    if (!rows) return;
 
     const items = Array.isArray(rows) ? rows : [rows];
     let resourcesToDelete: ResourceData[] = [];
@@ -72,7 +83,7 @@ export function useResource<T extends WithId = any>(
         if (items.every(item => item.id !== resource.id)) return true;
         resourcesToDelete.push({ item: resource, position: i });
         return false;
-      })
+      }),
     );
     if (!resourcesToDelete.length) return;
     try {
@@ -83,13 +94,10 @@ export function useResource<T extends WithId = any>(
           .then(() => deletedPositions.push(row.position))
           .catch(e => {
             throw row;
-          })
+          }),
       );
       await Promise.all(promises);
     } catch (error) {
-      // resourcesToDelete.forEach(resource => {
-      //   resources.splice(resource.position, 0, resource.item);
-      // });
       deletedPositions.forEach(i => {
         resources.splice(i, 1);
       });
@@ -100,7 +108,7 @@ export function useResource<T extends WithId = any>(
     }
   }
 
-  const viewAndEdit: [Column<T>, Column<T>] = [
+  const viewAndEdit: [Column<T>, Column<T>, Column<T>] = [
     {
       title: "View",
       cellStyle: { maxWidth: 60 },
@@ -109,7 +117,7 @@ export function useResource<T extends WithId = any>(
         <IconButton onClick={() => view(row)}>
           <AppIcons.Visibility />
         </IconButton>
-      )
+      ),
     },
     {
       title: "Edit",
@@ -119,30 +127,48 @@ export function useResource<T extends WithId = any>(
         <IconButton onClick={() => edit(row)}>
           <AppIcons.Edit />
         </IconButton>
-      )
-    }
+      ),
+    },
+    {
+      title: "Delete",
+      cellStyle: { maxWidth: 60 },
+      headerStyle: { maxWidth: 60 },
+      render: row => {
+        return (
+          <div onClick={() => deleting.setData(row)}>{deleting.button}</div>
+        );
+      },
+    },
   ];
 
   const config: ConfigOptions<T> = {
     ...tableConfig,
     isLoading,
     editable: {
-      isDeletable: () => true,
-      onRowDelete: onDelete
+      // isDeletable: () => true
+      // onRowDelete: onDelete
     },
     actions: [
       {
         tooltip: "Remove All Selected locations",
         icon: AppIcons.Delete as any,
-        onClick: (evt, data) => onDelete(data)
+        onClick: (evt, data) => {
+          deleting.setData(data);
+          deleting.setOpen(true);
+        },
       },
       {
         icon: AppIcons.Add as any,
         onClick: create,
-        isFreeAction: true
-      }
+        isFreeAction: true,
+      },
     ],
-    data: resources
+
+    components: {
+      // @ts-ignore
+      Pagination: () => (!meta ? <td></td> : <Pagination meta={meta} />),
+    },
+    data: resources,
   };
 
   return [
@@ -154,7 +180,8 @@ export function useResource<T extends WithId = any>(
       create,
       config,
       onDelete,
-      viewAndEdit
-    }
+      CustomActions: viewAndEdit,
+      alertDialog: deleting.alert,
+    },
   ];
 }

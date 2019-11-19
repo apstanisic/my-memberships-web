@@ -1,34 +1,45 @@
-import { useParams, useLocation } from "react-router-dom";
+import { Http } from "core/http";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { WithId } from "types";
+import { useLocation, useParams } from "react-router-dom";
+import { urlHelper } from "store/adminSlice";
 import { RootState } from "store/store";
-import { Http } from "core/http";
+import { WithId } from "types";
+import { useUrls } from "./Common/useUrls";
 
-export function usePrefetch<T extends WithId>(
+const returnFunc = <T>(val: T) => val;
+
+/**
+ * This will send request to server to fetch new item,
+ * and return current version from redux store if exist.
+ * When user request detailed view we want them to have
+ * latest version, but we will show them current version
+ * In 99% of cases values are same.
+ * @param transform is used to cast value to class instance
+ * it does not have to do that, but it's better because
+ * we can be sure that it parses value propertly
+ */
+export function useProvider<T extends WithId>(
   resourceName: string,
-  transform: (val: T) => T
+  transform: (val: T) => T = returnFunc,
 ) {
-  const [resource, setResource] = useState<T>();
-  const prefetched: T[] | undefined = useSelector(
-    (state: RootState) => state.admin.resources[resourceName]
-  );
   const { resourceId } = useParams();
-  const path = useLocation().pathname;
+  const [resource, setResource] = useState<T>();
+  const prefetched: T | undefined = useSelector(
+    (state: RootState) =>
+      state.admin.resources[resourceName]?.[resourceId ?? "not-existing"],
+  );
+
+  const { search } = useLocation();
+  const resourceUrl = useUrls().remote();
+  const path = resourceUrl + search;
 
   useEffect(() => {
-    const url = path
-      .replace("/admin-panel", "")
-      .replace("/show", "")
-      .replace("/edit", "");
-    Http.get<T>(url).then(res => setResource(transform(res.data)));
+    Http.get<T>(path).then(res => setResource(transform(res.data)));
   }, [path, transform]);
 
   if (prefetched && !resource) {
-    const found = prefetched.find(item => item.id === resourceId);
-    if (found) {
-      setResource(transform(found));
-    }
+    setResource(transform(prefetched));
   }
   return resource;
 }

@@ -15,8 +15,8 @@ interface Props {
 export function Padding({ grow, size, side, children, className }: Props) {
   return (
     <div
-      className={`${grow ? "flex flex-grow" : ""} justify- p${side ||
-        ""}-${size || 4} ${className || ""}`}
+      className={`${grow ? "flex flex-grow" : ""}  p${side || ""}-${size ||
+        4} ${className || ""}`}
     >
       {children}
     </div>

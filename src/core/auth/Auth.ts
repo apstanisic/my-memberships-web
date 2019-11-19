@@ -52,13 +52,13 @@ class AuthController<User extends IUser = IUser> {
   async attemptLogin(email: string, password: string): Promise<User> {
     const { user, token }: UserAndToken<User> = await Http.post("/auth/login", {
       email,
-      password
+      password,
     }).then(res => res.data);
 
     this.setAuthHeader(token);
     try {
       const roles = await Http.get<Role[]>("/auth/account/roles").then(
-        res => res.data
+        res => res.data,
       );
       user.roles = roles;
     } catch (error) {}
@@ -74,7 +74,7 @@ class AuthController<User extends IUser = IUser> {
     const body = { email, password };
     const { user, token } = await Http.post<{ user: User; token: string }>(
       "/auth/register",
-      { body }
+      { body },
     ).then(res => res.data);
 
     this.setAuthHeader(token);

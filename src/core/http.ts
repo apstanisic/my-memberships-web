@@ -9,8 +9,8 @@ const storageUrl = process.env.REACT_APP_STORAGE_URL || "";
 export const Http = Axios.create({
   baseURL: apiUrl,
   headers: {
-    "Access-Control-Allow-Origin": "*"
-  }
+    "Access-Control-Allow-Origin": "*",
+  },
 });
 
 /**

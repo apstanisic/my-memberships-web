@@ -17,7 +17,7 @@ export function Dashboard() {
   useEffect(() => {
     if (!auth.isInited) return;
     Http.get<Partial<Company>[]>("companies/user").then(res =>
-      setCompanies(res.data.map(c => new Company(c)))
+      setCompanies(res.data.map(c => new Company(c))),
     );
   }, [auth.isInited]);
 

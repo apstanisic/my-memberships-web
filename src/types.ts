@@ -40,7 +40,9 @@ export interface PaginationMetadata {
   isLastPage: boolean; // is this last page
   isFirstPage: boolean; // is this first page
   next?: string; // cursor for next page
-  previous?: string; // cursor for previous page
+  previous?: string;
+  nextUrl?: string; // url for next page
+  previousUrl?: string; // url for previous page
 }
 
 /** Props that accept children */
