@@ -11,12 +11,13 @@ import { Padding } from "components/common/Padding";
 
 export function RoleList(props: any) {
   const path = useLocation().pathname;
-  const [subscriptions, helpers] = useResource(Role.create);
+  const [roles, helpers] = useResource(Role.create);
 
   return (
     <MaterialTable
       {...helpers.config}
-      data={subscriptions.filter(sub => sub.name !== "user")}
+      // data={roles.filter(sub => sub.name !== "user")}
+      data={roles}
       title="Roles"
       columns={[
         {
@@ -47,7 +48,7 @@ export function RoleList(props: any) {
         { field: "name", title: "Name" },
         { field: "description", title: "Description" },
         { field: "createdAt", title: "Created at", type: "datetime" },
-        ...helpers.CustomActions,
+        helpers.CustomActions,
       ]}
     ></MaterialTable>
   );

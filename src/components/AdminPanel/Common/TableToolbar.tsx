@@ -7,7 +7,7 @@ import { useChangeSearch } from "../useChangeSearch";
 import { Toolbar } from "@material-ui/core";
 import { MTableToolbar } from "material-table";
 
-export function TableToolbar(props: any) {
+export function TableToolbar(passtroughProps: any) {
   const { search } = useLocation();
   const [filter, setFilter] = useState<Struct>(qs.parse(search));
   const allQueries = Object.entries(filter);
@@ -15,7 +15,7 @@ export function TableToolbar(props: any) {
   const changeSearch = useChangeSearch();
   return (
     <div className="bg-blue-100 border-b border-gray-400">
-      <MTableToolbar {...props} />
+      <MTableToolbar {...passtroughProps} />
       {filterArr.length > 0 && (
         <Toolbar className="pb-2">
           {filterArr.map(([name, val]) => {

@@ -20,8 +20,7 @@ import { SwapVert } from "@material-ui/icons";
 import { useUrls } from "../Common/useUrls";
 
 export function LocationList() {
-  const [locations, helpers] = useResource<Location>();
-  // const path = useLocation().pathname;
+  const [locations, helpers] = useResource<Location>(Location.create);
   const urls = useUrls();
 
   return (
@@ -47,7 +46,7 @@ export function LocationList() {
                 </Link>
               ),
             },
-            ...helpers.CustomActions,
+            helpers.CustomActions,
           ]}
         />
       </Hidden>
@@ -66,7 +65,7 @@ export function LocationList() {
             {locations.map(location => (
               <ListItem
                 button
-                onClick={() => helpers.view(location)}
+                onClick={() => helpers.show(location)}
                 key={location.id}
               >
                 <ListItemText

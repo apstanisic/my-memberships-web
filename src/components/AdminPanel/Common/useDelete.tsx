@@ -18,24 +18,24 @@ export function useDelete<T = undefined>(
   initialData: T | undefined = undefined,
 ) {
   const [data, setData] = useState(initialData);
-  const [open, setOpen] = useState(false);
+  const [open, showConfirmDialog] = useState(false);
 
   function handleClick(option: boolean) {
-    setOpen(false);
+    showConfirmDialog(false);
     if (option) {
       handle(data);
     }
   }
 
   const button = (
-    <IconButton onClick={() => setOpen(true)}>
+    <IconButton onClick={() => showConfirmDialog(true)}>
       <AppIcons.Delete />
     </IconButton>
   );
 
   const alert = (
     <div>
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog open={open} onClose={() => showConfirmDialog(false)}>
         <DialogTitle id="alert-dialog-title">
           <Typography component="span" variant="h5">
             Are you sure?
@@ -59,5 +59,5 @@ export function useDelete<T = undefined>(
       </Dialog>
     </div>
   );
-  return { button, alert, setData, setOpen };
+  return { button, alert, setData, setOpen: showConfirmDialog };
 }

@@ -12,6 +12,7 @@ export class Arrival extends Resource implements BaseEntity {
   subscriptionId: UUID;
   locationId?: UUID;
   companyId: string;
+  userId: UUID;
   arrivedAt: Date;
   leftAt?: Date;
   address?: string;
@@ -26,6 +27,7 @@ export class Arrival extends Resource implements BaseEntity {
     this.createdAt = new Date(arrival.createdAt);
     this.subscriptionId = arrival.subscriptionId;
     this.locationId = arrival.locationId;
+    this.userId = arrival.userId;
     this.companyId = arrival.companyId;
     this.arrivedAt = new Date(arrival.arrivedAt);
     this.leftAt = arrival.leftAt ? new Date(arrival.leftAt) : undefined;

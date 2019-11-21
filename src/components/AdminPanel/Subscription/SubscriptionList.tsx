@@ -56,7 +56,7 @@ export function SubscriptionList(props: any) {
           ),
         },
         // { field: "price", title: "Price" },
-        ...helpers.CustomActions,
+        helpers.CustomActions,
       ]}
     ></MaterialTable>
   );
