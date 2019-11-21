@@ -11,6 +11,7 @@ import { authReducer, initLoginState } from "../components/Auth/authSlice";
 import { adminReducer } from "./adminSlice";
 import { fetchEpic, resourcesReducer } from "./resourcesSlice";
 import { uiReducer } from "./uiSlice";
+import { alertReducer } from "./alertSlice";
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   ui: uiReducer,
   admin: adminReducer,
   resources: resourcesReducer,
+  alert: alertReducer,
 });
 
 export const store = configureStore({

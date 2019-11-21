@@ -6,49 +6,53 @@ import { useLocation } from "react-router-dom";
 import { useUrls } from "./useUrls";
 import { WithId, PaginationMetadata } from "types";
 import { addToResource } from "store/resourcesSlice";
+import { Struct } from "core/utils/helpers";
 
-export function useResourceFetch<T extends WithId>({
+interface Props<T> {
+  setIsLoading?: (newValue: boolean) => any;
+  transform?: (data: any) => T;
+  setResource: (val: any) => any;
+}
+
+export function useFetchMany<T extends WithId>({
   transform,
   setResource,
-}: // urls,
-// resourceName,
-{
-  transform?: (val: any) => T;
-  setResource: (val: any) => any;
-  // resourceName: string;
-}) {
+  setIsLoading,
+}: Props<T>) {
+  // const [resource, setResource] = useState<T[]>([]);
   const urls = useUrls();
   const dispatch: AppDispatch = useDispatch();
   // const [resources, setResource] = useState<T[]>([]);
-  const [meta, setMeta] = useState<PaginationMetadata>();
+  const [pg, setPg] = useState<PaginationMetadata>();
   const authInited = useSelector((state: RootState) => state.auth.isInited);
   const { search } = useLocation();
   const remoteUrl = urls.remoteBase();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const resourceName = urls.resourceName();
 
   useEffect(() => {
     if (!authInited) return;
-    setIsLoading(true);
+    setIsLoading?.(true);
     dataProvider
       .getMany<T>(remoteUrl, search)
       .then(res => {
         dispatch(addToResource({ data: res.data, resourceName }));
         const data = res.data.map(item => transform?.(item) ?? item);
         setResource(data);
-        setMeta(res.pagination);
-        setIsLoading(false);
+        setPg(res.pagination);
+        setIsLoading?.(false);
       })
-      .catch(() => setIsLoading(false));
+      .catch(() => setIsLoading?.(false));
   }, [
     authInited,
     dispatch,
     remoteUrl,
     resourceName,
     search,
+    setIsLoading,
     setResource,
     transform,
   ]);
 
-  return { pagination: meta, isLoading };
+  return { pg };
 }

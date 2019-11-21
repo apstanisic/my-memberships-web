@@ -7,7 +7,7 @@ import { setUrlData, urlHelper } from "store/adminSlice";
 import { RootState } from "store/store";
 import { AppIcons } from "../Icons";
 import { useProvider } from "../useProvider";
-import { useDelete } from "./useDelete";
+import { useDeleteConfirmation } from "./useDeleteConfirmation";
 import { WithId } from "./../../../types";
 
 type ShowData<T> = [
@@ -35,7 +35,7 @@ export function useShow<T extends WithId>(
   const editPath = urlHelper.edit(path);
   const remotePath = urlHelper.remote(path);
 
-  const deleting = useDelete(() => dataProvider.delete(remotePath));
+  // const deleting = useDelete(() => dataProvider.delete(remotePath));
   const resource = useProvider({ transform, resourceName: name });
   const history = useHistory();
 
@@ -53,7 +53,7 @@ export function useShow<T extends WithId>(
 
   const Header = ({ title }: { title: string }) => (
     <Fragment>
-      {deleting.alert}
+      {/* {deleting.alert} */}
       <div className="flex justify-between items-center pb-4">
         {backButton}
         <Typography variant="h5" component="h2">
@@ -61,7 +61,7 @@ export function useShow<T extends WithId>(
         </Typography>
         <div className="flex">
           {editButton}
-          {deleting.button}
+          {/* {deleting.button} */}
         </div>
       </div>
     </Fragment>

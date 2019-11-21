@@ -13,7 +13,6 @@
     "formik": "^2.0.4",
     "idb-keyval": "^3.2.0",
     "lodash-es": "^4.17.15",
-    "material-table": "^1.54.1",
     "query-string": "^6.9.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
@@ -55,7 +54,8 @@
       "comma-dangle": [
         "warn",
         "always-multiline"
-      ]
+      ],
+      "no-unused-expressions": "off"
     }
   },
   "browserslist": {

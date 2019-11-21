@@ -38,7 +38,7 @@ export function SubscriptionEdit() {
                 <div style={{ minHeight: 60 }}>
                   <ReferenceField
                     resourceName="users"
-                    id={props.values?.ownerId}
+                    resourceId={props.values?.ownerId}
                     render={(user: User) => (
                       <ShowItem
                         name={<h3 className="text-2xl">{user.name}</h3>}

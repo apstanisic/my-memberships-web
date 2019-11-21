@@ -1,68 +1,45 @@
 import {
   Button,
   Hidden,
-  IconButton,
   List,
   ListItem,
-  ListItemSecondaryAction,
   ListItemText,
   Paper,
   Typography,
 } from "@material-ui/core";
-import MaterialTable from "material-table";
-import React, { Fragment } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { EmailField } from "../Common/EmailField";
-import { useResource } from "../Common/useResource";
-import { AppIcons } from "../Icons";
-import { Location } from "./Location";
 import { SwapVert } from "@material-ui/icons";
+import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 import { useUrls } from "../Common/useUrls";
+import { ResourceTable } from "../TestTable";
 
 export function LocationList() {
-  const [locations, helpers] = useResource<Location>(Location.create, [
-    { emptyValue: "No name", field: "name", title: "Name" },
-    { field: "address", title: "Address" },
-    { field: "phoneNumber", title: "Phone number" },
-    {
-      title: "Arrivals",
-      render: ({ id }) => (
-        <Link to={`${urls.changeResource("arrivals")}?locationId=${id}`}>
-          <Button color="primary" startIcon={<SwapVert />}>
-            Arrivals
-          </Button>
-        </Link>
-      ),
-    },
-    // helpers.CustomActions,
-  ]);
   const urls = useUrls();
 
   return (
     <Fragment>
-      {helpers.alertDialog}
       <Hidden xsDown>
-        <MaterialTable
-          {...helpers.config}
+        {/* <MaterialTable {...helpers.config} title="Locations" /> */}
+        <ResourceTable
           title="Locations"
-          // columns={[
-          //   { emptyValue: "No name", field: "name", title: "Name" },
-          //   { field: "address", title: "Address" },
-          //   { field: "phoneNumber", title: "Phone number" },
-          //   {
-          //     title: "Arrivals",
-          //     render: ({ id }) => (
-          //       <Link
-          //         to={`${urls.changeResource("arrivals")}?locationId=${id}`}
-          //       >
-          //         <Button color="primary" startIcon={<SwapVert />}>
-          //           Arrivals
-          //         </Button>
-          //       </Link>
-          //     ),
-          //   },
-          //   helpers.CustomActions,
-          // ]}
+          columns={[
+            { emptyValue: "No name", field: "name", title: "Name" },
+            { field: "address", title: "Address" },
+            { field: "phoneNumber", title: "Phone number" },
+            {
+              title: "Arrivals",
+              field: "name",
+              render: ({ id }: any) => (
+                <Link
+                  to={`${urls.changeResource("arrivals")}?locationId=${id}`}
+                >
+                  <Button color="primary" startIcon={<SwapVert />}>
+                    Arrivals
+                  </Button>
+                </Link>
+              ),
+            },
+          ]}
         />
       </Hidden>
       <Hidden smUp>
@@ -77,10 +54,10 @@ export function LocationList() {
                 }
               />
             </ListItem>
-            {locations.map(location => (
+            {/* {locations.map(location => (
               <ListItem
                 button
-                onClick={() => helpers.show(location)}
+                // onClick={() => helpers.show(location)}
                 key={location.id}
               >
                 <ListItemText
@@ -91,13 +68,13 @@ export function LocationList() {
                   <IconButton
                     edge="end"
                     aria-label="delete"
-                    onClick={() => helpers.edit(location)}
+                    // onClick={() => helpers.edit(location)}
                   >
                     <AppIcons.Edit />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
-            ))}
+            ))} */}
           </List>
         </Paper>
       </Hidden>

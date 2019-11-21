@@ -15,7 +15,7 @@ export function useResourceDelete<T extends WithId>({
   setResource: (val: any) => any;
 }) {
   const urls = useUrls();
-  async function onDelete(rows?: WithId | WithId[]) {
+  return async function onDelete(rows?: WithId | WithId[]) {
     const remoteUrl = urls.remoteBase();
     if (!rows) return;
 
@@ -50,6 +50,5 @@ export function useResourceDelete<T extends WithId>({
     } finally {
       // setIsLoading(false);
     }
-  }
-  return onDelete;
+  };
 }

@@ -1,55 +1,19 @@
-import React from "react";
-import PersonIcon from "@material-ui/icons/Person";
-import MaterialTable from "material-table";
-import { useLocation, Link } from "react-router-dom";
-import { useResource } from "../Common/useResource";
 import { Role } from "core/auth/Role";
-import { ReferenceField } from "../Common/ReferenceField";
-import { User } from "core/auth/User";
-import { Link as MLink, Avatar } from "@material-ui/core";
-import { Padding } from "components/common/Padding";
+import React from "react";
+import { ResourceTable } from "../TestTable";
+import { userReference } from "../User/UserReference";
 
-export function RoleList(props: any) {
-  const path = useLocation().pathname;
-  const [roles, helpers] = useResource(Role.create);
-
+export function RoleList() {
   return (
-    <MaterialTable
-      {...helpers.config}
-      // data={roles.filter(sub => sub.name !== "user")}
-      data={roles}
+    <ResourceTable
       title="Roles"
+      transform={Role.create}
       columns={[
-        {
-          title: "User",
-          render: row => (
-            <ReferenceField
-              id={row.userId}
-              resourceName="users"
-              prefix="auth/"
-              rootResource
-              render={(user: User) => (
-                <MLink
-                  component={Link}
-                  className="flex items-center"
-                  to={`/admin-panel/users/${user.id}/show`}
-                >
-                  {user.avatar?.xs ? (
-                    <Avatar src={user.avatar.xs} />
-                  ) : (
-                    <PersonIcon />
-                  )}
-                  <Padding side="l">{user.name}</Padding>
-                </MLink>
-              )}
-            />
-          ),
-        },
+        { title: "User", render: row => userReference(row.userId) },
         { field: "name", title: "Name" },
         { field: "description", title: "Description" },
         { field: "createdAt", title: "Created at", type: "datetime" },
-        helpers.CustomActions,
       ]}
-    ></MaterialTable>
+    />
   );
 }

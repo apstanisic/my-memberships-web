@@ -4,42 +4,26 @@ import { useProvider } from "../useProvider";
 
 interface Props {
   resourceName: string;
-  id: string;
-  // store: Record<string, any[]>;
+  resourceId: string;
   render: (val: any) => JSX.Element;
   rootResource?: boolean; // Resource is not nested inside company
   prefix?: string;
 }
 
-/**
- * Store is object where keys are resoure names
- * Every resource name is an object where keys are
- * entity id, and value is object with 2 fields
- * First is id where we have entity id again.
- * Second is callback function to be called when
- * data is fetched
- */
+/** Give this field resource name and id, and it will render whateveryou want */
+export function ReferenceField({ resourceName, resourceId, render }: Props) {
+  const data = useProvider({ resourceName, resourceId });
 
-export function ReferenceField({
-  resourceName,
-  id,
-  render,
-  rootResource,
-  prefix,
-}: Props) {
-  const data = useProvider({
-    resourceName,
-    rootResource,
-    prefix,
-    resourceId: id,
-    refetch: false,
-  });
-
-  if (!data)
+  if (!data) {
     return (
-      <div style={{ minHeight: 20 }}>
+      <div
+        style={{ minHeight: 20, minWidth: 80 }}
+        className="flex items-center"
+      >
         <LinearProgress className="w-full" style={{ height: 5 }} />
       </div>
     );
+  }
+
   return render(data);
 }

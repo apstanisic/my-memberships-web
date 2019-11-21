@@ -6,11 +6,13 @@ import { useHistory } from "react-router-dom";
 import { PaginationMetadata } from "types";
 import { AppIcons } from "../Icons";
 
-export function Pagination({ meta }: { meta: PaginationMetadata }) {
+export function Pagination({ meta }: { meta?: PaginationMetadata }) {
   const history = useHistory();
 
+  if (!meta) return <span></span>;
+
   return (
-    <td className="flex justify-end items-center">
+    <div className="flex justify-end items-center">
       <Toolbar>
         <Button
           startIcon={<AppIcons.PreviousPage />}
@@ -38,6 +40,6 @@ export function Pagination({ meta }: { meta: PaginationMetadata }) {
           </Button>
         </Padding>
       </Toolbar>
-    </td>
+    </div>
   );
 }

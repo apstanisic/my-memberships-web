@@ -1,33 +1,51 @@
-import { Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
-import { Padding } from "components/common/Padding";
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Typography,
+  DialogContent,
+  DialogContentText,
+} from "@material-ui/core";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store/store";
-// import { changeAlert } from "store/adminSlice";
+import { closeAlert, respondToAlert } from "store/alertSlice";
 
 export function AppAlert() {
+  const alert = useSelector((state: RootState) => state.alert);
   const dispatch = useDispatch();
-  // const alert = useSelector((state: RootState) => state.admin.alert);
-
-  function handleClick(response: boolean) {
-    // dispatch(changeAlert({ response, text: alert.text, show: false }));
-  }
 
   return (
     <div>
-      {/* <Dialog open={alert.show} onClose={() => handleClick(false)}>
-        <Padding size={2}>
-          <DialogTitle id="alert-dialog-title">{alert.text}</DialogTitle>
+      <Dialog open={alert.show} onClose={() => dispatch(closeAlert())}>
+        <DialogTitle id="alert-dialog-title">
+          <Typography component="span" variant="h5">
+            {alert.header}
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <Typography component="span" variant="h6">
+              {alert.subheader}
+            </Typography>
+          </DialogContentText>
           <DialogActions>
-            <Button onClick={() => handleClick(false)} color="primary">
+            <Button
+              onClick={() => dispatch(respondToAlert({ response: false }))}
+              color="primary"
+            >
               No
             </Button>
-            <Button onClick={() => handleClick(true)} color="primary">
+            <Button
+              onClick={() => dispatch(respondToAlert({ response: true }))}
+              color="primary"
+            >
               Yes
             </Button>
           </DialogActions>
-        </Padding>
-      </Dialog> */}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

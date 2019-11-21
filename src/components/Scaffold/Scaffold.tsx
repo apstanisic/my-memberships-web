@@ -64,6 +64,7 @@ export function AppScaffold(props: any) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {props.children || <span></span>}
+        <AppAlert />
       </main>
     </div>
   );
