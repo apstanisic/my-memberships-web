@@ -1,8 +1,7 @@
 // in myRestProvider.js
-import { AxiosRequestConfig } from "axios";
 import { Http } from "core/http";
-import { stringify } from "query-string";
-import { Struct } from "core/utils/helpers";
+import { Struct, removeEmptyItems } from "core/utils/helpers";
+import { stringify, parse } from "query-string";
 import { PaginationResult, UUID, WithId } from "types";
 
 interface Data<T = any> {
@@ -10,34 +9,59 @@ interface Data<T = any> {
 }
 // type Data<T = any> = Promise<{ data: T }>;
 
+type SearchType = string | Struct;
+
+export function convertSearch(
+  search: string | Struct | undefined,
+  changeValue?: Struct,
+): string {
+  let searchQuery: Struct;
+  if (typeof search !== "object") {
+    searchQuery = parse(search ?? "");
+    Object.entries(changeValue ?? {}).forEach(([key, value]) => {
+      searchQuery[key] = value;
+    });
+    searchQuery = removeEmptyItems(searchQuery);
+    if (Object.keys(searchQuery).length === 0) return "";
+  } else {
+    searchQuery = search;
+  }
+  return `?${stringify(searchQuery)}`;
+}
+
+function cacheGet<T>(path: string): Promise<T> {
+  // Do caching
+  return Http.get<T>(path).then(res => res.data);
+}
+
 export const dataProvider = {
-  /**
-   * Response object must be this stupid. So merge pagination metadata
-   * with every item. When merging with only first, sometimes it does
-   * not show cause it converts array to object where id is key.
-   */
-  async getList<T = any>(
+  custom() {
+    return Http;
+  },
+
+  async getMany<T = any>(
     path: string,
-    search?: string,
+    search?: SearchType,
   ): Promise<PaginationResult<T>> {
-    const url = `${path}${search || ""}`;
-    return Http.get<PaginationResult<T>>(url).then(res => res.data);
+    const url = `${path}${convertSearch(search)}`;
+    return cacheGet(url);
   },
 
-  async getOne<T = any>(
-    resource: string,
-    params: { id: string },
-  ): Promise<Data<any>> {
-    let path = resource.replace("/admin-panel", "");
-
-    return Http.request({ url: `${path}/${params.id}` });
+  // Dont use search for now. If we fetch by id should we
+  // accept search params?
+  async getOneById<T = any>(
+    path: string,
+    params: { id: string; search?: any },
+  ): Promise<T> {
+    return cacheGet(`${path}/${params.id}`);
   },
+
   async getByIds<T = any>(
     resource: string,
     params: { ids: string[] },
-  ): Promise<Data<T[]>> {
-    const ids = (params.ids as string[]).join(",");
-    return Http.get(`${resource}/ids?${stringify({ ids })}`);
+  ): Promise<T[]> {
+    const ids = params.ids.join(",");
+    return cacheGet(`${resource}/ids?${stringify({ ids })}`);
   },
 
   async create<T = any>(
@@ -47,21 +71,26 @@ export const dataProvider = {
     return Http.post(resource, params.data);
   },
 
-  async update<T = any>(
+  async update<T extends WithId = any>(
     resource: string,
-    params: { data: WithId },
+    params: { id?: UUID; data: T | Struct },
   ): Promise<Data<T>> {
-    return Http.put(`${resource}/${params.data.id}`, params.data);
+    const id = params.id ?? params.data?.id;
+    if (!id) throw new Error("No id provided");
+    return Http.put(`${resource}/${id}`, params.data);
   },
 
+  /** Params can either be id or object with params */
   async delete<T = any>(
     resource: string,
-    params?: { id: UUID },
+    params?: { id: UUID } | UUID,
   ): Promise<Data<T>> {
-    if (params) {
-      return Http.delete(`${resource}/${params.id}`);
-    } else {
-      return Http.delete(`${resource}`);
+    let id: string = "";
+    if (typeof params === "string") {
+      id = `/${params}`;
+    } else if (params?.id) {
+      id = `/${params.id}`;
     }
+    return Http.delete(`${resource}${id}`);
   },
 };

@@ -20,8 +20,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     appBar: {
       [theme.breakpoints.up("md")]: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
+        zIndex: theme.zIndex.drawer + 1,
+        // Is this bellow if app bar does not go over drawer
+        // width: `calc(100% - ${drawerWidth}px)`,
+        // marginLeft: drawerWidth,
       },
     },
     menuButton: {
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
+      background: "#e0e0e0",
     },
     content: {
       flexGrow: 1,
@@ -40,6 +43,9 @@ const useStyles = makeStyles((theme: Theme) =>
       // paddingBottom: theme.spacing(2),
       [theme.breakpoints.up("md")]: {
         maxWidth: `calc(100% - ${drawerWidth}px)`,
+      },
+      [theme.breakpoints.down("md")]: {
+        maxWidth: `100%`,
       },
     },
   }),
@@ -50,7 +56,7 @@ export function AppScaffold(props: any) {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <ScaffoldAppBar classes={classes} />
       <AppDrawer classes={classes} />
       <AppAlert />

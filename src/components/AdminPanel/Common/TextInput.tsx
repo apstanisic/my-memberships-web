@@ -9,6 +9,7 @@ interface Props {
   form: FormikProps<any>;
   label?: string;
   type?: string;
+  disabled?: boolean;
 }
 
 /**
@@ -24,6 +25,7 @@ export function TextInput(props: Props) {
     <Padding side="y" size={2}>
       <TextField
         value={value}
+        disabled={props.disabled}
         onChange={props.form.handleChange}
         label={props.label ? props.label : upperCase(props.name)}
         name={props.name}

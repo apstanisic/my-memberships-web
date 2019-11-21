@@ -6,7 +6,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { setUrlData, urlHelper } from "store/adminSlice";
 import { RootState } from "store/store";
 import { AppIcons } from "../Icons";
-import { useProvider } from "../usePrefetch";
+import { useProvider } from "../useProvider";
 import { useDelete } from "./useDelete";
 import { WithId } from "./../../../types";
 
@@ -26,7 +26,7 @@ type ShowData<T> = [
 
 export function useShow<T extends WithId>(
   name: string,
-  transform: (val: any) => T,
+  transform?: (val: any) => T,
 ): ShowData<T> {
   const dispatch = useDispatch();
   const { resourceId } = useParams<{ resourceId: string }>();
@@ -36,7 +36,7 @@ export function useShow<T extends WithId>(
   const remotePath = urlHelper.remote(path);
 
   const deleting = useDelete(() => dataProvider.delete(remotePath));
-  const resource = useProvider<T>(name, transform);
+  const resource = useProvider({ transform, resourceName: name });
   const history = useHistory();
 
   const editButton = (
@@ -44,14 +44,6 @@ export function useShow<T extends WithId>(
       <AppIcons.Edit />
     </IconButton>
   );
-
-  const deleteButton = deleting.button;
-  // const deleteAlert = delete
-  // (
-  //   <IconButton onClick={() => dataProvider.delete(basePath)}>
-  //     <AppIcons.Delete />
-  //   </IconButton>
-  // );
 
   const backButton = (
     <IconButton onClick={() => history.goBack()}>
@@ -75,6 +67,5 @@ export function useShow<T extends WithId>(
     </Fragment>
   );
 
-  // { editButton, backButton, deleteButton, deleting }
   return [resource, Header];
 }

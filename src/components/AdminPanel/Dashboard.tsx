@@ -6,7 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { RootState } from "store/store";
 import { Company } from "./Company/Company";
-import { setCompany } from "store/adminSlice";
+import { dataProvider } from "components/dataProvider";
+// import { setCompany } from "store/adminSlice";
 
 export function Dashboard() {
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -16,9 +17,10 @@ export function Dashboard() {
 
   useEffect(() => {
     if (!auth.isInited) return;
-    Http.get<Partial<Company>[]>("companies/user").then(res =>
-      setCompanies(res.data.map(c => new Company(c))),
-    );
+    dataProvider
+      .custom()
+      .get<Partial<Company>[]>("companies/user")
+      .then(res => setCompanies(res.data.map(c => new Company(c))));
   }, [auth.isInited]);
 
   return (
@@ -29,7 +31,7 @@ export function Dashboard() {
             <ListItem
               key={company.id}
               onClick={() => {
-                dispatch(setCompany(company.id));
+                // dispatch(setCompany(company.id));
                 history.push(`/admin-panel/companies/${company.id}`);
               }}
               button

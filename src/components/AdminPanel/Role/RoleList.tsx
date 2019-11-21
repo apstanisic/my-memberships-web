@@ -1,35 +1,36 @@
-import MaterialTable from "material-table";
-import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
+import PersonIcon from "@material-ui/icons/Person";
+import MaterialTable from "material-table";
 import { useLocation, Link } from "react-router-dom";
 import { useResource } from "../Common/useResource";
-import { Subscription } from "./Subscription";
+import { Role } from "core/auth/Role";
 import { ReferenceField } from "../Common/ReferenceField";
 import { User } from "core/auth/User";
 import { Link as MLink, Avatar } from "@material-ui/core";
 import { Padding } from "components/common/Padding";
 
-export function SubscriptionList(props: any) {
+export function RoleList(props: any) {
   const path = useLocation().pathname;
-  const [subscriptions, helpers] = useResource(Subscription.create);
+  const [subscriptions, helpers] = useResource(Role.create);
 
   return (
     <MaterialTable
       {...helpers.config}
-      title="Subscriptions"
+      data={subscriptions.filter(sub => sub.name !== "user")}
+      title="Roles"
       columns={[
         {
           title: "User",
           render: row => (
             <ReferenceField
-              id={row.ownerId}
+              id={row.userId}
               resourceName="users"
-              rootResource
               prefix="auth/"
+              rootResource
               render={(user: User) => (
                 <MLink
-                  className="flex items-center"
                   component={Link}
+                  className="flex items-center"
                   to={`/admin-panel/users/${user.id}/show`}
                 >
                   {user.avatar?.xs ? (
@@ -43,19 +44,9 @@ export function SubscriptionList(props: any) {
             />
           ),
         },
-        { field: "type", title: "Type" },
-        { field: "active", title: "Active", type: "boolean" },
-        // { field: "startsAt", title: "Starts At", type: "date" },
-        { field: "expiresAt", title: "Expires at", type: "date" },
-        {
-          title: "Uses",
-          render: ({ allowedUses, usedAmount }) => (
-            <span className="whitespace-no-wrap">
-              {usedAmount} / {allowedUses ?? "∞"}
-            </span>
-          ),
-        },
-        // { field: "price", title: "Price" },
+        { field: "name", title: "Name" },
+        { field: "description", title: "Description" },
+        { field: "createdAt", title: "Created at", type: "datetime" },
         ...helpers.CustomActions,
       ]}
     ></MaterialTable>

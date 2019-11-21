@@ -12,7 +12,7 @@ export const validSubscription = object().shape<Partial<Subscription>>({
     .min(0)
     .max(1000),
   allowedUses: number()
-    .nullable()
+    .notRequired()
     .integer(),
   type: string()
     .min(2)

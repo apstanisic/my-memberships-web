@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "store/store";
 import { toggleSidebar } from "store/uiSlice";
+import { urlHelper } from "store/adminSlice";
 
 export function AppDrawer({ classes }: { classes: any }) {
   const { ui, admin } = useSelector((state: RootState) => state);
@@ -26,14 +27,14 @@ export function AppDrawer({ classes }: { classes: any }) {
     { name: "Payments", path: "payments" },
   ];
 
-  const drawer = (
+  const drawerContent = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
       <List>
         {items.map((item, i) => (
           <Link
-            to={`/admin-panel/companies/${admin.companyId}/${item.path}`}
+            to={urlHelper.changeResource(admin.url, item.path)}
             key={item.path}
           >
             <ListItem button key={item.path}>
@@ -45,7 +46,6 @@ export function AppDrawer({ classes }: { classes: any }) {
           </Link>
         ))}
       </List>
-      <Divider />
     </div>
   );
 
@@ -64,7 +64,7 @@ export function AppDrawer({ classes }: { classes: any }) {
             keepMounted: true, // Better open performance on mobile.
           }}
         >
-          {drawer}
+          {drawerContent}
         </Drawer>
       </Hidden>
       <Hidden smDown implementation="css">
@@ -75,7 +75,7 @@ export function AppDrawer({ classes }: { classes: any }) {
           variant="permanent"
           open
         >
-          {drawer}
+          {drawerContent}
         </Drawer>
       </Hidden>
     </nav>

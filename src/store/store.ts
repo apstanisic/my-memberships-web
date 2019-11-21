@@ -1,17 +1,38 @@
-import { Action, combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  Action,
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
 import { authReducer, initLoginState } from "../components/Auth/authSlice";
 import { uiReducer } from "./uiSlice";
 import { auth } from "core/auth/Auth";
-import { adminReducer } from "./adminSlice";
+import { adminReducer, fetchEpic } from "./adminSlice";
+import { createEpicMiddleware } from "redux-observable";
+import { filter, mapTo, delay, debounce, debounceTime } from "rxjs/operators";
 
 const reducer = combineReducers({
   auth: authReducer,
   ui: uiReducer,
   admin: adminReducer,
 });
+const epicMiddleware = createEpicMiddleware();
 
-export const store = configureStore({ reducer });
+const pingEpic = (action$: any) =>
+  action$.pipe(
+    debounceTime(1000),
+    // delay(1000),
+    filter((action: any) => action.type === "PING"),
+    mapTo({ type: "PONG" }),
+  );
+
+export const store = configureStore({
+  reducer,
+  middleware: [epicMiddleware, ...getDefaultMiddleware()],
+});
+
+epicMiddleware.run(fetchEpic as any);
 
 export type RootState = ReturnType<typeof reducer>;
 

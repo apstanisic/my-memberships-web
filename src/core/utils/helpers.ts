@@ -1,4 +1,4 @@
-export interface Struct<T = string> {
+export interface Struct<T = any> {
   [key: string]: T;
 }
 

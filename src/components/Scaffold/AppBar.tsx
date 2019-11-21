@@ -7,14 +7,16 @@ import {
 } from "@material-ui/core";
 import React, { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { RootState } from "store/store";
+import { Link, useHistory } from "react-router-dom";
+import { RootState, AppDispatch } from "store/store";
 import { Menu } from "@material-ui/icons";
 import { toggleSidebar } from "store/uiSlice";
+import { logoutUser } from "components/Auth/authSlice";
 
 export function ScaffoldAppBar({ classes }: { classes?: any }) {
   const { auth } = useSelector((state: RootState) => state);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+  const history = useHistory();
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -35,9 +37,20 @@ export function ScaffoldAppBar({ classes }: { classes?: any }) {
         </Link>
         <div className="ml-auto">
           {auth.isLogged ? (
-            <Link to="/admin-panel">
-              <Button color="inherit">Admin Panel</Button>
-            </Link>
+            <Fragment>
+              <Link to="/admin-panel">
+                <Button color="inherit">Admin Panel</Button>
+              </Link>
+              <Button
+                color="inherit"
+                onClick={() => {
+                  dispatch(logoutUser());
+                  history.push("/");
+                }}
+              >
+                Logout
+              </Button>
+            </Fragment>
           ) : (
             <Fragment>
               <Link to="/auth/login">

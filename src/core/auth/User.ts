@@ -1,12 +1,18 @@
-import { BaseEntity, UUID, Image } from "types";
+import { BaseEntity, UUID, Image, ImageSizes } from "types";
 import { Role } from "./Role";
 
 export class User implements BaseEntity {
+  static NAME = "users";
+
+  static create(val: any) {
+    return new User(val);
+  }
+
   id: UUID;
   createdAt: Date;
   email: string;
   name: string;
-  avatar?: Image;
+  avatar?: ImageSizes;
   phoneNumber?: string;
   roles?: Role[];
 

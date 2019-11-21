@@ -17,10 +17,12 @@ import { useResource } from "../Common/useResource";
 import { AppIcons } from "../Icons";
 import { Location } from "./Location";
 import { SwapVert } from "@material-ui/icons";
+import { useUrls } from "../Common/useUrls";
 
 export function LocationList() {
   const [locations, helpers] = useResource<Location>();
-  const path = useLocation().pathname;
+  // const path = useLocation().pathname;
+  const urls = useUrls();
 
   return (
     <Fragment>
@@ -30,28 +32,20 @@ export function LocationList() {
           {...helpers.config}
           title="Locations"
           columns={[
-            { field: "name", emptyValue: "No name", title: "Name" },
+            { emptyValue: "No name", field: "name", title: "Name" },
             { field: "address", title: "Address" },
             { field: "phoneNumber", title: "Phone number" },
-            // {
-            //   title: "Email",
-            //   render: ({ email }) => <EmailField email={email} />,
-            // },
             {
               title: "Arrivals",
-              render: row => {
-                const url = path.replace(
-                  "locations",
-                  `arrivals?locationId=${row.id}`,
-                );
-                return (
-                  <Link to={url}>
-                    <Button color="primary" startIcon={<SwapVert />}>
-                      Arrivals
-                    </Button>
-                  </Link>
-                );
-              },
+              render: ({ id }) => (
+                <Link
+                  to={`${urls.changeResource("arrivals")}?locationId=${id}`}
+                >
+                  <Button color="primary" startIcon={<SwapVert />}>
+                    Arrivals
+                  </Button>
+                </Link>
+              ),
             },
             ...helpers.CustomActions,
           ]}

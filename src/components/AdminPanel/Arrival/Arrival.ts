@@ -1,6 +1,12 @@
-import { UUID, BaseEntity } from "types";
+import { BaseEntity, Resource, UUID } from "types";
 
-export class Arrival implements BaseEntity {
+export class Arrival extends Resource implements BaseEntity {
+  static NAME = "arrivals";
+
+  static create(val: any) {
+    return new Arrival(val);
+  }
+
   id: UUID;
   createdAt: Date;
   subscriptionId: UUID;
@@ -15,6 +21,7 @@ export class Arrival implements BaseEntity {
   timeSpent?: number;
 
   constructor(arrival: any) {
+    super();
     this.id = arrival.id;
     this.createdAt = new Date(arrival.createdAt);
     this.subscriptionId = arrival.subscriptionId;

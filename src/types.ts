@@ -12,6 +12,11 @@ export interface BaseEntity extends WithId {
   createdAt: Date;
 }
 
+export abstract class Resource {
+  static NAME: string;
+  static create: (val: any) => Resource;
+}
+
 /** Image sizes */
 export interface ImageSizes {
   xs?: string; // 168px
@@ -21,9 +26,10 @@ export interface ImageSizes {
 }
 
 /** Image in array of images */
-export interface Image extends ImageSizes {
+export interface Image {
   id: UUID; // uuid
   position: number; // In case of storing image in array. Zero index
+  sizes: ImageSizes;
 }
 
 /** Response from pagination request */

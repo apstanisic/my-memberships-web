@@ -2,9 +2,10 @@ import { MenuItem, Select } from "@material-ui/core";
 import { Padding } from "components/common/Padding";
 import React, { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changePerPage } from "store/adminSlice";
+// import { changePerPage } from "store/adminSlice";
 import { RootState } from "store/store";
 
+//   {/* Per page is commented for now. */}
 export function PaginationPerPage() {
   //   Per page code
   const dispatch = useDispatch();
@@ -14,10 +15,9 @@ export function PaginationPerPage() {
     if (value !== 6 && value !== 12 && value !== 24 && value !== 36) {
       return;
     }
-    dispatch(changePerPage(value));
+    // dispatch(changePerPage(value));
   };
 
-  //   {/* Per page is commented for now. */}
   return (
     <Fragment>
       <div className="pr-3">Per page</div>

@@ -1,4 +1,5 @@
 import { BaseEntity, UUID } from "types";
+import { IUser } from "core/auth/IUser";
 
 export class Subscription implements BaseEntity {
   static readonly NAME = "subscriptions";
@@ -9,6 +10,7 @@ export class Subscription implements BaseEntity {
 
   id: UUID;
   createdAt: Date;
+  owner: IUser;
   companyId: string;
   ownerId: UUID;
   startsAt: Date;
@@ -23,6 +25,7 @@ export class Subscription implements BaseEntity {
   constructor(subscription: any) {
     this.id = subscription.id;
     this.companyId = subscription.companyId;
+    this.owner = subscription.owner;
     this.ownerId = subscription.ownerId;
     this.price = subscription.price;
     this.type = subscription.type;

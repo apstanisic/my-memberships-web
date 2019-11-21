@@ -1,14 +1,15 @@
-import { IconButton } from "@material-ui/core";
+import { IconButton, Toolbar } from "@material-ui/core";
 import { dataProvider } from "components/dataProvider";
-import { Column, MaterialTableProps } from "material-table";
+import { Column, MaterialTableProps, MTableToolbar } from "material-table";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { addToResource } from "store/adminSlice";
 import { RootState } from "store/store";
-import { WithId, PaginationMetadata } from "types";
+import { PaginationMetadata, WithId } from "types";
 import * as tableConfig from "../materialTableConfig";
 import { AppIcons } from "./../Icons";
+import { TableToolbar } from "./TableToolbar";
 import { Pagination } from "./Pagination";
 import { useDelete } from "./useDelete";
 import { useUrls } from "./useUrls";
@@ -27,7 +28,7 @@ type Return<T extends object> = [
     create: (row: WithId) => void;
     onDelete: (rows: WithId | WithId[]) => Promise<any>;
     config: ConfigOptions<T>;
-    CustomActions: [Column<T>, Column<T>, Column<T>];
+    CustomActions: [Column<T>];
     alertDialog: JSX.Element;
   },
 ];
@@ -37,6 +38,7 @@ const returnFunc = (val: any) => val;
 export function useResource<T extends WithId = any>(
   transform: (val: any) => T = returnFunc,
 ): Return<T> {
+  const authInited = useSelector((state: RootState) => state.auth.isInited);
   const deleting = useDelete(onDelete);
   // Urls
   const urls = useUrls();
@@ -55,9 +57,10 @@ export function useResource<T extends WithId = any>(
   const create = (row: WithId) => history.push(urls.create());
 
   useEffect(() => {
+    if (!authInited) return;
     setIsLoading(true);
     dataProvider
-      .getList<T>(remoteUrl, search)
+      .getMany<T>(remoteUrl, search)
       .then(res => {
         const data = res.data.map(item => transform(item));
         dispatch(addToResource({ data: res.data }));
@@ -66,7 +69,7 @@ export function useResource<T extends WithId = any>(
         setIsLoading(false);
       })
       .catch(() => setIsLoading(false));
-  }, [remoteUrl, dispatch, search, transform]);
+  }, [remoteUrl, dispatch, search, transform, authInited]);
 
   async function onDelete(rows?: WithId | WithId[]) {
     interface ResourceData {
@@ -108,36 +111,23 @@ export function useResource<T extends WithId = any>(
     }
   }
 
-  const viewAndEdit: [Column<T>, Column<T>, Column<T>] = [
+  // const viewAndEdit: [Column<T>, Column<T>, Column<T>] = [
+  const viewAndEdit: [Column<T>] = [
     {
       title: "View",
-      cellStyle: { maxWidth: 60 },
-      headerStyle: { maxWidth: 60 },
+      cellStyle: { maxWidth: 100 },
+      headerStyle: { maxWidth: 100, textAlign: "center" },
       render: (row: WithId) => (
-        <IconButton onClick={() => view(row)}>
-          <AppIcons.Visibility />
-        </IconButton>
-      ),
-    },
-    {
-      title: "Edit",
-      cellStyle: { maxWidth: 60 },
-      headerStyle: { maxWidth: 60 },
-      render: (row: WithId) => (
-        <IconButton onClick={() => edit(row)}>
-          <AppIcons.Edit />
-        </IconButton>
-      ),
-    },
-    {
-      title: "Delete",
-      cellStyle: { maxWidth: 60 },
-      headerStyle: { maxWidth: 60 },
-      render: row => {
-        return (
+        <div className="flex">
+          <IconButton onClick={() => view(row)}>
+            <AppIcons.Visibility />
+          </IconButton>
+          <IconButton onClick={() => edit(row)}>
+            <AppIcons.Edit />
+          </IconButton>
           <div onClick={() => deleting.setData(row)}>{deleting.button}</div>
-        );
-      },
+        </div>
+      ),
     },
   ];
 
@@ -165,8 +155,8 @@ export function useResource<T extends WithId = any>(
     ],
 
     components: {
-      // @ts-ignore
       Pagination: () => (!meta ? <td></td> : <Pagination meta={meta} />),
+      Toolbar: props => <TableToolbar {...props} />,
     },
     data: resources,
   };

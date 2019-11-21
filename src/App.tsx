@@ -1,18 +1,18 @@
 import { CssBaseline } from "@material-ui/core";
 import { Auth } from "components/Auth/AuthRouter";
 import { HomePage } from "components/HomePage";
-import { NewAdminPanel } from "components/AdminPanel/AdminPanel";
+import { AdminPanel } from "components/AdminPanel/AdminPanel";
 import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { store } from "store/store";
 import { AppTheme } from "Theme";
+import { dataProvider } from "./components/dataProvider";
 
 function App() {
   return (
     <Provider store={store}>
       <AppTheme>
-        <CssBaseline />
         {/* <div className="min-h-screen"> */}
         {/* <BrowserRouter> */}
         <BrowserRouter>
@@ -27,7 +27,7 @@ function App() {
               <Auth />
             </Route>
             <Route path="/admin-panel">
-              <NewAdminPanel />
+              <AdminPanel />
             </Route>
           </Switch>
           {/* </HashRouter> */}
