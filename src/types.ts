@@ -44,6 +44,8 @@ export interface PaginationMetadata {
   amount: number; // number of results
   perPage: number; // limit per page
   isLastPage: boolean; // is this last page
+  firstUrl?: string;
+  lastUrl?: string;
   isFirstPage: boolean; // is this first page
   next?: string; // cursor for next page
   previous?: string;

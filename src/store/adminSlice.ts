@@ -32,7 +32,7 @@ const adminSlice = createSlice({
   },
 });
 
-export const { setUrlData } = adminSlice.actions;
+export const { setUrlData, changePerPage } = adminSlice.actions;
 export const adminReducer = adminSlice.reducer;
 
 export const urlHelper = {
