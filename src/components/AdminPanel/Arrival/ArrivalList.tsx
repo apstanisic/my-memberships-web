@@ -18,7 +18,6 @@ import { User } from "core/auth/User";
 export function ArrivalList(props: any) {
   const [arrivals, helpers] = useResource(Arrival.create);
   const url = useUrls();
-  console.log(arrivals);
 
   return (
     <MaterialTable

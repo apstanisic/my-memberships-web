@@ -1,13 +1,8 @@
-import {
-  Hidden,
-  ListItem,
-  ListItemText,
-  ListSubheader,
-} from "@material-ui/core";
+import { Hidden, ListItem, ListItemText } from "@material-ui/core";
 import React, { Fragment } from "react";
 
 interface Props {
-  name: string;
+  name: any;
   val: any;
   secondary?: string;
 }

@@ -1,12 +1,10 @@
-import { Http } from "core/http";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { addToResource, requestDataById } from "store/adminSlice";
+import { useParams } from "react-router-dom";
+import { requestDataById } from "store/resourcesSlice";
 import { RootState } from "store/store";
-import { WithId, UUID } from "types";
+import { UUID, WithId } from "types";
 import { useUrls } from "./Common/useUrls";
-import { dataProvider } from "components/dataProvider";
 
 /** Just return passed value */
 const same = (val: any) => val;
@@ -41,7 +39,7 @@ export function useProvider<T extends WithId>(props: UPProps<T>) {
 
   const resource: T | undefined = useSelector(
     (state: RootState) =>
-      state.admin.resources[resourceName]?.[resourceId ?? "null"],
+      state.resources.resources[resourceName]?.[resourceId ?? "null"],
   );
 
   // Stop if:
@@ -58,7 +56,15 @@ export function useProvider<T extends WithId>(props: UPProps<T>) {
       return;
     setRequestSent({ ...requestSent, [resourceId]: true });
     dispatch(requestDataById({ resourceName, resourceId }));
-  }, [dispatch, isInited, refetch, requestSent, resource, resourceId, resourceName]);
+  }, [
+    dispatch,
+    isInited,
+    refetch,
+    requestSent,
+    resource,
+    resourceId,
+    resourceName,
+  ]);
 
   if (!resource) return resource;
   return props.transform ? props.transform(resource) : resource;

@@ -5,10 +5,12 @@ import { useTableConfig } from "../useTableConfig";
 import { useDelete } from "./useDelete";
 import { useResourceDelete } from "./useResourceDelete";
 import { useResourceFetch } from "./useResourceFetch";
+import { useUrls } from "./useUrls";
 
 interface ConfigOptions<T extends object>
   extends Omit<Partial<MaterialTableProps<T>>, "data"> {
   data: T[];
+  columns: Column<T>[];
 }
 
 type Return<T extends object> = [
@@ -27,20 +29,27 @@ type Return<T extends object> = [
 
 export function useResource<T extends WithId = any>(
   transform?: (val: any) => T,
+  columns?: Column<T>[],
 ): Return<T> {
   const [resources, setResource] = useState<T[]>([]);
   const onDelete = useResourceDelete({ resources, setResource });
   const deleting = useDelete(onDelete);
+  // const resourceName = useUrls().resourceName();
   const { pagination, isLoading } = useResourceFetch<T>({
     setResource,
     transform,
+    // resourceName,
   });
+  // columns?.map(column => {
+  //   column.fie
+  // })
 
   const tableConfig = useTableConfig<T>({ deleting, pagination });
 
   const config: ConfigOptions<T> = {
     ...tableConfig.config,
     isLoading,
+    columns: columns ? [...columns, tableConfig.custom] : [],
     data: resources,
   };
 

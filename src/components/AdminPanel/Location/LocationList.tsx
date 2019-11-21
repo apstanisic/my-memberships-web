@@ -20,7 +20,22 @@ import { SwapVert } from "@material-ui/icons";
 import { useUrls } from "../Common/useUrls";
 
 export function LocationList() {
-  const [locations, helpers] = useResource<Location>(Location.create);
+  const [locations, helpers] = useResource<Location>(Location.create, [
+    { emptyValue: "No name", field: "name", title: "Name" },
+    { field: "address", title: "Address" },
+    { field: "phoneNumber", title: "Phone number" },
+    {
+      title: "Arrivals",
+      render: ({ id }) => (
+        <Link to={`${urls.changeResource("arrivals")}?locationId=${id}`}>
+          <Button color="primary" startIcon={<SwapVert />}>
+            Arrivals
+          </Button>
+        </Link>
+      ),
+    },
+    // helpers.CustomActions,
+  ]);
   const urls = useUrls();
 
   return (
@@ -30,24 +45,24 @@ export function LocationList() {
         <MaterialTable
           {...helpers.config}
           title="Locations"
-          columns={[
-            { emptyValue: "No name", field: "name", title: "Name" },
-            { field: "address", title: "Address" },
-            { field: "phoneNumber", title: "Phone number" },
-            {
-              title: "Arrivals",
-              render: ({ id }) => (
-                <Link
-                  to={`${urls.changeResource("arrivals")}?locationId=${id}`}
-                >
-                  <Button color="primary" startIcon={<SwapVert />}>
-                    Arrivals
-                  </Button>
-                </Link>
-              ),
-            },
-            helpers.CustomActions,
-          ]}
+          // columns={[
+          //   { emptyValue: "No name", field: "name", title: "Name" },
+          //   { field: "address", title: "Address" },
+          //   { field: "phoneNumber", title: "Phone number" },
+          //   {
+          //     title: "Arrivals",
+          //     render: ({ id }) => (
+          //       <Link
+          //         to={`${urls.changeResource("arrivals")}?locationId=${id}`}
+          //       >
+          //         <Button color="primary" startIcon={<SwapVert />}>
+          //           Arrivals
+          //         </Button>
+          //       </Link>
+          //     ),
+          //   },
+          //   helpers.CustomActions,
+          // ]}
         />
       </Hidden>
       <Hidden smUp>

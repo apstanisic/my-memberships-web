@@ -98,14 +98,13 @@ export function LocationEdit() {
                   </Button>
                 </Padding>
                 {tab === 0 ? (
-                  <Padding size={0} side="l" grow>
+                  <Padding size={1} side="r" grow>
                     <Button
                       type="button"
                       onClick={() => setTab(1)}
                       fullWidth
                       key="nosubmit"
                       variant="contained"
-                      color="primary"
                       size="large"
                     >
                       Next page
@@ -125,21 +124,21 @@ export function LocationEdit() {
                         Previous
                       </Button>
                     </Padding>
-                    <Padding grow side="l" size={1}>
-                      <Button
-                        type="submit"
-                        className="pl-1"
-                        disabled={props.isSubmitting}
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                      >
-                        Submit
-                      </Button>
-                    </Padding>
                   </Fragment>
                 )}
+                <Padding grow side="l" size={1}>
+                  <Button
+                    type="submit"
+                    className="pl-1"
+                    disabled={props.isSubmitting}
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                  >
+                    Submit
+                  </Button>
+                </Padding>
               </div>
             </Form>
           </CardContent>

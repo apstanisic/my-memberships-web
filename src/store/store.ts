@@ -4,28 +4,22 @@ import {
   configureStore,
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
+import { auth } from "core/auth/Auth";
+import { createEpicMiddleware } from "redux-observable";
 import { ThunkAction } from "redux-thunk";
 import { authReducer, initLoginState } from "../components/Auth/authSlice";
+import { adminReducer } from "./adminSlice";
+import { fetchEpic, resourcesReducer } from "./resourcesSlice";
 import { uiReducer } from "./uiSlice";
-import { auth } from "core/auth/Auth";
-import { adminReducer, fetchEpic } from "./adminSlice";
-import { createEpicMiddleware } from "redux-observable";
-import { filter, mapTo, delay, debounce, debounceTime } from "rxjs/operators";
+
+const epicMiddleware = createEpicMiddleware();
 
 const reducer = combineReducers({
   auth: authReducer,
   ui: uiReducer,
   admin: adminReducer,
+  resources: resourcesReducer,
 });
-const epicMiddleware = createEpicMiddleware();
-
-const pingEpic = (action$: any) =>
-  action$.pipe(
-    debounceTime(1000),
-    // delay(1000),
-    filter((action: any) => action.type === "PING"),
-    mapTo({ type: "PONG" }),
-  );
 
 export const store = configureStore({
   reducer,
@@ -33,6 +27,8 @@ export const store = configureStore({
 });
 
 epicMiddleware.run(fetchEpic as any);
+
+auth.init().then(user => store.dispatch(initLoginState(user)));
 
 export type RootState = ReturnType<typeof reducer>;
 
@@ -44,8 +40,6 @@ export type AppThunk<Return = void> = ThunkAction<
   null,
   Action<string>
 >;
-
-auth.init().then(user => store.dispatch(initLoginState(user)));
 
 // This will intergrate Http into Redux (handle errors)
 // Http.interceptors.response.use(

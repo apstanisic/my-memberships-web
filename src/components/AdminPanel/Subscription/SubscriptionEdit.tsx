@@ -14,6 +14,9 @@ import { useEdit } from "../Common/useEdit";
 import { Subscription } from "./Subscription";
 import { DateInput } from "../Common/DateInput";
 import { SwitchInput } from "../Common/SwitchInput";
+import { ReferenceField } from "../Common/ReferenceField";
+import { User } from "core/auth/User";
+import { ShowItem } from "../Common/ShowItem";
 
 export function SubscriptionEdit() {
   const [subscription, onSubmit, cancel] = useEdit(Subscription.create);
@@ -21,7 +24,7 @@ export function SubscriptionEdit() {
 
   return (
     <Formik
-      initialValues={subscription || {}}
+      initialValues={subscription ?? ({} as Subscription)}
       enableReinitialize={true}
       validateOnChange={false}
       onSubmit={onSubmit}
@@ -32,6 +35,19 @@ export function SubscriptionEdit() {
           <CardContent>
             <Form>
               <div>
+                <div style={{ minHeight: 60 }}>
+                  <ReferenceField
+                    resourceName="users"
+                    id={props.values?.ownerId}
+                    render={(user: User) => (
+                      <ShowItem
+                        name={<h3 className="text-2xl">{user.name}</h3>}
+                        val={<h3 className="text-2xl">{user.email}</h3>}
+                        // secondary={user.email}
+                      />
+                    )}
+                  />
+                </div>
                 <SwitchInput name="active" form={props} label="Active" />
                 <TextInput name="type" form={props} />
                 <TextInput name="price" form={props} type="number" />

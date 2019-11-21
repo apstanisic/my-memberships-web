@@ -1,3 +1,5 @@
+import upperFirst from "lodash-es/upperFirst";
+
 export interface Struct<T = any> {
   [key: string]: T;
 }
@@ -12,42 +14,6 @@ interface WithId {
   has.call(object, property)
 */
 // export const has = Object.prototype.hasOwnProperty;
-
-/**
- * Generate numbers between.
- */
-export function between(
-  start: number,
-  finish: number,
-  options?: {
-    order: "asc" | "desc";
-    inc: number;
-  },
-): number[] {
-  // const inc = options?.inc ?? 1;
-  // const order = options?.order ?? "asc";
-  // @TODO fix this when cra support is available
-  const inc = options ? options.inc || 1 : 1;
-  const order = options ? options.order || "asc" : "asc";
-  const numbers: number[] = [];
-  if (order === "asc") {
-    for (let i = start; i <= finish; i += inc) {
-      numbers.push(i);
-    }
-  } else {
-    for (let i = finish; i >= start; i -= inc) {
-      numbers.push(i);
-    }
-  }
-
-  return numbers;
-}
-
-// /* Generate years betwen startYear and current year */
-// export function generateYears(startYear: number): number[] {
-//   const currentYear = new Date().getFullYear();
-//   return between(startYear, currentYear, { order: "desc", inc: 1 });
-// }
 
 /** Trim every property on object (recursive) */
 export function trimStrings<T extends Struct<any>>(obj: T): T {
@@ -68,7 +34,11 @@ export function trimStrings<T extends Struct<any>>(obj: T): T {
   return cloned;
 }
 
-/** Remove  empty strings, nulls or undefined from object (recursive) */
+/**
+ * Remove  empty strings, nulls or undefined from object (recursive).
+ * It's cleaner then to use pickBy from lodash.
+ * Harder to implement recursion
+ */
 export function removeEmptyItems<T extends Struct>(obj: T): Partial<T> {
   const validItems: any = {};
   Object.keys(obj).forEach(key => {
@@ -130,7 +100,7 @@ export function mergeArrayWithIds<T extends WithId>(arr1: T[], arr2: T[]) {
   return newArray;
 }
 
+/** Capitalize every word */
 export function capitalize(val: string) {
-  if (val === "") return val;
-  return val.split(" ").map(word => word[0].toUpperCase() + word.substr(1));
+  return val.split(" ").map(w => upperFirst(w.toLowerCase()));
 }

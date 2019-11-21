@@ -1,11 +1,6 @@
-import React, { useEffect } from "react";
-import { useUrls } from "./useUrls";
-import { urlHelper } from "store/adminSlice";
-import { useSelector } from "react-redux";
-import { RootState } from "store/store";
-import { UUID } from "types";
-import { useProvider } from "../useProvider";
 import { LinearProgress } from "@material-ui/core";
+import React from "react";
+import { useProvider } from "../useProvider";
 
 interface Props {
   resourceName: string;
@@ -40,30 +35,11 @@ export function ReferenceField({
     refetch: false,
   });
 
-  if (!data) return <LinearProgress className="w-full" style={{ height: 5 }} />;
+  if (!data)
+    return (
+      <div style={{ minHeight: 20 }}>
+        <LinearProgress className="w-full" style={{ height: 5 }} />
+      </div>
+    );
   return render(data);
-
-  // useEffect(() => {}, [resourceName, id]);
-  // const resource = useSelector(
-  //   (state: RootState) => state.admin.resources[resourceName],
-  // );
-  // const value: any | undefined = useGetRefValue(resourceName, id);
-  // const data: ReferenceStore = {};
-  //   data[resourceName]?.[id]?.
-  //   Object.keys(storeTest.roles).map(id => {
-  // const keys = storeTest.roles?.[id];
-  /*
-    fetchDataById(keys).then(data => {
-        data.forEach(entity => {
-            storeTest.roles?.[entity.id].func.map(fucn1)
-        })
-    })
- */
-  // if (!value) return <div>Placeholder</div>;
-  // return <div>{value}</div>;
-  //   });
-  //   if (!store[resourceName]) store[resourceName] = [];
-  //   (store?.[resourceName] as any[]).push(id);
-  //   const urls = useSelector((state: RootState) => state.admin.url);
-  //   urlHelper.remote({ ...urls, resourceName, resourceId: id });
 }
