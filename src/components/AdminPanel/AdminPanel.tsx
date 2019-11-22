@@ -1,11 +1,10 @@
-import { Padding } from "components/common/Padding";
-import { AppScaffold } from "components/Scaffold/Scaffold";
+import { Box } from "@material-ui/core";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import { AppScaffold } from "src/components/Scaffold/Scaffold";
 import { CompanyRouter } from "./Company/CompanyHomePage";
 import { Dashboard } from "./Dashboard";
 import { UserResource } from "./User/UserResource";
-import { Box } from "@material-ui/core";
 
 export function AdminPanel() {
   return (

@@ -1,12 +1,12 @@
 import { Button, TextField, Box } from "@material-ui/core";
-import { registerUser } from "components/Auth/authSlice";
-import { Center } from "components/common/Center";
-import { Padding } from "components/common/Padding";
+import { registerUser } from "src/components/Auth/authSlice";
+import { Center } from "src/components/common/Center";
+import { Padding } from "src/components/common/Padding";
 import { Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { AppDispatch } from "store/store";
+import { AppDispatch } from "src/store/store";
 import { AuthCard } from "./AuthCard";
 import { AuthFooter } from "./AuthFooter";
 import { registerValidation } from "./authValidation";

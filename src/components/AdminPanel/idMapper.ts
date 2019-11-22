@@ -1,4 +1,4 @@
-import { User } from "core/auth/User";
+import { User } from "src/core/auth/User";
 import { Arrival } from "./Arrival/Arrival";
 import { Location } from "./Location/Location";
 import { Subscription } from "./Subscription/Subscription";

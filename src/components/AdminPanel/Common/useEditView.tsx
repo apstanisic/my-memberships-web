@@ -1,8 +1,8 @@
-import { dataProvider } from "components/dataProvider";
+import { dataProvider } from "src/components/dataProvider";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { setUrlData } from "store/adminSlice";
-import { WithId } from "types";
+import { setUrlData } from "src/store/adminSlice";
+import { WithId } from "src/types";
 import { useProvider } from "../useProvider";
 import { useUrls } from "./useUrls";
 

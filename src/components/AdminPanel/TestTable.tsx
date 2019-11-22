@@ -12,9 +12,9 @@ import {
   Theme,
   Toolbar,
 } from "@material-ui/core";
-import { Struct } from "core/utils/helpers";
+import { Struct } from "src/core/utils/helpers";
 import React, { useReducer, useState } from "react";
-import { PaginationMetadata, WithId } from "types";
+import { PaginationMetadata, WithId } from "src/types";
 import { Pagination } from "./Common/Pagination/Pagination";
 import { TableToolbar } from "./Common/TableToolbar";
 import { decideFieldType } from "./decideFieldType";
@@ -23,7 +23,7 @@ import {
   useTableRowActions,
 } from "./useTableRowActions";
 import { useResource } from "./Common/useResource";
-import { Padding } from "components/common/Padding";
+import { Padding } from "src/components/common/Padding";
 import { useTableSelection } from "./useTableSelection";
 
 const useStyles = makeStyles((theme: Theme) => ({

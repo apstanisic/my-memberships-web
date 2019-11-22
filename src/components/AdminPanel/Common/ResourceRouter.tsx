@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUrlData } from "store/adminSlice";
+import { setUrlData } from "src/store/adminSlice";
 import { useUrls } from "./useUrls";
 
 interface Props {

@@ -1,5 +1,5 @@
-import { Http } from "core/http";
-import { IUser } from "core/auth/IUser";
+import { Http } from "src/core/http";
+import { IUser } from "src/core/auth/IUser";
 
 /** Params needed for password reset */
 interface ResetPasswordParams {

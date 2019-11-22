@@ -1,4 +1,4 @@
-import { Role } from "core/auth/Role";
+import { Role } from "src/core/auth/Role";
 import React from "react";
 import { ResourceTable } from "../TestTable";
 import { userReference } from "../User/UserReference";

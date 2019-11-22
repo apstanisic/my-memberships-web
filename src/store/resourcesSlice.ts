@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import cloneDeep from "lodash-es/cloneDeep";
 import defaults from "lodash-es/defaults";
-import { PaginationResult, UUID, WithId } from "types";
+import { PaginationResult, UUID, WithId } from "src/types";
 
 /** Cached resource interface */
 interface Resources<T extends WithId = any> {

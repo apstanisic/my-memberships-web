@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { requestDataById } from "store/resourcesSlice";
-import { RootState } from "store/store";
-import { UUID, WithId } from "types";
+import { requestDataById } from "src/store/resourcesSlice";
+import { RootState } from "src/store/store";
+import { UUID, WithId } from "src/types";
 import { useUrls } from "./Common/useUrls";
 
 /** Just return passed value */

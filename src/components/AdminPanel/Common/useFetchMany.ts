@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { requestListData } from "store/resourcesSlice";
-import { AppDispatch, RootState } from "store/store";
-import { PaginationMetadata, WithId } from "types";
+import { requestListData } from "src/store/resourcesSlice";
+import { AppDispatch, RootState } from "src/store/store";
+import { PaginationMetadata, WithId } from "src/types";
 import { useUrls } from "./useUrls";
 
 interface Props<T> {

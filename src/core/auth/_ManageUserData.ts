@@ -1,7 +1,7 @@
 import { StorageKeys } from "./Auth";
-import { IUser } from "core/auth/IUser";
-import { Http } from "core/http";
-import { Storage } from "core/Storage";
+import { IUser } from "src/core/auth/IUser";
+import { Http } from "src/core/http";
+import { Storage } from "src/core/Storage";
 
 /**
  * Manage user data. Except password.

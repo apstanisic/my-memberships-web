@@ -1,5 +1,5 @@
-import { convertSearch } from "components/dataProvider";
-import { Struct } from "core/utils/helpers";
+import { convertSearch } from "src/components/dataProvider";
+import { Struct } from "src/core/utils/helpers";
 import { useHistory, useLocation } from "react-router-dom";
 
 interface Props {

@@ -1,8 +1,8 @@
 // in myRestProvider.js
-import { Http } from "core/http";
-import { Struct, removeEmptyItems } from "core/utils/helpers";
+import { Http } from "src/core/http";
+import { Struct, removeEmptyItems } from "src/core/utils/helpers";
 import { stringify, parse } from "query-string";
-import { PaginationResult, UUID, WithId } from "types";
+import { PaginationResult, UUID, WithId } from "src/types";
 
 interface Data<T = any> {
   data: T;

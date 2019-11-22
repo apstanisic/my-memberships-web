@@ -8,10 +8,10 @@ import {
 import React, { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { RootState, AppDispatch } from "store/store";
+import { RootState, AppDispatch } from "src/store/store";
 import { Menu } from "@material-ui/icons";
-import { toggleSidebar } from "store/uiSlice";
-import { logoutUser } from "components/Auth/authSlice";
+import { toggleSidebar } from "src/store/uiSlice";
+import { logoutUser } from "src/components/Auth/authSlice";
 
 export function ScaffoldAppBar({ classes }: { classes?: any }) {
   const { auth } = useSelector((state: RootState) => state);

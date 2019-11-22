@@ -1,9 +1,9 @@
 import { MenuItem, Select, Box } from "@material-ui/core";
-import { Padding } from "components/common/Padding";
+import { Padding } from "src/components/common/Padding";
 import React, { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changePerPage } from "store/adminSlice";
-import { RootState } from "store/store";
+import { changePerPage } from "src/store/adminSlice";
+import { RootState } from "src/store/store";
 
 //   {/* Per page is commented for now. */}
 export function PaginationPerPage() {

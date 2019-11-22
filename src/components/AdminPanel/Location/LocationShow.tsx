@@ -11,8 +11,8 @@ import {
   Link as MLink,
 } from "@material-ui/core";
 import { SwapVert } from "@material-ui/icons";
-import { Padding } from "components/common/Padding";
-import { Spacer } from "components/common/Spacer";
+import { Padding } from "src/components/common/Padding";
+import { Spacer } from "src/components/common/Spacer";
 import React, { Fragment, useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";

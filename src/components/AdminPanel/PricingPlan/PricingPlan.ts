@@ -1,4 +1,4 @@
-import { BaseEntity, UUID } from "types";
+import { BaseEntity, UUID } from "src/types";
 
 export class PricingPlan implements BaseEntity {
   id: UUID;

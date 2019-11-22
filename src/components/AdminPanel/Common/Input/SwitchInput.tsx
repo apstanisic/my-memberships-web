@@ -1,6 +1,6 @@
 import { FormControlLabel, Switch, Box } from "@material-ui/core";
-import { Padding } from "components/common/Padding";
-import { capitalize } from "core/utils/helpers";
+import { Padding } from "src/components/common/Padding";
+import { capitalize } from "src/core/utils/helpers";
 import { FormikProps } from "formik";
 import get from "lodash-es/get";
 import React from "react";

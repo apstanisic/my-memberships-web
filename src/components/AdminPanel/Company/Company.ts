@@ -1,4 +1,4 @@
-import { BaseEntity, UUID } from "types";
+import { BaseEntity, UUID } from "src/types";
 
 export class Company implements BaseEntity {
   id: UUID;

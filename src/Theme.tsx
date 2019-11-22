@@ -2,7 +2,7 @@ import { blue } from "@material-ui/core/colors";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
+import { RootState } from "src/store/store";
 
 export function AppTheme({ children }: any) {
   const { darkTheme } = useSelector((state: RootState) => state.ui);

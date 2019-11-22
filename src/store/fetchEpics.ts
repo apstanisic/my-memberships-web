@@ -1,8 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { dataProvider } from "components/dataProvider";
-import { Struct, wait } from "core/utils/helpers";
-import { Epic, ofType, combineEpics } from "redux-observable";
-import { defer, merge } from "rxjs";
+import { combineEpics, Epic, ofType } from "redux-observable";
+import { defer } from "rxjs";
 import {
   debounceTime,
   filter,
@@ -11,13 +9,15 @@ import {
   retry,
   tap,
 } from "rxjs/operators";
-import { WithId } from "types";
+import { dataProvider } from "src/components/dataProvider";
+import { Struct, wait } from "src/core/utils/helpers";
+import { WithId } from "src/types";
 import {
   addToListData,
   addToResource,
   requestDataById,
-  requestListData,
   RequestDataByIdPayload,
+  requestListData,
   RequestManyPayload,
 } from "./resourcesSlice";
 import { RootState } from "./store";

@@ -2,7 +2,7 @@ import { IconButton } from "@material-ui/core";
 import { Delete, Edit, Visibility } from "@material-ui/icons";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { WithId } from "types";
+import { WithId } from "src/types";
 import { useDeleteConfirmation } from "./Common/useDeleteConfirmation";
 import { useUrls } from "./Common/useUrls";
 import { Column } from "./TestTable";

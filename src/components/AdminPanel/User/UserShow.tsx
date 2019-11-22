@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Card, Paper, CardContent } from "@material-ui/core";
 import { useShowView } from "../Common/useShowView";
-import { User } from "core/auth/User";
+import { User } from "src/core/auth/User";
 import { ShowViewItem } from "../Common/ShowViewItem";
-import { Padding } from "components/common/Padding";
+import { Padding } from "src/components/common/Padding";
 
 export function UserShow() {
   const [user, Header] = useShowView<User>(User.NAME);

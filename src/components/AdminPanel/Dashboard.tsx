@@ -1,13 +1,13 @@
 import { List, ListItem, ListItemText, Paper, Box } from "@material-ui/core";
-import { Padding } from "components/common/Padding";
-import { Http } from "core/http";
+import { Padding } from "src/components/common/Padding";
+import { Http } from "src/core/http";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { RootState } from "store/store";
+import { RootState } from "src/store/store";
 import { Company } from "./Company/Company";
-import { dataProvider } from "components/dataProvider";
-// import { setCompany } from "store/adminSlice";
+import { dataProvider } from "src/components/dataProvider";
+// import { setCompany } from "src/store/adminSlice";
 
 export function Dashboard() {
   const [companies, setCompanies] = useState<Company[]>([]);

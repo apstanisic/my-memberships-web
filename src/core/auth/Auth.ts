@@ -1,14 +1,14 @@
-import { IUser } from "core/auth/IUser";
+import { IUser } from "src/core/auth/IUser";
 import { ManagePassword } from "./_ManagePassword";
 import { ManageUserData } from "./_ManageUserData";
-import { Storage } from "core/Storage";
-import { Http } from "core/http";
+import { Storage } from "src/core/Storage";
+import { Http } from "src/core/http";
 import { Role } from "./Role";
 
 /* Keys to access auth store items */
 export enum StorageKeys {
   User = "user",
-  Token = "token"
+  Token = "token",
 }
 
 interface UserAndToken<User extends IUser = IUser> {

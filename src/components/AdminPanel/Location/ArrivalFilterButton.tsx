@@ -1,6 +1,6 @@
 import React from "react";
 import { useUrls } from "../Common/useUrls";
-import { UUID } from "types";
+import { UUID } from "src/types";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { SwapVert } from "@material-ui/icons";

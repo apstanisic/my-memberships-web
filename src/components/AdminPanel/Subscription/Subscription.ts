@@ -1,5 +1,5 @@
-import { BaseEntity, UUID } from "types";
-import { IUser } from "core/auth/IUser";
+import { BaseEntity, UUID } from "src/types";
+import { IUser } from "src/core/auth/IUser";
 
 export class Subscription implements BaseEntity {
   static readonly NAME = "subscriptions";

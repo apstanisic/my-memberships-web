@@ -2,9 +2,9 @@ import { Box, Link as MLink, Avatar } from "@material-ui/core";
 import React from "react";
 import { ReferenceField } from "../Common/ReferenceField";
 import { Link } from "react-router-dom";
-import { Padding } from "components/common/Padding";
+import { Padding } from "src/components/common/Padding";
 import { Person } from "@material-ui/icons";
-import { User } from "core/auth/User";
+import { User } from "src/core/auth/User";
 
 export function userReference(id: string) {
   return (

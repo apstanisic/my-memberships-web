@@ -1,8 +1,8 @@
 import React from "react";
-import { Center } from "components/common/Center";
+import { Center } from "src/components/common/Center";
 import { Card, CardContent, makeStyles } from "@material-ui/core";
-import { Image } from "components/common/Image";
-import { WithChildren } from "types";
+import { Image } from "src/components/common/Image";
+import { WithChildren } from "src/types";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({

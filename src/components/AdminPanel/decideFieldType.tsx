@@ -2,7 +2,7 @@ import { Check, Close } from "@material-ui/icons";
 import React from "react";
 import isNil from "lodash-es/isNil";
 import { Column } from "./TestTable";
-import { Struct } from "core/utils/helpers";
+import { Struct } from "src/core/utils/helpers";
 
 export function decideFieldType(column: Column, row: Struct) {
   let field: any;

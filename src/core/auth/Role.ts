@@ -1,4 +1,4 @@
-import { BaseEntity, UUID, Resource } from "types";
+import { BaseEntity, UUID, Resource } from "src/types";
 
 export class Role extends Resource implements BaseEntity {
   static NAME = "roles";

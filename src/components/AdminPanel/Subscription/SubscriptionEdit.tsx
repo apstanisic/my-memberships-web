@@ -7,7 +7,7 @@ import {
   Tabs,
   Switch,
 } from "@material-ui/core";
-import { Padding } from "components/common/Padding";
+import { Padding } from "src/components/common/Padding";
 import { Form, Formik } from "formik";
 import React from "react";
 import { TextInput } from "../Common/Input/TextInput";
@@ -16,7 +16,7 @@ import { Subscription } from "./Subscription";
 import { DateInput } from "../Common/Input/DateInput";
 import { SwitchInput } from "../Common/Input/SwitchInput";
 import { ReferenceField } from "../Common/ReferenceField";
-import { User } from "core/auth/User";
+import { User } from "src/core/auth/User";
 import { ShowViewItem } from "../Common/ShowViewItem";
 
 export function SubscriptionEdit() {

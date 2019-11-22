@@ -1,5 +1,5 @@
-import { WithId } from "types";
-import { dataProvider } from "components/dataProvider";
+import { WithId } from "src/types";
+import { dataProvider } from "src/components/dataProvider";
 import { useUrls } from "./useUrls";
 
 interface ResourceDeleteData<T> {

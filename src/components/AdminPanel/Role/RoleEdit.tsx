@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardContent } from "@material-ui/core";
-import { Padding } from "components/common/Padding";
-import { Role } from "core/auth/Role";
+import { Padding } from "src/components/common/Padding";
+import { Role } from "src/core/auth/Role";
 import { Form, Formik } from "formik";
 import React from "react";
 import { TextInput } from "../Common/Input/TextInput";

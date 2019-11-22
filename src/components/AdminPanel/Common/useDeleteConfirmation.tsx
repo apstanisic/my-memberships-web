@@ -8,13 +8,13 @@ import {
   DialogContentText,
   DialogContent,
 } from "@material-ui/core";
-import { Padding } from "components/common/Padding";
+import { Padding } from "src/components/common/Padding";
 import React, { useState, useEffect } from "react";
 import { AppIcons } from "../Icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setAlertPayload, showAlert } from "store/alertSlice";
-import { RootState } from "store/store";
-import { WithId } from "types";
+import { setAlertPayload, showAlert } from "src/store/alertSlice";
+import { RootState } from "src/store/store";
+import { WithId } from "src/types";
 
 /**
  * @param deleteFunc Method to be executed if user confirms yes

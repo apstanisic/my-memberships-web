@@ -1,4 +1,4 @@
-import { BaseEntity, Image, UUID } from "types";
+import { BaseEntity, Image, UUID } from "src/types";
 
 export interface Workhours {
   monday: string;

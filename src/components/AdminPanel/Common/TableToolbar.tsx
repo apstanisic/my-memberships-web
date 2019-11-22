@@ -1,5 +1,5 @@
 import { Toolbar, Typography, IconButton } from "@material-ui/core";
-import { Struct } from "core/utils/helpers";
+import { Struct } from "src/core/utils/helpers";
 import qs from "query-string";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";

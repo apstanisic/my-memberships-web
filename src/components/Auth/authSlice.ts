@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "core/auth/IUser";
-import { AppThunk } from "store/store";
-import { auth } from "core/auth/Auth";
+import { IUser } from "src/core/auth/IUser";
+import { AppThunk } from "src/store/store";
+import { auth } from "src/core/auth/Auth";
 
 const authSlice = createSlice({
   name: "auth",

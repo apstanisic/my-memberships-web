@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch, useParams } from "react-router-dom";
-// import { setCompany } from "store/adminSlice";
+// import { setCompany } from "src/store/adminSlice";
 import { LocationResource } from "../Location/LocationResource";
 import { SubscriptionResource } from "../Subscription/SubscriptionResource";
 import { ArrivalResource } from "../Arrival/ArrivalResource";
 import { RoleResource } from "../Role/RoleResource";
-import { setUrlData } from "store/adminSlice";
+import { setUrlData } from "src/store/adminSlice";
 
 export function CompanyRouter() {
   const { companyId } = useParams();

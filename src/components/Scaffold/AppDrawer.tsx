@@ -11,9 +11,9 @@ import { Inbox } from "@material-ui/icons";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { RootState } from "store/store";
-import { toggleSidebar } from "store/uiSlice";
-import { urlHelper } from "store/adminSlice";
+import { RootState } from "src/store/store";
+import { toggleSidebar } from "src/store/uiSlice";
+import { urlHelper } from "src/store/adminSlice";
 
 export function AppDrawer({ classes }: { classes: any }) {
   const { ui, admin } = useSelector((state: RootState) => state);

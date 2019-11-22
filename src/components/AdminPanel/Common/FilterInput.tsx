@@ -1,5 +1,5 @@
 import { IconButton, InputAdornment, TextField } from "@material-ui/core";
-import { capitalize, Struct } from "core/utils/helpers";
+import { capitalize, Struct } from "src/core/utils/helpers";
 import React from "react";
 import { AppIcons } from "../Icons";
 import { idMapper } from "../idMapper";

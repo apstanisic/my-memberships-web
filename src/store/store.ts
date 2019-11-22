@@ -4,9 +4,9 @@ import {
   configureStore,
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
-import { auth } from "core/auth/Auth";
 import { createEpicMiddleware } from "redux-observable";
 import { ThunkAction } from "redux-thunk";
+import { auth } from "src/core/auth/Auth";
 import { authReducer, initLoginState } from "../components/Auth/authSlice";
 import { adminReducer } from "./adminSlice";
 import { alertReducer } from "./alertSlice";

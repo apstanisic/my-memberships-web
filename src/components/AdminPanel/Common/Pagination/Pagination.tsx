@@ -1,9 +1,8 @@
 import { Box, Toolbar, IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { Padding } from "components/common/Padding";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { PaginationMetadata } from "types";
+import { PaginationMetadata } from "src/types";
 import { AppIcons } from "../../Icons";
 import { PaginationPerPage } from "./PaginationPerPage";
 import { FirstPage, LastPage } from "@material-ui/icons";

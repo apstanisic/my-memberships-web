@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { WithId } from "types";
-import { Struct } from "core/utils/helpers";
+import { WithId } from "src/types";
+import { Struct } from "src/core/utils/helpers";
 
 export function useTableSelection(data: WithId[]) {
   const [selected, setSelected] = useState<Struct>({});

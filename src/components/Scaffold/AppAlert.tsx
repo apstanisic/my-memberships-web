@@ -9,8 +9,8 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "store/store";
-import { closeAlert, respondToAlert } from "store/alertSlice";
+import { RootState } from "src/store/store";
+import { closeAlert, respondToAlert } from "src/store/alertSlice";
 
 export function AppAlert() {
   const alert = useSelector((state: RootState) => state.alert);

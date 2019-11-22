@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PaginationMetadata, WithId } from "types";
+import { PaginationMetadata, WithId } from "src/types";
 import { useDeleteConfirmation } from "./useDeleteConfirmation";
 import { useResourceDelete } from "./useResourceDelete";
 import { useFetchMany } from "./useFetchMany";

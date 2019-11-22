@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, Tab, Tabs, Box } from "@material-ui/core";
-// import { Padding } from "components/common/Padding";
+// import { Padding } from "src/components/common/Padding";
 import { Form, Formik } from "formik";
 import React, { Fragment, useState } from "react";
 import { TextInput } from "../Common/Input/TextInput";

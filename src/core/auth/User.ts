@@ -1,4 +1,4 @@
-import { BaseEntity, UUID, Image, ImageSizes } from "types";
+import { BaseEntity, UUID, Image, ImageSizes } from "src/types";
 import { Role } from "./Role";
 
 export class User implements BaseEntity {

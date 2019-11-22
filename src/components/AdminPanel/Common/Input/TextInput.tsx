@@ -1,7 +1,6 @@
 import React from "react";
 import { TextField, Box } from "@material-ui/core";
 import { FormikProps } from "formik";
-import { Padding } from "components/common/Padding";
 import get from "lodash-es/get";
 
 interface Props {

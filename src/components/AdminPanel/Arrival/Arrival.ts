@@ -1,4 +1,4 @@
-import { BaseEntity, Resource, UUID } from "types";
+import { BaseEntity, Resource, UUID } from "src/types";
 
 export class Arrival extends Resource implements BaseEntity {
   static NAME = "arrivals";

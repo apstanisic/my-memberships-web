@@ -1,5 +1,5 @@
 import React from "react";
-import { Padding } from "components/common/Padding";
+import { Padding } from "src/components/common/Padding";
 import {
   Card,
   CardContent,
