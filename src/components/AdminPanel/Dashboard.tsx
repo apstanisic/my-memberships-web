@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText, Paper } from "@material-ui/core";
+import { List, ListItem, ListItemText, Paper, Box } from "@material-ui/core";
 import { Padding } from "components/common/Padding";
 import { Http } from "core/http";
 import React, { useEffect, useState } from "react";
@@ -24,7 +24,7 @@ export function Dashboard() {
   }, [auth.isInited]);
 
   return (
-    <Padding size={2}>
+    <Box p={1}>
       <Paper>
         <List component="nav">
           {companies.map((company, i) => (
@@ -42,6 +42,6 @@ export function Dashboard() {
           ))}
         </List>
       </Paper>
-    </Padding>
+    </Box>
   );
 }

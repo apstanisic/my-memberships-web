@@ -2,6 +2,7 @@ import { BaseEntity, Resource, UUID } from "types";
 
 export class Arrival extends Resource implements BaseEntity {
   static NAME = "arrivals";
+  static readonly ID = `arrivalId`;
 
   static create(val: any) {
     return new Arrival(val);

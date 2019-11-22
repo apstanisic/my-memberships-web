@@ -7,10 +7,16 @@ import { useDeleteConfirmation } from "./Common/useDeleteConfirmation";
 import { useUrls } from "./Common/useUrls";
 import { Column } from "./TestTable";
 
-export function useTableRowActions<T extends WithId = any>(): Column<T> {
+interface Props<T> {
+  onDelete?: (row?: T) => any;
+}
+
+export function useTableRowActions<T extends WithId = any>(
+  props: Props<T>,
+): Column<T> {
   const history = useHistory();
   const urls = useUrls();
-  const rowDelete = useDeleteConfirmation(data => console.log(data));
+  const rowDelete = useDeleteConfirmation(props?.onDelete);
 
   const view = (row: WithId) => history.push(urls.show(row.id));
   const edit = (row: WithId) => history.push(urls.edit(row.id));
@@ -26,9 +32,11 @@ export function useTableRowActions<T extends WithId = any>(): Column<T> {
         <IconButton onClick={() => edit(row)}>
           <Edit />
         </IconButton>
-        <IconButton onClick={() => rowDelete(row)}>
-          <Delete />
-        </IconButton>
+        {props?.onDelete && (
+          <IconButton onClick={() => rowDelete(row)}>
+            <Delete />
+          </IconButton>
+        )}
       </div>
     ),
   };

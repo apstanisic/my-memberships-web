@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PaginationMetadata, WithId } from "types";
 import { useDeleteConfirmation } from "./useDeleteConfirmation";
 import { useResourceDelete } from "./useResourceDelete";
-import { useFetchMany } from "./useResourceFetch";
+import { useFetchMany } from "./useFetchMany";
 
 interface Props<T> {
   setIsLoading?: (val: boolean) => any;

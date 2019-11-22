@@ -12,6 +12,8 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useUrls } from "../Common/useUrls";
 import { ResourceTable } from "../TestTable";
+import { Location } from "./Location";
+import { ArrivalFilterButton } from "./ArrivalFilterButton";
 
 export function LocationList() {
   const urls = useUrls();
@@ -22,21 +24,15 @@ export function LocationList() {
         {/* <MaterialTable {...helpers.config} title="Locations" /> */}
         <ResourceTable
           title="Locations"
+          transform={Location.create}
           columns={[
             { emptyValue: "No name", field: "name", title: "Name" },
             { field: "address", title: "Address" },
             { field: "phoneNumber", title: "Phone number" },
             {
               title: "Arrivals",
-              field: "name",
-              render: ({ id }: any) => (
-                <Link
-                  to={`${urls.changeResource("arrivals")}?locationId=${id}`}
-                >
-                  <Button color="primary" startIcon={<SwapVert />}>
-                    Arrivals
-                  </Button>
-                </Link>
+              render: ({ id }) => (
+                <ArrivalFilterButton id={id} filterField={Location.ID} />
               ),
             },
           ]}

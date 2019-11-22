@@ -1,14 +1,12 @@
 import { IconButton, Typography } from "@material-ui/core";
-import { dataProvider } from "components/dataProvider";
 import React, { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { setUrlData, urlHelper } from "store/adminSlice";
 import { RootState } from "store/store";
+import { WithId } from "../../../types";
 import { AppIcons } from "../Icons";
 import { useProvider } from "../useProvider";
-import { useDeleteConfirmation } from "./useDeleteConfirmation";
-import { WithId } from "./../../../types";
 
 type ShowData<T> = [
   T | undefined,
@@ -24,7 +22,7 @@ type ShowData<T> = [
   // },
 ];
 
-export function useShow<T extends WithId>(
+export function useShowView<T extends WithId>(
   name: string,
   transform?: (val: any) => T,
 ): ShowData<T> {

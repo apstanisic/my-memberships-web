@@ -1,10 +1,10 @@
-import { Toolbar, IconButton } from "@material-ui/core";
+import { Box, Toolbar, IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { Padding } from "components/common/Padding";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { PaginationMetadata } from "types";
-import { AppIcons } from "../Icons";
+import { AppIcons } from "../../Icons";
 import { PaginationPerPage } from "./PaginationPerPage";
 import { FirstPage, LastPage } from "@material-ui/icons";
 
@@ -39,7 +39,7 @@ export function Pagination({ meta }: { meta?: PaginationMetadata }) {
           Prev
         </Button>
 
-        <Padding side="l" size={5}>
+        <Box pl={3}>
           <Button
             endIcon={<AppIcons.NextPage />}
             disabled={meta.isLastPage}
@@ -61,7 +61,7 @@ export function Pagination({ meta }: { meta?: PaginationMetadata }) {
           >
             <LastPage />
           </IconButton>
-        </Padding>
+        </Box>
       </Toolbar>
     </div>
   );

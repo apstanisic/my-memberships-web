@@ -1,4 +1,4 @@
-import { Button, makeStyles, TextField } from "@material-ui/core";
+import { Button, makeStyles, TextField, Box } from "@material-ui/core";
 import { attemptLogin } from "components/Auth/authSlice";
 import { Center } from "components/common/Center";
 import { Padding } from "components/common/Padding";
@@ -32,7 +32,7 @@ export function Login() {
         <Center className="min-h-screen mx-auto flex flex-col bg-blue-700 px-2">
           <AuthCard>
             <form onSubmit={props.handleSubmit}>
-              <Padding side="y" size={2}>
+              <Box py={1}>
                 <TextField
                   value={props.values.email}
                   onChange={props.handleChange}
@@ -47,8 +47,8 @@ export function Login() {
                     helperText: props.errors.email,
                   })}
                 />
-              </Padding>
-              <Padding side="y" size={2}>
+              </Box>
+              <Box py={1}>
                 <TextField
                   value={props.values.password}
                   onChange={props.handleChange}
@@ -62,8 +62,8 @@ export function Login() {
                     helperText: props.errors.password,
                   })}
                 />
-              </Padding>
-              <Padding size={2} side="y">
+              </Box>
+              <Box py={1}>
                 <Button
                   type="submit"
                   disabled={props.isSubmitting}
@@ -74,7 +74,7 @@ export function Login() {
                 >
                   Submit
                 </Button>
-              </Padding>
+              </Box>
             </form>
           </AuthCard>
           <AuthFooter type="login" />

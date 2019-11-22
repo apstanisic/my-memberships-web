@@ -3,6 +3,7 @@ import { Role } from "./Role";
 
 export class User implements BaseEntity {
   static NAME = "users";
+  static readonly ID = `userId`;
 
   static create(val: any) {
     return new User(val);

@@ -12,15 +12,15 @@ import { Spacer } from "components/common/Spacer";
 import React from "react";
 import { Link } from "react-router-dom";
 import { EmailField } from "../Common/EmailField";
-import { ShowItem } from "../Common/ShowItem";
-import { useShow } from "../Common/useShow";
+import { ShowViewItem } from "../Common/ShowViewItem";
+import { useShowView } from "../Common/useShowView";
 import { useUrls } from "../Common/useUrls";
 import { Subscription } from "./Subscription";
 import dayjs from "dayjs";
 import { capitalize } from "core/utils/helpers";
 
 export function SubscriptionShow() {
-  const [subscription, Header] = useShow(
+  const [subscription, Header] = useShowView(
     Subscription.NAME,
     Subscription.create,
   );
@@ -38,17 +38,17 @@ export function SubscriptionShow() {
           )} - ${format(subscription?.expiresAt)}`}
         />
         <List>
-          <ShowItem
+          <ShowViewItem
             val={dayjs(subscription?.startsAt).format("DD.MM.YYYY")}
             name="Starts at"
           />
-          <ShowItem
+          <ShowViewItem
             val={dayjs(subscription?.expiresAt).format("DD.MM.YYYY")}
             name="Expiers at"
           />
-          <ShowItem val={subscription?.price} name="Price" />
-          <ShowItem val={subscription?.type} name="Type" />
-          <ShowItem
+          <ShowViewItem val={subscription?.price} name="Price" />
+          <ShowViewItem val={subscription?.type} name="Type" />
+          <ShowViewItem
             val={`${subscription?.usedAmount ??
               0} / ${subscription?.allowedUses ?? "∞"} `}
             name="Used / allowed uses"

@@ -5,11 +5,12 @@ import { Route, Switch } from "react-router-dom";
 import { CompanyRouter } from "./Company/CompanyHomePage";
 import { Dashboard } from "./Dashboard";
 import { UserResource } from "./User/UserResource";
+import { Box } from "@material-ui/core";
 
 export function AdminPanel() {
   return (
     <AppScaffold>
-      <Padding size={3}>
+      <Box p={1}>
         <Switch>
           <Route path="/admin-panel/companies/:companyId">
             <CompanyRouter />
@@ -21,7 +22,7 @@ export function AdminPanel() {
             <Dashboard />
           </Route>
         </Switch>
-      </Padding>
+      </Box>
     </AppScaffold>
   );
 }

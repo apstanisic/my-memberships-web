@@ -1,9 +1,10 @@
+import { IconButton, InputAdornment, TextField } from "@material-ui/core";
+import { capitalize, Struct } from "core/utils/helpers";
 import React from "react";
-import { TextField, InputAdornment, IconButton } from "@material-ui/core";
 import { AppIcons } from "../Icons";
-import { capitalize } from "core/utils/helpers";
+import { idMapper } from "../idMapper";
 import { ReferenceField } from "./ReferenceField";
-import { Location } from "../Location/Location";
+import { useUrls } from "./useUrls";
 
 interface Props {
   val: any;
@@ -12,23 +13,30 @@ interface Props {
   buttonClick: (name?: string, val?: any) => any;
 }
 
-export const FilterInput = ({ val, name, setFilter, buttonClick }: Props) => {
+export function FilterInput<T extends Struct>({
+  val,
+  name,
+  setFilter,
+  buttonClick,
+}: Props) {
+  const info = idMapper(name);
+  const urls = useUrls();
+  const resourceName = info.resourceName ?? urls.resourceName();
+
   return (
     <ReferenceField
       resourceId={val}
-      resourceName="locations"
-      render={(loc: Location) => {
-        console.log(loc);
-
+      resourceName={resourceName}
+      render={(resource: T) => {
         return (
           <TextField
-            value={loc.name}
+            value={resource?.[info.column ?? name]}
             key={name}
             style={{ maxWidth: 250, marginRight: 8 }}
             onChange={({ currentTarget: { name, value } }) =>
               setFilter(name, value)
             }
-            label={capitalize(name)}
+            label={info.title ?? capitalize(name)}
             name={name}
             variant="outlined"
             margin="dense"
@@ -55,4 +63,4 @@ export const FilterInput = ({ val, name, setFilter, buttonClick }: Props) => {
       }}
     />
   );
-};
+}

@@ -1,9 +1,9 @@
-import { Switch, FormControlLabel } from "@material-ui/core";
-import { FormikProps } from "formik";
-import { capitalize } from "core/utils/helpers";
-import React from "react";
-import { getNestedValue } from "./getNestedValue";
+import { FormControlLabel, Switch, Box } from "@material-ui/core";
 import { Padding } from "components/common/Padding";
+import { capitalize } from "core/utils/helpers";
+import { FormikProps } from "formik";
+import get from "lodash-es/get";
+import React from "react";
 
 interface Props {
   name: string;
@@ -12,13 +12,13 @@ interface Props {
 }
 export function SwitchInput(props: Props) {
   return (
-    <Padding side="y" size={2}>
+    <Box py={1}>
       <FormControlLabel
         label={props.label ?? capitalize(props.name)}
         labelPlacement="start"
         control={
           <Switch
-            checked={Boolean(getNestedValue(props.name, props.form))}
+            checked={get(props.form.values, props.name, false)}
             onChange={(_, checked) =>
               props.form.setFieldValue(props.name, checked, true)
             }
@@ -26,6 +26,6 @@ export function SwitchInput(props: Props) {
           />
         }
       />
-    </Padding>
+    </Box>
   );
 }

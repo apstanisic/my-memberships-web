@@ -1,8 +1,8 @@
 import React from "react";
-import { TextField } from "@material-ui/core";
+import { TextField, Box } from "@material-ui/core";
 import { FormikProps } from "formik";
 import { Padding } from "components/common/Padding";
-import { getNestedValue } from "./getNestedValue";
+import get from "lodash-es/get";
 
 interface Props {
   name: string;
@@ -20,9 +20,10 @@ function upperCase(val: string) {
 }
 
 export function TextInput(props: Props) {
-  const value = getNestedValue(props.name, props.form);
+  const value = get(props.form.values, props.name) ?? "";
+
   return (
-    <Padding side="y" size={2}>
+    <Box py={1}>
       <TextField
         value={value}
         disabled={props.disabled}
@@ -37,6 +38,6 @@ export function TextInput(props: Props) {
           helperText: props.form.errors[props.name],
         })}
       />
-    </Padding>
+    </Box>
   );
 }

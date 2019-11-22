@@ -15,6 +15,8 @@ export class Location implements BaseEntity {
   /** Static name for this resource, used by reducer */
   static readonly NAME = "locations";
 
+  static readonly ID = `locationId`;
+
   /** Factory method to convert object to class */
   static create(location: any) {
     return new Location(location);

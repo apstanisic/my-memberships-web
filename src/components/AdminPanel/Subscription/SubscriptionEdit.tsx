@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -9,17 +10,17 @@ import {
 import { Padding } from "components/common/Padding";
 import { Form, Formik } from "formik";
 import React from "react";
-import { TextInput } from "../Common/TextInput";
-import { useEdit } from "../Common/useEdit";
+import { TextInput } from "../Common/Input/TextInput";
+import { useEditView } from "../Common/useEditView";
 import { Subscription } from "./Subscription";
-import { DateInput } from "../Common/DateInput";
-import { SwitchInput } from "../Common/SwitchInput";
+import { DateInput } from "../Common/Input/DateInput";
+import { SwitchInput } from "../Common/Input/SwitchInput";
 import { ReferenceField } from "../Common/ReferenceField";
 import { User } from "core/auth/User";
-import { ShowItem } from "../Common/ShowItem";
+import { ShowViewItem } from "../Common/ShowViewItem";
 
 export function SubscriptionEdit() {
-  const [subscription, onSubmit, cancel] = useEdit(Subscription.create);
+  const [subscription, onSubmit, cancel] = useEditView(Subscription.create);
   console.log(subscription);
 
   return (
@@ -40,7 +41,7 @@ export function SubscriptionEdit() {
                     resourceName="users"
                     resourceId={props.values?.ownerId}
                     render={(user: User) => (
-                      <ShowItem
+                      <ShowViewItem
                         name={<h3 className="text-2xl">{user.name}</h3>}
                         val={<h3 className="text-2xl">{user.email}</h3>}
                         // secondary={user.email}
@@ -61,7 +62,7 @@ export function SubscriptionEdit() {
                 />
               </div>
 
-              <Padding grow side="t" size={3}>
+              <Box flexGrow={1} pt={2}>
                 <Button
                   type="submit"
                   disabled={props.isSubmitting}
@@ -72,7 +73,7 @@ export function SubscriptionEdit() {
                 >
                   Submit
                 </Button>
-              </Padding>
+              </Box>
             </Form>
           </CardContent>
         </Card>

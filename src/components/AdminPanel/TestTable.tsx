@@ -1,5 +1,7 @@
 import {
   CircularProgress,
+  Checkbox,
+  Box,
   makeStyles,
   Paper,
   Table,
@@ -13,7 +15,7 @@ import {
 import { Struct } from "core/utils/helpers";
 import React, { useReducer, useState } from "react";
 import { PaginationMetadata, WithId } from "types";
-import { Pagination } from "./Common/Pagination";
+import { Pagination } from "./Common/Pagination/Pagination";
 import { TableToolbar } from "./Common/TableToolbar";
 import { decideFieldType } from "./decideFieldType";
 import {
@@ -21,6 +23,8 @@ import {
   useTableRowActions,
 } from "./useTableRowActions";
 import { useResource } from "./Common/useResource";
+import { Padding } from "components/common/Padding";
+import { useTableSelection } from "./useTableSelection";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -69,26 +73,27 @@ export interface Column<Row extends Struct = any> {
 
 interface Props<T extends Struct = any> {
   columns: Column<T>[];
-  data?: T[];
+  // data?: T[];
   title?: Printable;
-  pagination?: PaginationMetadata;
+  // pagination?: PaginationMetadata;
   // isLoading?: boolean;
-  views?: any;
+  // views?: any;
   transform?: (val: any) => T;
 }
 
-export function ResourceTable<T extends WithId = any>(props: Props<T>) {
+export function ResourceTable<ResourceType extends WithId = any>(
+  props: Props<ResourceType>,
+) {
   const [isLoading, setIsLoading] = useState(false);
   const classes = useStyles();
-  const rowActions = useTableRowActions();
+  const rowActions = useTableRowActions({ onDelete: console.log });
   const create = useGlobalCreateButton();
-  const [resources, pg] = useResource<T>({
+  const [data, pg] = useResource<ResourceType>({
     setIsLoading,
     transform: props.transform,
   });
+  const selection = useTableSelection(data);
   const columns = [...props.columns, rowActions];
-  // const data = props.data ?? resources;
-  const data = resources;
 
   return (
     <Paper className={classes.root} elevation={4}>
@@ -104,6 +109,15 @@ export function ResourceTable<T extends WithId = any>(props: Props<T>) {
         <Table size="small" className={classes.table}>
           <TableHead>
             <TableRow>
+              <TableCell padding="none">
+                <Box pl={1}>
+                  <Checkbox
+                    checked={selection.allSelected}
+                    onChange={(_, checked) => selection.changeAll(checked)}
+                    indeterminate={selection.intermidiate}
+                  />
+                </Box>
+              </TableCell>
               {columns.map((column, i) => (
                 <TableCell align={column.align} key={i}>
                   <Toolbar variant="dense">{column.title}</Toolbar>
@@ -113,7 +127,22 @@ export function ResourceTable<T extends WithId = any>(props: Props<T>) {
           </TableHead>
           <TableBody>
             {data.map((row, j) => (
-              <TableRow key={row?.id ?? j}>
+              <TableRow
+                key={row?.id ?? j}
+                selected={selection.selected[row.id]}
+              >
+                {/* padding="checkbox" not working. That's why I added box */}
+                <TableCell padding="none">
+                  <Box pl={1}>
+                    <Checkbox
+                      className="px-3"
+                      checked={selection.selected[row.id] ?? false}
+                      onChange={(_, checked) =>
+                        selection.changeOne(row.id, checked)
+                      }
+                    />
+                  </Box>
+                </TableCell>
                 {columns.map((col, i) => (
                   <TableCell
                     align={col.align}

@@ -1,7 +1,6 @@
-import qs from "query-string";
-import { useLocation, useHistory } from "react-router-dom";
-import { removeEmptyItems, Struct } from "core/utils/helpers";
 import { convertSearch } from "components/dataProvider";
+import { Struct } from "core/utils/helpers";
+import { useHistory, useLocation } from "react-router-dom";
 
 interface Props {
   name: string;

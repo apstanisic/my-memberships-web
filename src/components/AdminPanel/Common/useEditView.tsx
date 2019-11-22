@@ -8,7 +8,7 @@ import { useUrls } from "./useUrls";
 
 type ReturnData<T> = [T | undefined, () => any, () => any];
 
-export function useEdit<T extends WithId>(
+export function useEditView<T extends WithId>(
   transform?: (val: any) => T,
 ): ReturnData<T> {
   const history = useHistory();

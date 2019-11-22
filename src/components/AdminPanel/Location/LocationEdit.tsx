@@ -1,15 +1,16 @@
-import { Button, Card, CardContent, Tab, Tabs } from "@material-ui/core";
-import { Padding } from "components/common/Padding";
+import { Button, Card, CardContent, Tab, Tabs, Box } from "@material-ui/core";
+// import { Padding } from "components/common/Padding";
 import { Form, Formik } from "formik";
 import React, { Fragment, useState } from "react";
-import { TextInput } from "../Common/TextInput";
-import { useEdit } from "../Common/useEdit";
+import { TextInput } from "../Common/Input/TextInput";
+import { useEditView } from "../Common/useEditView";
 import { Location } from "./Location";
 import { validLocation } from "./validLocation";
+// const Box;
 
 export function LocationEdit() {
   const [tab, setTab] = useState(0);
-  const [location, onSubmit, cancel] = useEdit(Location.create);
+  const [location, onSubmit, cancel] = useEditView(Location.create);
 
   return (
     <Formik
@@ -84,7 +85,7 @@ export function LocationEdit() {
                 </div>
               )}
               <div className="flex">
-                <Padding side="r" size={2} grow>
+                <Box pr={1} flexGrow={1}>
                   <Button
                     type="button"
                     onClick={cancel}
@@ -96,9 +97,9 @@ export function LocationEdit() {
                   >
                     Cancel
                   </Button>
-                </Padding>
+                </Box>
                 {tab === 0 ? (
-                  <Padding size={1} side="r" grow>
+                  <Box pr={0.5} flexGrow={1}>
                     <Button
                       type="button"
                       onClick={() => setTab(1)}
@@ -109,10 +110,10 @@ export function LocationEdit() {
                     >
                       Next page
                     </Button>
-                  </Padding>
+                  </Box>
                 ) : (
                   <Fragment>
-                    <Padding grow side="r" size={1}>
+                    <Box flexGrow={1} pr={0.5}>
                       <Button
                         type="button"
                         onClick={() => setTab(0)}
@@ -123,10 +124,10 @@ export function LocationEdit() {
                       >
                         Previous
                       </Button>
-                    </Padding>
+                    </Box>
                   </Fragment>
                 )}
-                <Padding grow side="l" size={1}>
+                <Box flexGrow pl={0.5}>
                   <Button
                     type="submit"
                     className="pl-1"
@@ -138,7 +139,7 @@ export function LocationEdit() {
                   >
                     Submit
                   </Button>
-                </Padding>
+                </Box>
               </div>
             </Form>
           </CardContent>

@@ -1,5 +1,6 @@
 import {
   Button,
+  Box,
   Card,
   CardContent,
   List,
@@ -16,18 +17,16 @@ import React, { Fragment, useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { Link } from "react-router-dom";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 import { EmailField } from "../Common/EmailField";
-import { ShowItem } from "../Common/ShowItem";
-import { useShow } from "../Common/useShow";
+import { ShowViewItem } from "../Common/ShowViewItem";
+import { useShowView } from "../Common/useShowView";
 import { useUrls } from "../Common/useUrls";
 import { ShouldShow } from "../Common/ShouldShow";
 import { Location } from "./Location";
 
 export function LocationShow() {
   const [tab, setTab] = useState<0 | 1>(0);
-  const [location, Header] = useShow(Location.NAME, Location.create);
+  const [location, Header] = useShowView(Location.NAME, Location.create);
   const url = useUrls().root();
 
   return (
@@ -45,15 +44,15 @@ export function LocationShow() {
           <ShouldShow show={tab === 0}>
             <Header title={`Location ${location?.name ?? "No name"}`} />
             <List>
-              <ShowItem val={location?.address} name="Address" />
-              <ShowItem val={location?.phoneNumber} name="Phone number" />
-              <ShowItem
+              <ShowViewItem val={location?.address} name="Address" />
+              <ShowViewItem val={location?.phoneNumber} name="Phone number" />
+              <ShowViewItem
                 val={<EmailField email={location?.email} />}
                 name="Email"
               />
-              <ShowItem val={location?.lat} name="Latitude" />
-              <ShowItem val={location?.long} name="Longitude" />
-              <ShowItem
+              <ShowViewItem val={location?.lat} name="Latitude" />
+              <ShowViewItem val={location?.long} name="Longitude" />
+              <ShowViewItem
                 name="Arrivals"
                 val={
                   <MLink
@@ -71,24 +70,36 @@ export function LocationShow() {
                   primary={<span className="text-xl">Workhours</span>}
                 />
               </ListItem>
-              <Padding side="l" size={2}>
-                <ShowItem val={location?.workingHours.monday} name="Monday" />
-                <ShowItem val={location?.workingHours.tuesday} name="Tuesday" />
-                <ShowItem
+              <Box pl={1}>
+                <ShowViewItem
+                  val={location?.workingHours.monday}
+                  name="Monday"
+                />
+                <ShowViewItem
+                  val={location?.workingHours.tuesday}
+                  name="Tuesday"
+                />
+                <ShowViewItem
                   val={location?.workingHours.wednesday}
                   name="Wednesday"
                 />
-                <ShowItem
+                <ShowViewItem
                   val={location?.workingHours.thursday}
                   name="Thursday"
                 />
-                <ShowItem val={location?.workingHours.friday} name="Friday" />
-                <ShowItem
+                <ShowViewItem
+                  val={location?.workingHours.friday}
+                  name="Friday"
+                />
+                <ShowViewItem
                   val={location?.workingHours.saturday}
                   name="Saturday"
                 />
-                <ShowItem val={location?.workingHours.sunday} name="Sunday" />
-              </Padding>
+                <ShowViewItem
+                  val={location?.workingHours.sunday}
+                  name="Sunday"
+                />
+              </Box>
             </List>
           </ShouldShow>
 

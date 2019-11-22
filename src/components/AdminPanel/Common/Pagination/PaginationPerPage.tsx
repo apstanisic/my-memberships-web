@@ -1,4 +1,4 @@
-import { MenuItem, Select } from "@material-ui/core";
+import { MenuItem, Select, Box } from "@material-ui/core";
 import { Padding } from "components/common/Padding";
 import React, { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,7 @@ export function PaginationPerPage() {
   return (
     <Fragment>
       <div className="pr-4">Per page</div>
-      <Padding size={5} side="r" className="h-full">
+      <Box pr={3} height="100%">
         <div className="h-8 overflow-hidden">
           <Select
             className="h-8 w-16"
@@ -36,7 +36,7 @@ export function PaginationPerPage() {
             <MenuItem value={36}>36</MenuItem>
           </Select>
         </div>
-      </Padding>
+      </Box>
     </Fragment>
   );
 }

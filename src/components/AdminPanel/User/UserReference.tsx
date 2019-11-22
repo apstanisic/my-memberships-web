@@ -1,4 +1,4 @@
-import { Link as MLink, Avatar } from "@material-ui/core";
+import { Box, Link as MLink, Avatar } from "@material-ui/core";
 import React from "react";
 import { ReferenceField } from "../Common/ReferenceField";
 import { Link } from "react-router-dom";
@@ -18,7 +18,7 @@ export function userReference(id: string) {
           to={`/admin-panel/users/${user.id}/show`}
         >
           {user.avatar?.xs ? <Avatar src={user.avatar.xs} /> : <Person />}
-          <Padding side="l">{user.name}</Padding>
+          <Box pl={1}>{user.name}</Box>
         </MLink>
       )}
     />

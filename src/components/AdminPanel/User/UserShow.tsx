@@ -1,25 +1,25 @@
 import React from "react";
-import { Card, Paper, CardContent } from "@material-ui/core";
-import { useShow } from "../Common/useShow";
+import { Box, Card, Paper, CardContent } from "@material-ui/core";
+import { useShowView } from "../Common/useShowView";
 import { User } from "core/auth/User";
-import { ShowItem } from "../Common/ShowItem";
+import { ShowViewItem } from "../Common/ShowViewItem";
 import { Padding } from "components/common/Padding";
 
 export function UserShow() {
-  const [user, Header] = useShow<User>(User.NAME);
+  const [user, Header] = useShowView<User>(User.NAME);
   return (
     <Card className="max-w-3xl mx-auto">
       <CardContent>
         <Header title={user?.name} />
         <div className="flex">
           <div className="w-1/2">
-            <Padding side="y" size={8}>
-              <ShowItem name="Email" val={user?.email} />
-              <ShowItem name="Phone number" val={user?.phoneNumber} />
-            </Padding>
+            <Box py={5}>
+              <ShowViewItem name="Email" val={user?.email} />
+              <ShowViewItem name="Phone number" val={user?.phoneNumber} />
+            </Box>
           </div>
           <div className="w-1/2">
-            <Padding size={4}>
+            <Box p={3}>
               <Paper>
                 <img
                   alt={user?.name}
@@ -27,7 +27,7 @@ export function UserShow() {
                   style={{ minHeight: 200 }}
                 />
               </Paper>
-            </Padding>
+            </Box>
           </div>
         </div>
       </CardContent>

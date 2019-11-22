@@ -1,12 +1,10 @@
-import { dataProvider } from "components/dataProvider";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "store/store";
 import { useLocation } from "react-router-dom";
+import { requestListData } from "store/resourcesSlice";
+import { AppDispatch, RootState } from "store/store";
+import { PaginationMetadata, WithId } from "types";
 import { useUrls } from "./useUrls";
-import { WithId, PaginationMetadata } from "types";
-import { addToResource } from "store/resourcesSlice";
-import { Struct } from "core/utils/helpers";
 
 interface Props<T> {
   setIsLoading?: (newValue: boolean) => any;
@@ -29,30 +27,28 @@ export function useFetchMany<T extends WithId>({
   const remoteUrl = urls.remoteBase();
   // const [isLoading, setIsLoading] = useState(false);
   const resourceName = urls.resourceName();
+  const response = useSelector(
+    (state: RootState) => state.resources.responsesFromGetMany[remoteUrl],
+  );
+  useEffect(() => {
+    if (response) setResource(response.data);
+  }, [response, setResource]);
 
   useEffect(() => {
     if (!authInited) return;
-    setIsLoading?.(true);
-    dataProvider
-      .getMany<T>(remoteUrl, search)
-      .then(res => {
-        dispatch(addToResource({ data: res.data, resourceName }));
-        const data = res.data.map(item => transform?.(item) ?? item);
-        setResource(data);
-        setPg(res.pagination);
-        setIsLoading?.(false);
-      })
-      .catch(() => setIsLoading?.(false));
-  }, [
-    authInited,
-    dispatch,
-    remoteUrl,
-    resourceName,
-    search,
-    setIsLoading,
-    setResource,
-    transform,
-  ]);
+    dispatch(requestListData({ url: remoteUrl, resourceName }));
+    // setIsLoading?.(true);
+    // dataProvider
+    //   .getMany<T>(remoteUrl, search)
+    //   .then(res => {
+    //     dispatch(addToResource({ data: res.data, resourceName }));
+    //     const data = res.data.map(item => transform?.(item) ?? item);
+    //     setResource(data);
+    //     setPg(res.pagination);
+    //     setIsLoading?.(false);
+    //   })
+    //   .catch(() => setIsLoading?.(false));
+  }, [authInited, dispatch, remoteUrl, resourceName]);
 
   return { pg };
 }

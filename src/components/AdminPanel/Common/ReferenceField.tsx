@@ -12,7 +12,7 @@ interface Props {
 
 /** Give this field resource name and id, and it will render whateveryou want */
 export function ReferenceField({ resourceName, resourceId, render }: Props) {
-  const data = useProvider({ resourceName, resourceId });
+  const data = useProvider({ resourceName, resourceId, refetch: false });
 
   if (!data) {
     return (

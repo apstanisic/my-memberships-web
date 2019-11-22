@@ -9,9 +9,10 @@ import { createEpicMiddleware } from "redux-observable";
 import { ThunkAction } from "redux-thunk";
 import { authReducer, initLoginState } from "../components/Auth/authSlice";
 import { adminReducer } from "./adminSlice";
-import { fetchEpic, resourcesReducer } from "./resourcesSlice";
-import { uiReducer } from "./uiSlice";
 import { alertReducer } from "./alertSlice";
+import { fetchEpics } from "./fetchEpics";
+import { resourcesReducer } from "./resourcesSlice";
+import { uiReducer } from "./uiSlice";
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -28,7 +29,7 @@ export const store = configureStore({
   middleware: [epicMiddleware, ...getDefaultMiddleware()],
 });
 
-epicMiddleware.run(fetchEpic as any);
+epicMiddleware.run(fetchEpics);
 
 auth.init().then(user => store.dispatch(initLoginState(user)));
 

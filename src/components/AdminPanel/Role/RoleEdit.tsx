@@ -1,13 +1,13 @@
-import { Button, Card, CardContent } from "@material-ui/core";
+import { Box, Button, Card, CardContent } from "@material-ui/core";
 import { Padding } from "components/common/Padding";
 import { Role } from "core/auth/Role";
 import { Form, Formik } from "formik";
 import React from "react";
-import { TextInput } from "../Common/TextInput";
-import { useEdit } from "../Common/useEdit";
+import { TextInput } from "../Common/Input/TextInput";
+import { useEditView } from "../Common/useEditView";
 
 export function RoleEdit() {
-  const [role, onSubmit, cancel] = useEdit(Role.create);
+  const [role, onSubmit, cancel] = useEditView(Role.create);
 
   return (
     <Formik
@@ -24,7 +24,7 @@ export function RoleEdit() {
               <TextInput name="description" form={props} />
               <TextInput name="userId" form={props} disabled />
 
-              <Padding grow side="t" size={3}>
+              <Box flexGrow={1} pt={2}>
                 <Button
                   type="submit"
                   disabled={props.isSubmitting}
@@ -35,7 +35,7 @@ export function RoleEdit() {
                 >
                   Submit
                 </Button>
-              </Padding>
+              </Box>
             </Form>
           </CardContent>
         </Card>

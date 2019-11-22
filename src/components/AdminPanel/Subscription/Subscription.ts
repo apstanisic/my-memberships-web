@@ -3,6 +3,7 @@ import { IUser } from "core/auth/IUser";
 
 export class Subscription implements BaseEntity {
   static readonly NAME = "subscriptions";
+  static readonly ID = "subscriptionId";
 
   static create(subscription: any): Subscription {
     return new Subscription(subscription);

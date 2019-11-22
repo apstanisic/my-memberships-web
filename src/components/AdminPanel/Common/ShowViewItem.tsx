@@ -7,7 +7,7 @@ interface Props {
   secondary?: string;
 }
 
-export function ShowItem({ name, val, secondary }: Props) {
+export function ShowViewItem({ name, val, secondary }: Props) {
   return (
     <Fragment>
       <Hidden xsDown>

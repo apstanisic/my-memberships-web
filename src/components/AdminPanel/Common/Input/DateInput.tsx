@@ -1,11 +1,11 @@
-import React from "react";
 import DayjsUtils from "@date-io/dayjs";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import { FormikProps } from "formik";
-import { getNestedValue } from "./getNestedValue";
+import get from "lodash-es/get";
+import React from "react";
 
 interface Props {
   name: string;
@@ -14,7 +14,8 @@ interface Props {
 }
 
 export function DateInput(props: Props) {
-  const value = getNestedValue(props.name, props.form, null);
+  const value = get(props.form.values, props.name, null);
+
   return (
     <MuiPickersUtilsProvider utils={DayjsUtils}>
       <KeyboardDatePicker

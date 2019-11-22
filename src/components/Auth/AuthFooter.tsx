@@ -6,6 +6,7 @@ import {
   Button,
   makeStyles,
   Paper,
+  Box,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
 export function AuthFooter({ type }: Props) {
   const styles = useStyles();
   return (
-    <Padding side="t" size={5} className={styles.card}>
+    <Box pt={3} className={styles.card}>
       <Paper className={styles.bottomButtons}>
         <Link
           to={`/auth/${type === "login" ? "register" : "login"}`}
@@ -46,6 +47,6 @@ export function AuthFooter({ type }: Props) {
           </Link>
         )}
       </Paper>
-    </Padding>
+    </Box>
   );
 }
