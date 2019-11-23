@@ -20,7 +20,7 @@ import { WithId } from "src/types";
  * @param deleteFunc Method to be executed if user confirms yes
  */
 export function useDeleteConfirmation<T extends WithId = any>(
-  deleteFunc?: (data?: T) => any,
+  deleteFunc?: (data: T) => any,
 ) {
   const dispatch = useDispatch();
   const alert = useSelector((state: RootState) => state.alert);
@@ -32,7 +32,8 @@ export function useDeleteConfirmation<T extends WithId = any>(
     if (
       alert.answered &&
       alert.alertPayload === alertData?.id &&
-      alert.response
+      alert.response &&
+      alertData !== undefined
     ) {
       setWatchResponse(false);
       deleteFunc?.(alertData);

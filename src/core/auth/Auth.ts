@@ -1,9 +1,9 @@
 import { IUser } from "src/core/auth/IUser";
+import { http } from "src/core/http";
+import { Storage } from "src/core/Storage";
+import { Role } from "./Role";
 import { ManagePassword } from "./_ManagePassword";
 import { ManageUserData } from "./_ManageUserData";
-import { Storage } from "src/core/Storage";
-import { Http } from "src/core/http";
-import { Role } from "./Role";
 
 /* Keys to access auth store items */
 export enum StorageKeys {
@@ -50,16 +50,18 @@ class AuthController<User extends IUser = IUser> {
 
   /** Attempt to login user. Throw error if invalid */
   async attemptLogin(email: string, password: string): Promise<User> {
-    const { user, token }: UserAndToken<User> = await Http.post("/auth/login", {
-      email,
-      password,
-    }).then(res => res.data);
+    const { user, token }: UserAndToken<User> = await http
+      .post("/auth/login", {
+        email,
+        password,
+      })
+      .then(res => res.data);
 
     this.setAuthHeader(token);
     try {
-      const roles = await Http.get<Role[]>("/auth/account/roles").then(
-        res => res.data,
-      );
+      const roles = await http
+        .get<Role[]>("/auth/account/roles")
+        .then(res => res.data);
       user.roles = roles;
     } catch (error) {}
 
@@ -72,10 +74,9 @@ class AuthController<User extends IUser = IUser> {
   /* Register new user */
   async register(email: string, password: string): Promise<User> {
     const body = { email, password };
-    const { user, token } = await Http.post<{ user: User; token: string }>(
-      "/auth/register",
-      { body },
-    ).then(res => res.data);
+    const { user, token } = await http
+      .post<{ user: User; token: string }>("/auth/register", { body })
+      .then(res => res.data);
 
     this.setAuthHeader(token);
 
@@ -89,12 +90,12 @@ class AuthController<User extends IUser = IUser> {
   async logout(): Promise<void> {
     await this.storage.delete(StorageKeys.Token);
     await this.storage.delete(StorageKeys.User);
-    delete Http.defaults.headers["Authorization"];
+    delete http.defaults.headers["Authorization"];
   }
 
   /* Set Auth token */
   private setAuthHeader(token: string): void {
-    Http.defaults.headers["Authorization"] = `Bearer ${token}`;
+    http.defaults.headers["Authorization"] = `Bearer ${token}`;
   }
 }
 

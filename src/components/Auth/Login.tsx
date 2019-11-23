@@ -10,10 +10,12 @@ import { AppDispatch } from "src/store/store";
 import { AuthCard } from "./AuthCard";
 import { AuthFooter } from "./AuthFooter";
 import { loginValidation } from "./authValidation";
+import { useSnackbar } from "notistack";
 
 export function Login() {
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
+  const snackbar = useSnackbar();
 
   return (
     <Formik
@@ -25,7 +27,12 @@ export function Login() {
         try {
           await dispatch(attemptLogin(email, password));
           history.push("/");
-        } catch (error) {}
+        } catch (error) {
+          helpers.setFieldValue("password", "");
+          snackbar.enqueueSnackbar("Login failed. Please try again.", {
+            variant: "error",
+          });
+        }
       }}
     >
       {props => (

@@ -18,7 +18,7 @@ export class Subscription implements BaseEntity {
   expiresAt: Date;
   price: number;
   type: string;
-  allowedUses?: number;
+  allowedUses: number | null;
   active: boolean;
   usedAmount: number;
   arrivalIds: UUID[];

@@ -58,3 +58,5 @@ export interface WithChildren {
   children?: any;
   [key: string]: any;
 }
+
+export type Printable = string | React.ReactElement<any>;

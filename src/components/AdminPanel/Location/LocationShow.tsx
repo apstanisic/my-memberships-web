@@ -72,31 +72,31 @@ export function LocationShow() {
               </ListItem>
               <Box pl={1}>
                 <ShowViewItem
-                  val={location?.workingHours.monday}
+                  val={location?.workingHours?.monday}
                   name="Monday"
                 />
                 <ShowViewItem
-                  val={location?.workingHours.tuesday}
+                  val={location?.workingHours?.tuesday}
                   name="Tuesday"
                 />
                 <ShowViewItem
-                  val={location?.workingHours.wednesday}
+                  val={location?.workingHours?.wednesday}
                   name="Wednesday"
                 />
                 <ShowViewItem
-                  val={location?.workingHours.thursday}
+                  val={location?.workingHours?.thursday}
                   name="Thursday"
                 />
                 <ShowViewItem
-                  val={location?.workingHours.friday}
+                  val={location?.workingHours?.friday}
                   name="Friday"
                 />
                 <ShowViewItem
-                  val={location?.workingHours.saturday}
+                  val={location?.workingHours?.saturday}
                   name="Saturday"
                 />
                 <ShowViewItem
-                  val={location?.workingHours.sunday}
+                  val={location?.workingHours?.sunday}
                   name="Sunday"
                 />
               </Box>
@@ -108,6 +108,7 @@ export function LocationShow() {
               style={{ maxWidth: "80vw", maxHeight: "80vh", margin: "0 auto" }}
             >
               <ImageGallery
+                // @todo fix css for this, it should be constrained
                 additionalClass="max-h-full"
                 autoPlay={false}
                 slideDuration={250}

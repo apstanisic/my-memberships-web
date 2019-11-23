@@ -7,7 +7,7 @@ import { ReferenceField } from "../Common/ReferenceField";
 import { useUrls } from "../Common/useUrls";
 import { Location } from "../Location/Location";
 import { Subscription } from "../Subscription/Subscription";
-import { ResourceTable } from "../TestTable";
+import { ResourceTable } from "../Common/Table/ResourceTable";
 import { userReference } from "../User/UserReference";
 import { Arrival } from "./Arrival";
 

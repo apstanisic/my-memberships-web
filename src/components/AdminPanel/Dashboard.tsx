@@ -1,6 +1,6 @@
 import { List, ListItem, ListItemText, Paper, Box } from "@material-ui/core";
 import { Padding } from "src/components/common/Padding";
-import { Http } from "src/core/http";
+import { http } from "src/core/http";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -17,11 +17,13 @@ export function Dashboard() {
 
   useEffect(() => {
     if (!auth.isInited) return;
+    console.log(auth.user);
+
     dataProvider
       .custom()
       .get<Partial<Company>[]>("companies/user")
       .then(res => setCompanies(res.data.map(c => new Company(c))));
-  }, [auth.isInited]);
+  }, [auth.isInited, auth.user]);
 
   return (
     <Box p={1}>
@@ -38,6 +40,12 @@ export function Dashboard() {
               divider={i !== companies.length - 1}
             >
               <ListItemText className="text-center" primary={company.name} />
+              <ListItemText
+                className="text-center"
+                primary={
+                  auth.user?.roles.find(r => r.domain === company.id)?.name
+                }
+              />
             </ListItem>
           ))}
         </List>

@@ -4,10 +4,10 @@ import { Role } from "src/core/auth/Role";
 import { Form, Formik } from "formik";
 import React from "react";
 import { TextInput } from "../Common/Input/TextInput";
-import { useEditView } from "../Common/useEditView";
+import { useEditOrCreateView } from "../Common/useEditView";
 
 export function RoleEdit() {
-  const [role, onSubmit, cancel] = useEditView(Role.create);
+  const [role, onSubmit, cancel] = useEditOrCreateView(Role.create);
 
   return (
     <Formik

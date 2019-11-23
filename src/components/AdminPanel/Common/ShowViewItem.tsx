@@ -13,14 +13,17 @@ export function ShowViewItem({ name, val, secondary }: Props) {
       <Hidden xsDown>
         <ListItem className="flex justify-between">
           <ListItemText primary={name} />
-          <ListItemText primary={val} className="text-right" />
+          <ListItemText primary={val ?? "Not entered"} className="text-right" />
         </ListItem>
       </Hidden>
       <Hidden smUp>
         <ListItem>
           <div>
             <div className="text-gray-600 pt-1">{name}</div>
-            <ListItemText primary={val} secondary={secondary} />
+            <ListItemText
+              primary={val ?? "Not entered"}
+              secondary={secondary}
+            />
           </div>
         </ListItem>
       </Hidden>

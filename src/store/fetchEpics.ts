@@ -1,4 +1,4 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction, Action } from "@reduxjs/toolkit";
 import { combineEpics, Epic, ofType } from "redux-observable";
 import { defer } from "rxjs";
 import {
@@ -27,7 +27,7 @@ import { RootState } from "./store";
  * @example
  *  const resources = { companies: { companyId4444: true } };
  */
-const resourceMeta: Struct<Struct<boolean>> = {};
+const resourceMeta: Struct<Map<string, boolean>> = {};
 
 /**
  * Debaunce all request for 100ms, to see if there is
@@ -44,34 +44,32 @@ export const fetchByIdEpic: Epic<
     tap(action => {
       const { resourceId, resourceName } = action.payload;
       if (!resourceMeta[resourceName]) {
-        resourceMeta[resourceName] = {};
+        resourceMeta[resourceName] = new Map();
       }
-      resourceMeta[resourceName][resourceId] = true;
+      resourceMeta[resourceName]?.set(resourceId, true);
     }),
     debounceTime(100),
-    mergeMap(action =>
-      Object.keys(resourceMeta).map(resourceName => {
-        const ids = Object.keys(resourceMeta[resourceName]);
-        let baseUrl = `/companies/${state$.value.admin.url.companyId}/${resourceName}`;
-        if (resourceName === "users") baseUrl = "/auth/users";
-        return defer(() =>
-          dataProvider
-            .getByIds<WithId>(baseUrl, { ids })
-            .then(data => ({ data, resourceName })),
-        ).pipe(retry(1));
-      }),
-    ),
+    map(action => {
+      const { resourceName } = action.payload;
+      const ids = Array.from(resourceMeta[resourceName]?.keys());
+      let baseUrl = `companies/${state$.value.admin.url.companyId}/${resourceName}`;
+      if (resourceName === "users") baseUrl = "auth/users";
+      return defer(() =>
+        dataProvider
+          .getByIds<WithId>(baseUrl, { ids })
+          .then(data => ({ data, resourceName })),
+      ).pipe(retry(1));
+    }),
     mergeMap(action =>
       action.pipe(
-        tap(value => delete resourceMeta[value.resourceName]),
+        tap(value => resourceMeta[value.resourceName]?.clear()),
         map(({ data, resourceName }) => addToResource({ data, resourceName })),
       ),
     ),
   );
 
 /** List of all fetched urls as a map */
-const urlsToFetch: Struct = {};
-
+const urlsToFetch = new Map<string, boolean>();
 // It's dirty but i don't know rxjs verry well, so for now
 // it does the job
 export const fetchManyEpic: Epic<
@@ -81,8 +79,8 @@ export const fetchManyEpic: Epic<
 > = (action$, state$) =>
   action$.pipe(
     ofType(requestListData.type),
-    filter(action => urlsToFetch[action.payload.url] !== true),
-    tap(action => (urlsToFetch[action.payload.url] = true)),
+    filter(action => urlsToFetch.get(action.payload.url) !== true),
+    tap(action => urlsToFetch.set(action.payload.url, true)),
     mergeMap(({ payload: { url, resourceName } }) =>
       defer(() =>
         dataProvider
@@ -90,10 +88,22 @@ export const fetchManyEpic: Epic<
           .then(response => ({ response, url, resourceName })),
       ).pipe(retry(1)),
     ),
-    tap(action => wait(30000).then(() => delete urlsToFetch[action.url])),
+    tap(action => wait(30000).then(() => urlsToFetch.delete(action.url))),
     map(({ response, resourceName, url }) =>
       addToListData({ response, url, resourceName }),
     ),
   );
+
+// export const waitAuth: Epic<Action, any, RootState> = (action$, state$) =>
+//   action$.pipe(
+//     ofType(requestListData.type, requestDataById.type),
+//     filter(action => {
+//       console.log(state$.value.auth.isInited);
+
+//       return !state$.value.auth.isInited;
+//     }),
+//     debounceTime(5500),
+//     tap(val => console.log(val)),
+//   );
 
 export const fetchEpics = combineEpics(fetchByIdEpic, fetchManyEpic);

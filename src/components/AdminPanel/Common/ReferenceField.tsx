@@ -4,7 +4,7 @@ import { useProvider } from "../useProvider";
 
 interface Props {
   resourceName: string;
-  resourceId: string;
+  resourceId?: string;
   render: (val: any) => JSX.Element;
   rootResource?: boolean; // Resource is not nested inside company
   prefix?: string;
@@ -17,7 +17,7 @@ export function ReferenceField({ resourceName, resourceId, render }: Props) {
   if (!data) {
     return (
       <div
-        style={{ minHeight: 20, minWidth: 80 }}
+        style={{ minHeight: 20, minWidth: 100 }}
         className="flex items-center"
       >
         <LinearProgress className="w-full" style={{ height: 5 }} />

@@ -13,8 +13,8 @@ export class User implements BaseEntity {
   createdAt: Date;
   email: string;
   name: string;
-  avatar?: ImageSizes;
-  phoneNumber?: string;
+  avatar?: ImageSizes | null;
+  phoneNumber?: string | null;
   roles?: Role[];
 
   constructor(user: any) {

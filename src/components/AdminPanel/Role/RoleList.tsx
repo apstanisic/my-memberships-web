@@ -1,6 +1,6 @@
 import { Role } from "src/core/auth/Role";
 import React from "react";
-import { ResourceTable } from "../TestTable";
+import { ResourceTable } from "../Common/Table/ResourceTable";
 import { userReference } from "../User/UserReference";
 
 export function RoleList() {
@@ -11,7 +11,6 @@ export function RoleList() {
       columns={[
         { title: "User", render: row => userReference(row.userId) },
         { field: "name", title: "Name" },
-        { field: "description", title: "Description" },
         { field: "createdAt", title: "Created at", type: "datetime" },
       ]}
     />

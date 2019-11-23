@@ -6,13 +6,15 @@ import {
 } from "@reduxjs/toolkit";
 import { createEpicMiddleware } from "redux-observable";
 import { ThunkAction } from "redux-thunk";
+import { http } from "src/core/http";
+import { authReducer, initLoginState } from "src/components/Auth/authSlice";
 import { auth } from "src/core/auth/Auth";
-import { authReducer, initLoginState } from "../components/Auth/authSlice";
 import { adminReducer } from "./adminSlice";
 import { alertReducer } from "./alertSlice";
 import { fetchEpics } from "./fetchEpics";
 import { resourcesReducer } from "./resourcesSlice";
 import { uiReducer } from "./uiSlice";
+import { AxiosError } from "axios";
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -31,7 +33,7 @@ export const store = configureStore({
 
 epicMiddleware.run(fetchEpics);
 
-auth.init().then(user => store.dispatch(initLoginState(user)));
+// auth.init().then(user => store.dispatch(initLoginState(user)));
 
 export type RootState = ReturnType<typeof reducer>;
 
@@ -48,6 +50,9 @@ export type AppThunk<Return = void> = ThunkAction<
 // Http.interceptors.response.use(
 //   r => r,
 //   (error: AxiosError) => {
-//     // console.log(error);
-//   }
+//     // throw new Error("my error");
+//     // alert("e rroorrr");
+//     console.log(error);
+//     return error;
+//   },
 // );

@@ -13,13 +13,13 @@
     "formik": "^2.0.4",
     "idb-keyval": "^3.2.0",
     "lodash-es": "^4.17.15",
+    "notistack": "^0.9.6",
     "query-string": "^6.9.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-image-gallery": "^0.9.1",
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.3.0-next.62",
     "redux-observable": "^1.2.0",
     "rxjs": "^6.5.3",
     "yup": "^0.27.0"
@@ -36,6 +36,7 @@
     "@types/react-router-dom": "^5.1.2",
     "@types/react-slick": "^0.23.4",
     "@types/yup": "^0.26.24",
+    "react-scripts": "^3.3.0-next.62",
     "source-map-explorer": "^2.1.1",
     "tailwindcss": "^1.1.3",
     "typescript": "3.7.2"

@@ -11,7 +11,7 @@ import { SwapVert } from "@material-ui/icons";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useUrls } from "../Common/useUrls";
-import { ResourceTable } from "../TestTable";
+import { ResourceTable } from "../Common/Table/ResourceTable";
 import { Location } from "./Location";
 import { ArrivalFilterButton } from "./ArrivalFilterButton";
 

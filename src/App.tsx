@@ -1,9 +1,9 @@
-import { Auth } from "src/components/Auth/AuthRouter";
-import { HomePage } from "src/components/HomePage";
-import { AdminPanel } from "src/components/AdminPanel/AdminPanel";
 import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { AdminPanel } from "src/components/AdminPanel/AdminPanel";
+import { Auth } from "src/components/Auth/AuthRouter";
+import { HomePage } from "src/components/HomePage";
 import { store } from "src/store/store";
 import { AppTheme } from "src/Theme";
 
@@ -11,10 +11,7 @@ function App() {
   return (
     <Provider store={store}>
       <AppTheme>
-        {/* <div className="min-h-screen"> */}
-        {/* <BrowserRouter> */}
         <BrowserRouter>
-          {/* <HashRouter> */}
           <Switch>
             <Route exact path="/">
               <HomePage />
@@ -28,10 +25,7 @@ function App() {
               <AdminPanel />
             </Route>
           </Switch>
-          {/* </HashRouter> */}
         </BrowserRouter>
-        {/* </BrowserRouter> */}
-        {/* </div> */}
       </AppTheme>
     </Provider>
   );

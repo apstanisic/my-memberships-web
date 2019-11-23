@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { useChangeSearch } from "../useChangeSearch";
 import { FilterInput } from "./FilterInput";
 import { Add } from "@material-ui/icons";
-import { Printable } from "../TestTable";
+import { Printable } from "src/types";
 
 interface Props {
   create: any;

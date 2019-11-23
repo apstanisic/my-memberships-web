@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
 import { urlHelper } from "../../../store/adminSlice";
 import { RootState } from "../../../store/store";
+import { useLocation } from "react-router-dom";
 
 export function useUrls() {
+  const { search } = useLocation();
   const url = useSelector((state: RootState) => state.admin.url);
 
   return {
@@ -18,5 +20,6 @@ export function useUrls() {
     changeResource: (resource: string, id?: string) =>
       urlHelper.changeResource(url, resource, id),
     items: () => url,
+    search: () => urlHelper.remoteBase(url) + search,
   };
 }

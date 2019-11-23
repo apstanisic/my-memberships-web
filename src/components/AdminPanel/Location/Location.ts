@@ -1,13 +1,13 @@
 import { BaseEntity, Image, UUID } from "src/types";
 
 export interface Workhours {
-  monday: string;
-  tuesday: string;
-  wednesday: string;
-  thursday: string;
-  friday: string;
-  saturday: string;
-  sunday: string;
+  monday?: string;
+  tuesday?: string;
+  wednesday?: string;
+  thursday?: string;
+  friday?: string;
+  saturday?: string;
+  sunday?: string;
 }
 
 /** Location object */
@@ -24,16 +24,16 @@ export class Location implements BaseEntity {
 
   // All fields
   id: UUID;
+  name: string;
   createdAt: Date;
   companyId: string;
   address: string;
-  phoneNumber?: string;
-  email?: string;
-  lat?: number;
-  long?: number;
+  phoneNumber?: string | null;
+  email?: string | null;
+  lat?: number | null;
+  long?: number | null;
   workingHours: Workhours;
   images: Image[];
-  name?: string;
 
   // Constructor accepts object literal that parses to this class
   constructor(location: any) {

@@ -44,7 +44,7 @@ export const urlHelper = {
   show: (url: UrlParams, customId?: string) =>
     `${urlHelper.list(url)}/${customId ?? url.resourceId}/show`,
   remoteBase: (url: UrlParams, resource?: string) =>
-    `/companies/${url.companyId}/${resource ?? url.resourceName}`,
+    `companies/${url.companyId}/${resource ?? url.resourceName}`,
   remote: (url: UrlParams, resource?: string, id?: string) =>
     `${urlHelper.remoteBase(url, resource)}/${id ?? url.resourceId}`,
   changeResource: (url: UrlParams, newResource: string, id?: string) =>

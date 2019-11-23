@@ -11,7 +11,7 @@ import { Padding } from "src/components/common/Padding";
 import { Form, Formik } from "formik";
 import React from "react";
 import { TextInput } from "../Common/Input/TextInput";
-import { useEditView } from "../Common/useEditView";
+import { useEditOrCreateView } from "../Common/useEditView";
 import { Subscription } from "./Subscription";
 import { DateInput } from "../Common/Input/DateInput";
 import { SwitchInput } from "../Common/Input/SwitchInput";
@@ -20,7 +20,9 @@ import { User } from "src/core/auth/User";
 import { ShowViewItem } from "../Common/ShowViewItem";
 
 export function SubscriptionEdit() {
-  const [subscription, onSubmit, cancel] = useEditView(Subscription.create);
+  const [subscription, onSubmit, cancel] = useEditOrCreateView(
+    Subscription.create,
+  );
   console.log(subscription);
 
   return (

@@ -6,7 +6,7 @@ export const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:4000";
 const storageUrl = process.env.REACT_APP_STORAGE_URL || "";
 
 /** Http module with base url and some sane headers */
-export const Http = Axios.create({
+export const http = Axios.create({
   baseURL: apiUrl,
   headers: {
     "Access-Control-Allow-Origin": "*",

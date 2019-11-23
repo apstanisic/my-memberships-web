@@ -1,5 +1,5 @@
 import React from "react";
-import { ResourceTable } from "../TestTable";
+import { ResourceTable } from "../Common/Table/ResourceTable";
 import { userReference } from "../User/UserReference";
 import { Subscription } from "./Subscription";
 import { ArrivalFilterButton } from "../Location/ArrivalFilterButton";

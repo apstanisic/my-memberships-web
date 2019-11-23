@@ -14,10 +14,24 @@ export function userReference(id: string) {
       render={(user: User) => (
         <MLink
           className="flex items-center"
+          style={{ minWidth: 100 }}
           component={Link}
           to={`/admin-panel/users/${user.id}/show`}
         >
-          {user.avatar?.xs ? <Avatar src={user.avatar.xs} /> : <Person />}
+          <Box height={40} width={40}>
+            {/* <Box position="absolute">
+              <Person />
+            </Box>
+            <Avatar src={user.avatar?.xs} /> */}
+            {user.avatar?.xs ? (
+              <Avatar
+                className="bg-blue-200 rounded-full"
+                src={user.avatar.xs}
+              />
+            ) : (
+              <Person />
+            )}
+          </Box>
           <Box pl={1}>{user.name}</Box>
         </MLink>
       )}

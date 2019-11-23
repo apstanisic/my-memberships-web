@@ -3,6 +3,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "src/store/store";
+import { SnackbarProvider } from "notistack";
 
 export function AppTheme({ children }: any) {
   const { darkTheme } = useSelector((state: RootState) => state.ui);
@@ -45,5 +46,16 @@ export function AppTheme({ children }: any) {
     },
   });
 
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        {children}
+      </SnackbarProvider>
+    </ThemeProvider>
+  );
 }

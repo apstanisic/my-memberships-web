@@ -12,7 +12,7 @@ export class Role extends Resource implements BaseEntity {
   userId: UUID;
   name: string;
   domain: UUID; // UUID of company
-  description?: string;
+  description: string | null;
 
   constructor(role: any) {
     super();

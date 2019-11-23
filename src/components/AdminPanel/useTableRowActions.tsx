@@ -5,12 +5,20 @@ import { useHistory } from "react-router-dom";
 import { WithId } from "src/types";
 import { useDeleteConfirmation } from "./Common/useDeleteConfirmation";
 import { useUrls } from "./Common/useUrls";
-import { Column } from "./TestTable";
+import { Column } from "./Common/Table/TableInterfaces";
 
 interface Props<T> {
-  onDelete?: (row?: T) => any;
+  onDelete?: (row: T) => any;
 }
 
+/**
+ * Generate view, edit, delete actions for this table.
+ * Row is possed when action column is rendering. We just need to
+ * tell him how to delete data. It already knows how to open show and
+ * edit form
+ * @param props Accepts onDelete method that will be executed
+ *  with passed row
+ */
 export function useTableRowActions<T extends WithId = any>(
   props: Props<T>,
 ): Column<T> {
@@ -40,10 +48,4 @@ export function useTableRowActions<T extends WithId = any>(
       </div>
     ),
   };
-}
-
-export function useGlobalCreateButton() {
-  const history = useHistory();
-  const urls = useUrls();
-  return () => history.push(urls.create());
 }

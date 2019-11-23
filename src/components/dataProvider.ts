@@ -1,7 +1,7 @@
 // in myRestProvider.js
-import { Http } from "src/core/http";
-import { Struct, removeEmptyItems } from "src/core/utils/helpers";
-import { stringify, parse } from "query-string";
+import { parse, stringify } from "query-string";
+import { http } from "src/core/http";
+import { removeEmptyItems, Struct } from "src/core/utils/helpers";
 import { PaginationResult, UUID, WithId } from "src/types";
 
 interface Data<T = any> {
@@ -10,6 +10,12 @@ interface Data<T = any> {
 // type Data<T = any> = Promise<{ data: T }>;
 
 type SearchType = string | Struct;
+
+interface TempParams<T> {
+  id?: UUID;
+  data: T | Struct;
+  method: "PUT" | "POST";
+}
 
 export function convertSearch(
   search: string | Struct | undefined,
@@ -31,12 +37,12 @@ export function convertSearch(
 
 function cacheGet<T>(path: string): Promise<T> {
   // Do caching
-  return Http.get<T>(path).then(res => res.data);
+  return http.get<T>(path).then(res => res.data);
 }
 
 export const dataProvider = {
   custom() {
-    return Http;
+    return http;
   },
 
   async getMany<T = any>(
@@ -68,7 +74,7 @@ export const dataProvider = {
     resource: string,
     params: { data: Struct },
   ): Promise<Data<T>> {
-    return Http.post(resource, params.data);
+    return http.post(resource, params.data);
   },
 
   async update<T extends WithId = any>(
@@ -77,7 +83,19 @@ export const dataProvider = {
   ): Promise<Data<T>> {
     const id = params.id ?? params.data?.id;
     if (!id) throw new Error("No id provided");
-    return Http.put(`${resource}/${id}`, params.data);
+
+    return http.put(`/${resource}/${id}`, params.data);
+  },
+
+  async createOrUpdate<T extends WithId = any>(
+    resource: string,
+    { data, method, id }: TempParams<T>,
+  ): Promise<Data<T>> {
+    id = id ?? data?.id;
+    if (!id && method === "PUT") throw new Error("No id provided");
+    const url = method === "POST" ? resource : `/${resource}/${id}`;
+
+    return http({ url, method, data });
   },
 
   /** Params can either be id or object with params */
@@ -91,6 +109,6 @@ export const dataProvider = {
     } else if (params?.id) {
       id = `/${params.id}`;
     }
-    return Http.delete(`${resource}${id}`);
+    return http.delete(`${resource}${id}`);
   },
 };

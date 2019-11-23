@@ -47,8 +47,6 @@ export function useResourceDelete<T extends WithId>({
       });
       setResource(resources);
       alert("errror");
-    } finally {
-      // setIsLoading(false);
     }
   };
 }

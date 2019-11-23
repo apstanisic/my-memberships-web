@@ -1,110 +1,59 @@
 import {
-  CircularProgress,
-  Checkbox,
   Box,
-  makeStyles,
+  Checkbox,
+  CircularProgress,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Theme,
   Toolbar,
 } from "@material-ui/core";
+import React, { useState } from "react";
 import { Struct } from "src/core/utils/helpers";
-import React, { useReducer, useState } from "react";
-import { PaginationMetadata, WithId } from "src/types";
-import { Pagination } from "./Common/Pagination/Pagination";
-import { TableToolbar } from "./Common/TableToolbar";
-import { decideFieldType } from "./decideFieldType";
-import {
-  useGlobalCreateButton,
-  useTableRowActions,
-} from "./useTableRowActions";
-import { useResource } from "./Common/useResource";
-import { Padding } from "src/components/common/Padding";
-import { useTableSelection } from "./useTableSelection";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    width: "100%",
-    overflowX: "auto",
-    margin: "10px auto",
-    position: "relative",
-  },
-  table: {
-    minWidth: 650,
-  },
-  tableWrapper: {
-    minHeight: 400,
-    maxHeight: 640,
-    overflow: "auto",
-  },
-  loaderWrapper: {
-    zIndex: theme.zIndex.modal - 5,
-    position: "absolute",
-    background: "#FFFFFF",
-    opacity: "0.6",
-    width: "100%",
-    height: "100%",
-  },
-  loader: {
-    zIndex: theme.zIndex.modal - 4,
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-}));
-
-export type Printable = string | React.ReactElement<any>;
-
-export interface Column<Row extends Struct = any> {
-  field?: string;
-  title?: Printable;
-  render?: (data: Row) => any;
-  align?: "inherit" | "left" | "center" | "right" | "justify";
-  emptyValue?: Printable;
-  [key: string]: any;
-}
+import { Printable, WithId } from "src/types";
+import { decideFieldType } from "../../decideFieldType";
+import { useTableRowActions } from "../../useTableRowActions";
+import { useTableSelection } from "../../useTableSelection";
+import { Pagination } from "../Pagination/Pagination";
+import { TableToolbar } from "../TableToolbar";
+import { useResource } from "../useResource";
+import { Column } from "./TableInterfaces";
+import { useResourceTableStyles } from "./useTableStyles";
+import { useOpenCreateForm } from "../../useOpenCreateForm";
 
 interface Props<T extends Struct = any> {
   columns: Column<T>[];
-  // data?: T[];
   title?: Printable;
-  // pagination?: PaginationMetadata;
-  // isLoading?: boolean;
-  // views?: any;
   transform?: (val: any) => T;
 }
 
 export function ResourceTable<ResourceType extends WithId = any>(
   props: Props<ResourceType>,
 ) {
-  const [isLoading, setIsLoading] = useState(false);
-  const classes = useStyles();
-  const rowActions = useTableRowActions({ onDelete: console.log });
-  const create = useGlobalCreateButton();
-  const [data, pg] = useResource<ResourceType>({
-    setIsLoading,
-    transform: props.transform,
-  });
+  // Is table waiting for data
+  // Css classes
+  const classes = useResourceTableStyles();
+  const openCreateForm = useOpenCreateForm();
+  const { data, loading, onDelete, pg } = useResource<ResourceType>(
+    props.transform,
+  );
+  const rowActions = useTableRowActions({ onDelete });
   const selection = useTableSelection(data);
+  // All columns that user passed and additional buttons (view, edit, delete)
   const columns = [...props.columns, rowActions];
 
   return (
     <Paper className={classes.root} elevation={4}>
-      {isLoading && (
+      {loading.isLoading && (
         <div className={classes.loaderWrapper}>
           <div className={classes.loader}>
             <CircularProgress />
           </div>
         </div>
       )}
-      <TableToolbar create={create} title={props.title} />
+      <TableToolbar create={openCreateForm} title={props.title} />
       <div className={classes.tableWrapper}>
         <Table size="small" className={classes.table}>
           <TableHead>
@@ -158,7 +107,7 @@ export function ResourceTable<ResourceType extends WithId = any>(
           </TableBody>
         </Table>
       </div>
-      <Pagination meta={pg.pg} />
+      <Pagination meta={pg} />
     </Paper>
   );
 }
