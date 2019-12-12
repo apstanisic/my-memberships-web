@@ -27,6 +27,9 @@ interface Props<T extends Struct = any> {
   columns: Column<T>[];
   title?: Printable;
   transform?: (val: any) => T;
+  actions?: {
+    hasEdit?: boolean;
+  };
 }
 
 export function ResourceTable<ResourceType extends WithId = any>(
@@ -39,7 +42,13 @@ export function ResourceTable<ResourceType extends WithId = any>(
   const { data, loading, onDelete, pg } = useResource<ResourceType>(
     props.transform,
   );
-  const rowActions = useTableRowActions({ onDelete });
+  const rowActions = useTableRowActions({
+    // onDelete: val => {
+    //   console.log(val);
+    // },
+    onDelete,
+    hasEdit: props.actions?.hasEdit,
+  });
   const selection = useTableSelection(data);
   // All columns that user passed and additional buttons (view, edit, delete)
   const columns = [...props.columns, rowActions];
@@ -53,7 +62,12 @@ export function ResourceTable<ResourceType extends WithId = any>(
           </div>
         </div>
       )}
-      <TableToolbar create={openCreateForm} title={props.title} />
+      <TableToolbar
+        selection={selection}
+        create={openCreateForm}
+        title={props.title}
+        deleteMany={onDelete}
+      />
       <div className={classes.tableWrapper}>
         <Table size="small" className={classes.table}>
           <TableHead>

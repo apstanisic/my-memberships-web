@@ -28,6 +28,7 @@ export function SubscriptionShow() {
   function format(date: Date | string | undefined) {
     return dayjs(date).format("DD.MM.YYYY.");
   }
+  console.log(subscription);
 
   return (
     <Card className="max-w-3xl mx-auto">

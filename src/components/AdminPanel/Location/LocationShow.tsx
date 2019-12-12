@@ -47,7 +47,7 @@ export function LocationShow() {
               <ShowViewItem val={location?.address} name="Address" />
               <ShowViewItem val={location?.phoneNumber} name="Phone number" />
               <ShowViewItem
-                val={<EmailField email={location?.email} />}
+                val={<EmailField email={location?.email ?? undefined} />}
                 name="Email"
               />
               <ShowViewItem val={location?.lat} name="Latitude" />

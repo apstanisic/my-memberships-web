@@ -35,8 +35,8 @@ export function convertSearch(
   return `?${stringify(searchQuery)}`;
 }
 
+// Do caching
 function cacheGet<T>(path: string): Promise<T> {
-  // Do caching
   return http.get<T>(path).then(res => res.data);
 }
 
@@ -66,6 +66,9 @@ export const dataProvider = {
     resource: string,
     params: { ids: string[] },
   ): Promise<T[]> {
+    // console.log("requested ", resource);
+    // console.log(params.ids);
+
     const ids = params.ids.join(",");
     return cacheGet(`${resource}/ids?${stringify({ ids })}`);
   },

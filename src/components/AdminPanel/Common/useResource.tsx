@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { PaginationMetadata, WithId } from "src/types";
-import { useDeleteConfirmation } from "./useDeleteConfirmation";
 import { useResourceDelete } from "./useResourceDelete";
 import { useFetchMany } from "./useFetchMany";
 
@@ -13,7 +12,7 @@ type Transform<T> = (val: any) => T;
 interface ReturnObject<T> {
   data: T[];
   pg?: PaginationMetadata;
-  onDelete: (row: WithId) => any;
+  onDelete: (row: WithId | WithId[]) => any;
   loading: {
     isLoading: boolean;
     setIsLoading: (isLoading: boolean) => any;
@@ -27,7 +26,7 @@ export function useResource<T extends WithId = any>(
   const [data, setResource] = useState<T[]>([]);
   const [pg, setPg] = useState<PaginationMetadata>();
   const onDelete = useResourceDelete({ resources: data, setResource });
-  const deleting = useDeleteConfirmation(onDelete);
+  // const deleting = useDeleteConfirmation(onDelete);
   useFetchMany({ setIsLoading, transform, setResource, setPg });
 
   return {
@@ -37,6 +36,7 @@ export function useResource<T extends WithId = any>(
       isLoading,
       setIsLoading,
     },
-    onDelete: deleting,
+    // onDelete: deleting,
+    onDelete,
   };
 }

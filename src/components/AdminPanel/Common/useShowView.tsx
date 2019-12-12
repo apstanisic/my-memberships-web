@@ -1,7 +1,7 @@
-import { IconButton, Typography } from "@material-ui/core";
+import { IconButton, Typography, Box, Button } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import qs from "query-string";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { dataProvider } from "src/components/dataProvider";
@@ -9,14 +9,20 @@ import { setUrlData } from "src/store/adminSlice";
 import { WithId } from "../../../types";
 import { AppIcons } from "../Icons";
 import { useProvider } from "../useProvider";
-import { useDeleteConfirmation } from "./useDeleteConfirmation";
 import { useUrls } from "./useUrls";
+import { useSnackbar } from "notistack";
 
 type ShowData<T> = [T | undefined, React.ComponentType<any>];
+
+interface Options {
+  hasDelete?: boolean;
+  hasEdit?: boolean;
+}
 
 export function useShowView<T extends WithId>(
   name: string,
   transform?: (val: any) => T,
+  options?: Options,
 ): ShowData<T> {
   const dispatch = useDispatch();
   const { resourceId } = useParams<{ resourceId: string }>();
@@ -26,17 +32,32 @@ export function useShowView<T extends WithId>(
   const editPath = urls.edit();
   const listPath = urls.list();
   const deletePath = urls.remote();
+  const snackbar = useSnackbar();
+  const history = useHistory();
 
   // const deleting = useDelete(() => dataProvider.delete(remotePath));
-  const deleteFunc = (res?: WithId) => dataProvider.delete(deletePath);
-  const onDelete = useDeleteConfirmation(deleteFunc);
+  // const deleteFunc = (res?: WithId) => dataProvider.delete(deletePath);
+  const deleteFunc = (res?: WithId) => {
+    dataProvider
+      .delete(deletePath)
+      .then(res => {
+        snackbar.enqueueSnackbar("Successfully deleted item", {
+          variant: "success",
+        });
+        history.push(listPath);
+      })
+      .catch(() =>
+        snackbar.enqueueSnackbar("Error deleting item", { variant: "error" }),
+      );
+  };
+  // Refactor, leftover from useDeleteConfirmation
+  const onDelete = deleteFunc;
 
   const resource = useProvider({
     transform,
     resourceName: name,
     refetch: qs.parse(search).refetch !== "false",
   });
-  const history = useHistory();
 
   const editButton = (
     <IconButton onClick={() => history.push(editPath)}>
@@ -44,10 +65,17 @@ export function useShowView<T extends WithId>(
     </IconButton>
   );
 
+  // Add resource name to not confuse users where back is leading
   const backButton = (
-    <IconButton onClick={() => history.push(listPath)}>
-      <AppIcons.ArrowBack />
-    </IconButton>
+    <Button
+      onClick={() => history.push(listPath)}
+      startIcon={<AppIcons.ArrowBack />}
+    >
+      {name}
+    </Button>
+    // <IconButton onClick={() => history.push(listPath)}>
+    //     <AppIcons.ArrowBack />
+    // </IconButton>
   );
 
   const deleteButton = (
@@ -56,22 +84,24 @@ export function useShowView<T extends WithId>(
     </IconButton>
   );
 
-  const Header = ({ title }: { title: string }) => (
-    <Fragment>
-      {/* {deleting.alert} */}
-      <div className="flex justify-between items-center pb-4">
-        {backButton}
-        <Typography variant="h5" component="h2">
-          {title}
-        </Typography>
-        <div className="flex">
-          {editButton}
-          {deleteButton}
-          {/* {deleting.button} */}
+  const Header = ({ title }: { title: string }) => {
+    return (
+      <Fragment>
+        {/* {deleting.alert} */}
+        <div className="flex justify-between items-center pb-4">
+          {backButton}
+          <Typography variant="h5" component="h2">
+            {title}
+          </Typography>
+          <div className="flex">
+            {options?.hasEdit !== false && editButton}
+            {options?.hasDelete !== false && deleteButton}
+            {/* {deleting.button} */}
+          </div>
         </div>
-      </div>
-    </Fragment>
-  );
+      </Fragment>
+    );
+  };
 
   return [resource, Header];
 }

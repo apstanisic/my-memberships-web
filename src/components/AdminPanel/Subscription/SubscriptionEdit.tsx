@@ -23,7 +23,6 @@ export function SubscriptionEdit() {
   const [subscription, onSubmit, cancel] = useEditOrCreateView(
     Subscription.create,
   );
-  console.log(subscription);
 
   return (
     <Formik

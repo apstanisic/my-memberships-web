@@ -1,11 +1,12 @@
 import { LinearProgress } from "@material-ui/core";
 import React from "react";
 import { useProvider } from "../useProvider";
+import { WithId } from "src/types";
 
-interface Props {
+interface Props<T extends WithId = any> {
   resourceName: string;
   resourceId?: string;
-  render: (val: any) => JSX.Element;
+  render: (val: T) => JSX.Element;
   rootResource?: boolean; // Resource is not nested inside company
   prefix?: string;
 }

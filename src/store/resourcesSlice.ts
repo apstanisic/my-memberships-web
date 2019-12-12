@@ -45,10 +45,7 @@ const resourcesSlice = createSlice({
       const { resourceName, data } = action.payload;
       // If resurce does not already exist, create it
       defaults(state.resources, { [resourceName]: {} });
-
-      data.forEach(
-        item => (state.resources[resourceName][item.id] = cloneDeep(item)),
-      );
+      data.forEach(item => (state.resources[resourceName][item.id] = item));
     },
     addToListData(
       state,

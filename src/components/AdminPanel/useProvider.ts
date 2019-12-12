@@ -5,6 +5,9 @@ import { requestDataById } from "src/store/resourcesSlice";
 import { RootState } from "src/store/store";
 import { UUID, WithId } from "src/types";
 import { useUrls } from "./Common/useUrls";
+import { useObservable } from "react-use";
+import { cachedResourcesById } from "src/store/tempCache";
+import { useGetResource } from "./Common/hooks/useGetResource";
 
 /** Just return passed value */
 const same = (val: any) => val;
@@ -37,10 +40,11 @@ export function useProvider<T extends WithId>(props: UPProps<T>) {
 
   const isInited = useSelector((state: RootState) => state.auth.isInited);
 
-  const resource: T | undefined = useSelector(
-    (state: RootState) =>
-      state.resources.resources[resourceName]?.[resourceId ?? "null"],
-  );
+  // const resource: T | undefined = useSelector(
+  //   (state: RootState) =>
+  //     state.resources.resources[resourceName]?.[resourceId ?? "null"],
+  // );
+  const resource = useGetResource<T>(resourceId, resourceName);
 
   // Stop if:
   // we already have resource, and we  don't want latest copy

@@ -3,7 +3,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import { ScaffoldAppBar } from "./AppBar";
 import { AppDrawer } from "./AppDrawer";
-import { AppAlert } from "./AppAlert";
 
 const drawerWidth = 240;
 
@@ -59,12 +58,10 @@ export function AppScaffold(props: any) {
       {/* <CssBaseline /> */}
       <ScaffoldAppBar classes={classes} />
       <AppDrawer classes={classes} />
-      <AppAlert />
 
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {props.children || <span></span>}
-        <AppAlert />
       </main>
     </div>
   );

@@ -6,15 +6,11 @@ import {
 } from "@reduxjs/toolkit";
 import { createEpicMiddleware } from "redux-observable";
 import { ThunkAction } from "redux-thunk";
-import { http } from "src/core/http";
-import { authReducer, initLoginState } from "src/components/Auth/authSlice";
-import { auth } from "src/core/auth/Auth";
+import { authReducer } from "src/components/Auth/authSlice";
 import { adminReducer } from "./adminSlice";
-import { alertReducer } from "./alertSlice";
 import { fetchEpics } from "./fetchEpics";
 import { resourcesReducer } from "./resourcesSlice";
 import { uiReducer } from "./uiSlice";
-import { AxiosError } from "axios";
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -23,7 +19,6 @@ const reducer = combineReducers({
   ui: uiReducer,
   admin: adminReducer,
   resources: resourcesReducer,
-  alert: alertReducer,
 });
 
 export const store = configureStore({

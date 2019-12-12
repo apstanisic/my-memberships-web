@@ -25,6 +25,7 @@ export function useEditOrCreateView<T extends WithId>(
   const resourceName = url.resourceName();
 
   const resource = useProvider<T>({ resourceName });
+
   const [oldData, setOldData] = useState<T | undefined>(resource);
 
   const onSubmit = (newData: Partial<T>) => {
@@ -43,7 +44,7 @@ export function useEditOrCreateView<T extends WithId>(
       })
       .then(val => {
         dispatch(addToResource({ resourceName, data: [val.data] }));
-        history.push(url.show(val.data.id) + "?refetch=false");
+        history.push(url.show(val.data.id));
         snackbar.enqueueSnackbar(
           method === "POST"
             ? `Successfully added new item to ${resourceName}.`
@@ -52,7 +53,7 @@ export function useEditOrCreateView<T extends WithId>(
         );
       })
       .catch(error => {
-        snackbar.enqueueSnackbar(error, { variant: "error" });
+        snackbar.enqueueSnackbar(JSON.stringify(error), { variant: "error" });
         if (oldData) dispatch(addToResource({ resourceName, data: [oldData] }));
       });
   };

@@ -3,12 +3,12 @@ import { Delete, Edit, Visibility } from "@material-ui/icons";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { WithId } from "src/types";
-import { useDeleteConfirmation } from "./Common/useDeleteConfirmation";
 import { useUrls } from "./Common/useUrls";
 import { Column } from "./Common/Table/TableInterfaces";
 
 interface Props<T> {
   onDelete?: (row: T) => any;
+  hasEdit?: boolean;
 }
 
 /**
@@ -24,7 +24,7 @@ export function useTableRowActions<T extends WithId = any>(
 ): Column<T> {
   const history = useHistory();
   const urls = useUrls();
-  const rowDelete = useDeleteConfirmation(props?.onDelete);
+  // const rowDelete = useDeleteConfirmation(props?.onDelete);
 
   const view = (row: WithId) => history.push(urls.show(row.id));
   const edit = (row: WithId) => history.push(urls.edit(row.id));
@@ -37,11 +37,13 @@ export function useTableRowActions<T extends WithId = any>(
         <IconButton onClick={() => view(row)}>
           <Visibility />
         </IconButton>
-        <IconButton onClick={() => edit(row)}>
-          <Edit />
-        </IconButton>
+        {props.hasEdit !== false && (
+          <IconButton onClick={() => edit(row)}>
+            <Edit />
+          </IconButton>
+        )}
         {props?.onDelete && (
-          <IconButton onClick={() => rowDelete(row)}>
+          <IconButton onClick={() => props?.onDelete?.(row)}>
             <Delete />
           </IconButton>
         )}

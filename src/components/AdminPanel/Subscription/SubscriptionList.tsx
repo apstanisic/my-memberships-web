@@ -1,6 +1,6 @@
 import React from "react";
 import { ResourceTable } from "../Common/Table/ResourceTable";
-import { userReference } from "../User/UserReference";
+import { UserReference } from "../User/UserReference";
 import { Subscription } from "./Subscription";
 import { ArrivalFilterButton } from "../Location/ArrivalFilterButton";
 
@@ -10,7 +10,7 @@ export function SubscriptionList() {
       title="Subscriptions"
       transform={Subscription.create}
       columns={[
-        { title: "User", render: row => userReference(row.ownerId) },
+        { title: "User", render: row => <UserReference id={row.ownerId} /> },
         { field: "type", title: "Type" },
         { field: "active", title: "Active", align: "center" },
         { field: "expiresAt", title: "Expires at", type: "date" },

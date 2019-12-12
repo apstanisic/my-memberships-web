@@ -5,6 +5,8 @@ import * as serviceWorker from "./serviceWorker";
 import { auth } from "./core/auth/Auth";
 import { store } from "./store/store";
 import { initLoginState } from "./components/Auth/authSlice";
+import "./out.css";
+import "./style.css";
 
 // This is a little dirty. App won't start rendering until we
 // initialize auth. It should be very fast, but it's still a

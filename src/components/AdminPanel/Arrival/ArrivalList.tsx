@@ -8,7 +8,7 @@ import { useUrls } from "../Common/useUrls";
 import { Location } from "../Location/Location";
 import { Subscription } from "../Subscription/Subscription";
 import { ResourceTable } from "../Common/Table/ResourceTable";
-import { userReference } from "../User/UserReference";
+import { UserReference } from "../User/UserReference";
 import { Arrival } from "./Arrival";
 
 export function ArrivalList() {
@@ -19,9 +19,10 @@ export function ArrivalList() {
       <ResourceTable
         title="Arrivals"
         // data={arrivals}
+        actions={{ hasEdit: false }}
         transform={Arrival.create}
         columns={[
-          { title: "User", render: row => userReference(row.userId) },
+          { title: "User", render: row => <UserReference id={row.userId} /> },
           {
             title: "Location",
             render: row => {
@@ -35,7 +36,7 @@ export function ArrivalList() {
                   className="whitespace-no-wrap flex items-center"
                 >
                   <ReferenceField
-                    resourceId={row.locationId ?? "dsa"}
+                    resourceId={row.locationId ?? ""}
                     resourceName="locations"
                     render={(location: Location) => (
                       <Fragment>

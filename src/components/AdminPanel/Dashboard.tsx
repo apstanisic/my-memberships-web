@@ -17,7 +17,6 @@ export function Dashboard() {
 
   useEffect(() => {
     if (!auth.isInited) return;
-    console.log(auth.user);
 
     dataProvider
       .custom()
