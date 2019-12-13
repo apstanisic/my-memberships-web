@@ -18,6 +18,8 @@ import { useUrls } from "../Common/useUrls";
 import { Subscription } from "./Subscription";
 import dayjs from "dayjs";
 import { capitalize } from "src/core/utils/helpers";
+import { ArrivalFilterButton } from "../Location/ArrivalFilterButton";
+import { UserReference } from "../User/UserReference";
 
 export function SubscriptionShow() {
   const [subscription, Header] = useShowView(
@@ -40,6 +42,10 @@ export function SubscriptionShow() {
         />
         <List>
           <ShowViewItem
+            name="User"
+            val={<UserReference id={subscription?.ownerId} reverse />}
+          />
+          <ShowViewItem
             val={dayjs(subscription?.startsAt).format("DD.MM.YYYY")}
             name="Starts at"
           />
@@ -53,6 +59,15 @@ export function SubscriptionShow() {
             val={`${subscription?.usedAmount ??
               0} / ${subscription?.allowedUses ?? "∞"} `}
             name="Used / allowed uses"
+          />
+          <ShowViewItem
+            name="Arrivals"
+            val={
+              <ArrivalFilterButton
+                id={subscription?.id}
+                filterField={Subscription.ID}
+              />
+            }
           />
         </List>
       </CardContent>

@@ -5,36 +5,44 @@ import { Link } from "react-router-dom";
 import { User } from "src/core/auth/User";
 import { ReferenceField } from "../Common/ReferenceField";
 
-export function UserReference({ id }: { id?: string }) {
+interface Props {
+  id?: string;
+  reverse?: boolean;
+}
+
+export function UserReference({ id, reverse }: Props) {
   if (!id) return <span></span>;
   return (
-    <ReferenceField
-      resourceId={id}
-      resourceName="users"
-      render={(user: User) => (
-        <MLink
-          className="flex items-center"
-          style={{ minWidth: 100 }}
-          component={Link}
-          to={`/admin-panel/users/${user.id}/show`}
-        >
-          <Box height={40} width={40}>
-            {/* <Box position="absolute">
+    <div className={`flex ${reverse ? "justify-end" : ""}`}>
+      <ReferenceField
+        resourceId={id}
+        resourceName="users"
+        render={(user: User) => (
+          <MLink
+            className="flex items-center"
+            style={{ minWidth: 100 }}
+            component={Link}
+            to={`/admin-panel/users/${user.id}/show`}
+          >
+            {reverse && <Box pr={1}>{user.name}</Box>}
+            <Box height={40} width={40}>
+              {/* <Box position="absolute">
               <Person />
             </Box>
             <Avatar src={user.avatar?.xs} /> */}
-            {user.avatar?.xs ? (
-              <Avatar
-                className="bg-blue-200 rounded-full"
-                src={user.avatar.xs}
-              />
-            ) : (
-              <Person />
-            )}
-          </Box>
-          <Box pl={1}>{user.name}</Box>
-        </MLink>
-      )}
-    />
+              {user.avatar?.xs ? (
+                <Avatar
+                  className="bg-blue-200 rounded-full"
+                  src={user.avatar.xs}
+                />
+              ) : (
+                <Person />
+              )}
+            </Box>
+            {!reverse && <Box pl={1}>{user.name}</Box>}
+          </MLink>
+        )}
+      />
+    </div>
   );
 }

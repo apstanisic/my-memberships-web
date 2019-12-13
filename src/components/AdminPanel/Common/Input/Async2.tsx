@@ -88,7 +88,17 @@ export const ReferenceSelectInput = React.memo(
           // When autocomplete changes take id and put it in idField
           onChange={(e, value) => form.setFieldValue(idField, value?.id)}
           renderInput={params => (
-            <TextField {...params} label={label} variant="outlined" fullWidth />
+            <TextField
+              {...params}
+              label={label}
+              variant="outlined"
+              name={idField}
+              fullWidth
+              {...(form.errors[idField] && {
+                error: true,
+                helperText: form.errors[idField],
+              })}
+            />
           )}
         />
       </Box>

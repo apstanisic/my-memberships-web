@@ -1,4 +1,11 @@
-import { Box, Button, Card, CardContent, CardHeader } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Toolbar,
+} from "@material-ui/core";
 import { Padding } from "src/components/common/Padding";
 import { Role } from "src/core/auth/Role";
 import { Form, Formik } from "formik";
@@ -23,7 +30,9 @@ export function RoleEdit() {
       {props => (
         <Card>
           {/* <CardHeader>Card title</CardHeader> */}
-          <h1>Edit subscription</h1>
+          <Toolbar>
+            <span className="text-2xl mx-auto">Edit role</span>
+          </Toolbar>
           <CardContent>
             <Box height={220}>
               <ReferenceField
@@ -51,7 +60,6 @@ export function RoleEdit() {
             </Box>
 
             <Form>
-              <TextInput name="name" form={props} />
               <TextInput name="description" form={props} />
 
               <Box flexGrow={1} pt={2}>

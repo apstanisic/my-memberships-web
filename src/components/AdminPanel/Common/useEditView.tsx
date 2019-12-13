@@ -53,7 +53,11 @@ export function useEditOrCreateView<T extends WithId>(
         );
       })
       .catch(error => {
-        snackbar.enqueueSnackbar(JSON.stringify(error), { variant: "error" });
+        snackbar.enqueueSnackbar("Problem creating item.", {
+          variant: "error",
+        });
+        console.log(JSON.stringify(error));
+
         if (oldData) dispatch(addToResource({ resourceName, data: [oldData] }));
       });
   };

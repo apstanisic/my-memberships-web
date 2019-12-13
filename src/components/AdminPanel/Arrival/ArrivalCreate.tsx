@@ -4,6 +4,7 @@ import React from "react";
 import { ReferenceSelectInput } from "../Common/Input/Async2";
 import { useEditOrCreateView } from "../Common/useEditView";
 import { Arrival } from "./Arrival";
+import { validArrival } from "./validArrival";
 
 export function ArrivalCreate() {
   const [arrival, onSubmit, cancel] = useEditOrCreateView(
@@ -17,6 +18,7 @@ export function ArrivalCreate() {
       enableReinitialize={true}
       validateOnChange={false}
       onSubmit={onSubmit}
+      validationSchema={validArrival}
       // onSubmit={val => console.log(val)}
     >
       {props => (

@@ -7,12 +7,13 @@ import { SwapVert } from "@material-ui/icons";
 import { Arrival } from "../Arrival/Arrival";
 
 interface Props {
-  id: UUID;
+  id?: UUID;
   filterField: string;
 }
 
 export function ArrivalFilterButton({ id, filterField }: Props) {
   const urls = useUrls();
+  if (!id) return <div></div>;
 
   return (
     <Link to={`${urls.changeResource(Arrival.NAME)}?${filterField}=${id}`}>
