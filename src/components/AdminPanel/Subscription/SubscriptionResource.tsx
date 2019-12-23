@@ -4,6 +4,7 @@ import { Subscription } from "./Subscription";
 import { SubscriptionEdit } from "./SubscriptionEdit";
 import { SubscriptionList } from "./SubscriptionList";
 import { SubscriptionShow } from "./SubscriptionShow";
+import { SubscriptionCreate } from "./SubscriptionCreate";
 //
 export function SubscriptionResource() {
   return (
@@ -12,6 +13,7 @@ export function SubscriptionResource() {
       Edit={SubscriptionEdit}
       Show={SubscriptionShow}
       List={SubscriptionList}
+      Create={SubscriptionCreate}
     />
   );
 }

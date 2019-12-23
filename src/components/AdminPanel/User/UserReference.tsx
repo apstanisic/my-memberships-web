@@ -25,18 +25,20 @@ export function UserReference({ id, reverse }: Props) {
             to={`/admin-panel/users/${user.id}/show`}
           >
             {reverse && <Box pr={1}>{user.name}</Box>}
-            <Box height={40} width={40}>
+            <Box height={40} width={40} className="center">
               {/* <Box position="absolute">
               <Person />
             </Box>
             <Avatar src={user.avatar?.xs} /> */}
               {user.avatar?.xs ? (
                 <Avatar
-                  className="bg-blue-200 rounded-full"
+                  className="bg-blue-200 rounded-full border"
                   src={user.avatar.xs}
                 />
               ) : (
-                <Person />
+                <Box className="bg-blue-100 border rounded-full center w-full h-full">
+                  <Person />
+                </Box>
               )}
             </Box>
             {!reverse && <Box pl={1}>{user.name}</Box>}

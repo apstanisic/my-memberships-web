@@ -30,7 +30,7 @@ export function useTableRowActions<T extends WithId = any>(
   const edit = (row: WithId) => history.push(urls.edit(row.id));
 
   return {
-    title: "View",
+    title: "Actions",
     align: "center",
     render: (row: T) => (
       <div className="flex justify-center">

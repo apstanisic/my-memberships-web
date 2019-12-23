@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "src/core/auth/IUser";
 import { AppThunk } from "src/store/store";
 import { auth } from "src/core/auth/Auth";
+import { Struct } from "src/core/utils/helpers";
 
 const authSlice = createSlice({
   name: "auth",
@@ -59,8 +60,9 @@ export const attemptLogin = (
 export const registerUser = (
   email: string,
   password: string,
+  additionalFields: Struct,
 ): AppThunk<Promise<IUser>> => async dispatch => {
-  const user = await auth.register(email, password);
+  const user = await auth.register(email, password, additionalFields);
   dispatch(actions.registerUser(user));
   return user;
 };

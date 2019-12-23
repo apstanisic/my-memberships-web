@@ -6,12 +6,13 @@ import {
   Tab,
   Tabs,
   Switch,
+  Toolbar,
 } from "@material-ui/core";
 import { Padding } from "src/components/common/Padding";
 import { Form, Formik } from "formik";
 import React from "react";
 import { TextInput } from "../Common/Input/TextInput";
-import { useEditOrCreateView } from "../Common/useEditView";
+import { useEditOrCreateView } from "../Common/useEditOrCreateView";
 import { Subscription } from "./Subscription";
 import { DateInput } from "../Common/Input/DateInput";
 import { SwitchInput } from "../Common/Input/SwitchInput";
@@ -20,13 +21,14 @@ import { User } from "src/core/auth/User";
 import { ShowViewItem } from "../Common/ShowViewItem";
 
 export function SubscriptionEdit() {
-  const [subscription, onSubmit, cancel] = useEditOrCreateView(
-    Subscription.create,
-  );
+  const [subscription, onSubmit, cancel] = useEditOrCreateView({
+    transform: Subscription.create,
+    method: "PUT",
+  });
 
   return (
     <Formik
-      initialValues={subscription ?? ({} as Subscription)}
+      initialValues={subscription ?? {}}
       enableReinitialize={true}
       validateOnChange={false}
       onSubmit={onSubmit}
@@ -37,6 +39,9 @@ export function SubscriptionEdit() {
           <CardContent>
             <Form>
               <div>
+                <Toolbar>
+                  <span className="text-2xl mx-auto">Edit subscription</span>
+                </Toolbar>
                 <div style={{ minHeight: 60 }}>
                   <ReferenceField
                     resourceName="users"

@@ -28,7 +28,7 @@ export function AppDrawer({ classes }: { classes: any }) {
     { name: "Locations", path: "locations" },
     { name: "Roles", path: "roles" },
     { name: "Arrivals", path: "arrivals" },
-    { name: "Payments", path: "payments" },
+    { name: "Billing", path: "payments" },
   ];
 
   const drawerContent = (

@@ -4,6 +4,7 @@ import { Storage } from "src/core/Storage";
 import { Role } from "./Role";
 import { ManagePassword } from "./_ManagePassword";
 import { ManageUserData } from "./_ManageUserData";
+import { Struct } from "../utils/helpers";
 
 /* Keys to access auth store items */
 export enum StorageKeys {
@@ -72,10 +73,18 @@ class AuthController<User extends IUser = IUser> {
   }
 
   /* Register new user */
-  async register(email: string, password: string): Promise<User> {
-    const body = { email, password };
+  async register(
+    email: string,
+    password: string,
+    additionalFields: Struct,
+  ): Promise<User> {
+    // const body = { email, password };
     const { user, token } = await http
-      .post<{ user: User; token: string }>("/auth/register", { body })
+      .post<{ user: User; token: string }>("/auth/register", {
+        ...additionalFields,
+        email,
+        password,
+      })
       .then(res => res.data);
 
     this.setAuthHeader(token);

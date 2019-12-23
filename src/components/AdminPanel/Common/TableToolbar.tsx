@@ -14,9 +14,16 @@ interface Props {
   title?: Printable;
   selection: ReturnType<typeof useTableSelection>;
   deleteMany?: (val: any[]) => any;
+  hasCreate?: boolean;
 }
 
-export function TableToolbar({ title, create, selection, deleteMany }: Props) {
+export function TableToolbar({
+  title,
+  create,
+  selection,
+  deleteMany,
+  hasCreate,
+}: Props) {
   const { search } = useLocation();
   const [filter, setFilter] = useState<Struct>(qs.parse(search));
   const allQueries = Object.entries(filter);
@@ -37,10 +44,12 @@ export function TableToolbar({ title, create, selection, deleteMany }: Props) {
             <Button endIcon={<Delete />} onClick={() => deleteMany(toDelete)}>
               Delete
             </Button>
-          ) : (
+          ) : hasCreate !== false ? (
             <IconButton onClick={() => create()}>
               <Add />
             </IconButton>
+          ) : (
+            <span></span>
           )}
         </div>
       </Toolbar>

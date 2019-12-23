@@ -9,6 +9,7 @@ import {
   Tab,
   Tabs,
   Link as MLink,
+  Toolbar,
 } from "@material-ui/core";
 import { SwapVert } from "@material-ui/icons";
 import { Padding } from "src/components/common/Padding";
@@ -23,6 +24,7 @@ import { useShowView } from "../Common/useShowView";
 import { useUrls } from "../Common/useUrls";
 import { ShouldShow } from "../Common/ShouldShow";
 import { Location } from "./Location";
+import { storage } from "src/core/http";
 
 export function LocationShow() {
   const [tab, setTab] = useState<0 | 1>(0);
@@ -105,37 +107,49 @@ export function LocationShow() {
 
           <ShouldShow show={tab === 1}>
             <div
-              style={{ maxWidth: "80vw", maxHeight: "80vh", margin: "0 auto" }}
+              style={{
+                maxWidth: "80vw",
+                maxHeight: "80vh",
+                margin: "0 auto",
+                minHeight: "70vh",
+              }}
+              className="flex flex-col"
             >
-              <ImageGallery
-                // @todo fix css for this, it should be constrained
-                additionalClass="max-h-full"
-                autoPlay={false}
-                slideDuration={250}
-                showPlayButton={false}
-                showFullscreenButton={false}
-                infinite={false}
-                lazyLoad
-                renderItem={item => (
-                  <img
-                    src={item.original}
-                    alt={item.originalAlt}
-                    style={{
-                      // height: 320,
-                      width: "auto",
-                      maxWidth: "100%",
-                      maxHeight: "60vh",
-                      margin: "0 auto",
-                    }}
-                  />
-                )}
-                items={
-                  location?.images.map(img => ({
-                    original: img.sizes.md ?? "",
-                    thumbnail: img.sizes.xs ?? "",
-                  })) ?? []
-                }
-              />
+              {location?.images.length === 0 ? (
+                <div className="center h-full flex-1">
+                  <Toolbar className="text-2xl py-5">No images</Toolbar>
+                </div>
+              ) : (
+                <ImageGallery
+                  // @todo fix css for this, it should be constrained
+                  additionalClass="max-h-full"
+                  autoPlay={false}
+                  slideDuration={250}
+                  showPlayButton={false}
+                  showFullscreenButton={false}
+                  infinite={false}
+                  lazyLoad
+                  renderItem={item => (
+                    <img
+                      src={storage(item.original ?? "")}
+                      alt={storage(item.originalAlt ?? "")}
+                      style={{
+                        // height: 320,
+                        width: "auto",
+                        maxWidth: "100%",
+                        maxHeight: "60vh",
+                        margin: "0 auto",
+                      }}
+                    />
+                  )}
+                  items={
+                    location?.images.map(img => ({
+                      original: storage(img.sizes.md ?? ""),
+                      thumbnail: storage(img.sizes.xs ?? ""),
+                    })) ?? []
+                  }
+                />
+              )}
             </div>
           </ShouldShow>
         </CardContent>

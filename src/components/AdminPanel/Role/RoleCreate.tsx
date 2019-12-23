@@ -14,11 +14,15 @@ import {
 import { Form, Formik } from "formik";
 import React from "react";
 import { Role } from "src/core/auth/Role";
-import { ReferenceSelectInput } from "../Common/Input/Async2";
-import { useEditOrCreateView } from "../Common/useEditView";
+import { ReferenceSelectInput } from "../Common/Input/ReferenceSelectInput";
+import { useEditOrCreateView } from "../Common/useEditOrCreateView";
+import { JLog } from "../Common/JLog";
 
 export function RoleCreate() {
-  const [role, onSubmit, cancel] = useEditOrCreateView(Role.create, "POST");
+  const [role, onSubmit, cancel] = useEditOrCreateView({
+    transform: Role.create,
+    method: "POST",
+  });
 
   return (
     <Formik
@@ -38,10 +42,10 @@ export function RoleCreate() {
             <Form>
               <div>
                 <ReferenceSelectInput
-                  field="email"
+                  fieldToShow="email"
                   idField="userId"
                   label="User"
-                  resourceName="subscriptions/active-users"
+                  resourceName="subscriptions/users"
                   form={props}
                 />
                 <Box p={1}>

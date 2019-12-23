@@ -1,16 +1,21 @@
 import { Box, Button, Card, CardContent, Typography } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from "react";
-import { ReferenceSelectInput } from "../Common/Input/Async2";
-import { useEditOrCreateView } from "../Common/useEditView";
+import { ReferenceSelectInput } from "../Common/Input/ReferenceSelectInput";
+import { useEditOrCreateView } from "../Common/useEditOrCreateView";
 import { Arrival } from "./Arrival";
 import { validArrival } from "./validArrival";
+import { TextInput } from "../Common/Input/TextInput";
+import { DateInput } from "../Common/Input/DateInput";
 
 export function ArrivalCreate() {
-  const [arrival, onSubmit, cancel] = useEditOrCreateView(
-    Arrival.create,
-    "POST",
-  );
+  const [arrival, onSubmit, cancel] = useEditOrCreateView({
+    transform: Arrival.create,
+    method: "POST",
+    changeDefaultValue: (val: Arrival) => {
+      val.arrivedAt = new Date();
+    },
+  });
 
   return (
     <Formik
@@ -34,17 +39,24 @@ export function ArrivalCreate() {
               {/* <TextInput name="description" form={props} /> */}
               <ReferenceSelectInput
                 label="Location"
-                field="name"
+                fieldToShow="name"
                 idField="locationId"
                 resourceName="locations"
                 form={props}
               />
               <ReferenceSelectInput
                 label="User"
-                field="email"
+                fieldToShow="email"
                 idField="userId"
-                resourceName="subscriptions/active-users"
+                resourceName="subscriptions/users"
                 form={props}
+                filter={{ active: true }}
+              />
+              <DateInput
+                form={props}
+                name="arrivedAt"
+                label="Arrived at"
+                time
               />
 
               <Box flexGrow={1} pt={2}>

@@ -49,6 +49,7 @@ export function AppTheme({ children }: any) {
   return (
     <ThemeProvider theme={theme}>
       <SnackbarProvider
+        hideIconVariant
         anchorOrigin={{
           vertical: "top",
           horizontal: "right",

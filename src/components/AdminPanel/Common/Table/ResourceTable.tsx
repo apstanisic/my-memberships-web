@@ -29,6 +29,8 @@ interface Props<T extends Struct = any> {
   transform?: (val: any) => T;
   actions?: {
     hasEdit?: boolean;
+    hasCreate?: boolean;
+    hasDelete?: boolean;
   };
 }
 
@@ -46,7 +48,7 @@ export function ResourceTable<ResourceType extends WithId = any>(
     // onDelete: val => {
     //   console.log(val);
     // },
-    onDelete,
+    onDelete: props.actions?.hasDelete ? onDelete : undefined,
     hasEdit: props.actions?.hasEdit,
   });
   const selection = useTableSelection(data);
@@ -63,6 +65,7 @@ export function ResourceTable<ResourceType extends WithId = any>(
         </div>
       )}
       <TableToolbar
+        hasCreate={props.actions?.hasCreate}
         selection={selection}
         create={openCreateForm}
         title={props.title}

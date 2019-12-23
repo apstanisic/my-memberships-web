@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up("md")]: {
         maxWidth: `calc(100% - ${drawerWidth}px)`,
       },
-      [theme.breakpoints.down("md")]: {
+      [theme.breakpoints.down("sm")]: {
         maxWidth: `100%`,
       },
     },

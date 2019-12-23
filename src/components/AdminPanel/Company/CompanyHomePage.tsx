@@ -7,6 +7,7 @@ import { SubscriptionResource } from "../Subscription/SubscriptionResource";
 import { ArrivalResource } from "../Arrival/ArrivalResource";
 import { RoleResource } from "../Role/RoleResource";
 import { setUrlData } from "src/store/adminSlice";
+import { PaymentResource } from "../Payment/PaymentResource";
 
 export function CompanyRouter() {
   const { companyId } = useParams();
@@ -32,6 +33,9 @@ export function CompanyRouter() {
       </Route>
       <Route path="/admin-panel/companies/:companyId/pricing-plans">
         {/* <LocationResource /> */}
+      </Route>
+      <Route path="/admin-panel/companies/:companyId/payments">
+        <PaymentResource />
       </Route>
     </Switch>
   );

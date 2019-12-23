@@ -11,14 +11,17 @@ import { Role } from "src/core/auth/Role";
 import { Form, Formik } from "formik";
 import React from "react";
 import { TextInput } from "../Common/Input/TextInput";
-import { useEditOrCreateView } from "../Common/useEditView";
+import { useEditOrCreateView } from "../Common/useEditOrCreateView";
 import { ReferenceField } from "../Common/ReferenceField";
 import { User } from "src/core/auth/User";
 import { UserReference } from "../User/UserReference";
 import { EmailField } from "../Common/EmailField";
 
 export function RoleEdit() {
-  const [role, onSubmit, cancel] = useEditOrCreateView(Role.create, "PUT");
+  const [role, onSubmit, cancel] = useEditOrCreateView({
+    transform: Role.create,
+    method: "PUT",
+  });
 
   return (
     <Formik

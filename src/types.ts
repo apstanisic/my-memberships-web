@@ -10,6 +10,8 @@ export interface WithId {
 export interface BaseEntity extends WithId {
   id: UUID;
   createdAt: Date;
+  // For caching
+  fetchedAt?: Date;
 }
 
 export abstract class Resource {
@@ -60,3 +62,8 @@ export interface WithChildren {
 }
 
 export type Printable = string | React.ReactElement<any>;
+
+export type PreviewFile = {
+  file: File;
+  preview: any;
+};
