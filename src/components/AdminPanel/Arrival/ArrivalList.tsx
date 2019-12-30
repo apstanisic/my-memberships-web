@@ -22,6 +22,7 @@ export function ArrivalList() {
         actions={{ hasEdit: false }}
         transform={Arrival.create}
         columns={[
+          { field: "arrivedAt", title: "Arrived at", type: "datetime" },
           { title: "User", render: row => <UserReference id={row.userId} /> },
           {
             title: "Location",
@@ -49,7 +50,6 @@ export function ArrivalList() {
               );
             },
           },
-          { field: "arrivedAt", title: "Arrived at", type: "datetime" },
           { field: "leftAt", title: "Left at", emptyValue: "Not entered" },
           {
             title: "Subscription",

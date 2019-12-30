@@ -9,8 +9,8 @@ export function RoleList() {
       title="Roles"
       transform={Role.create}
       columns={[
-        { title: "User", render: row => <UserReference id={row.userId} /> },
         { field: "name", title: "Name" },
+        { title: "User", render: row => <UserReference id={row.userId} /> },
         { field: "createdAt", title: "Created at", type: "datetime" },
       ]}
     />

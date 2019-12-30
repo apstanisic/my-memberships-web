@@ -36,6 +36,7 @@ export function AppDrawer({ classes }: { classes: any }) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
+        {/* <ListItem>{admin.url.company?.name}</ListItem> */}
         {items.map((item, i) => (
           <Link
             to={urlHelper.changeResource(admin.url, item.path)}

@@ -6,8 +6,9 @@ import { LocationResource } from "../Location/LocationResource";
 import { SubscriptionResource } from "../Subscription/SubscriptionResource";
 import { ArrivalResource } from "../Arrival/ArrivalResource";
 import { RoleResource } from "../Role/RoleResource";
-import { setUrlData } from "src/store/adminSlice";
+import { setUrlData, setSettings } from "src/store/adminSlice";
 import { PaymentResource } from "../Payment/PaymentResource";
+import { http } from "src/core/http";
 
 export function CompanyRouter() {
   const { companyId } = useParams();
@@ -15,6 +16,18 @@ export function CompanyRouter() {
 
   useEffect(() => {
     dispatch(setUrlData({ companyId }));
+  }, [companyId, dispatch]);
+
+  useEffect(() => {
+    dispatch(setUrlData({ companyId }));
+
+    http
+      .get(`companies/${companyId}/config`)
+      .then(res => dispatch(setSettings(res.data)));
+
+    http
+      .get(`companies/${companyId}`)
+      .then(res => dispatch(setUrlData({ company: res.data })));
   }, [companyId, dispatch]);
 
   return (
@@ -37,6 +50,7 @@ export function CompanyRouter() {
       <Route path="/admin-panel/companies/:companyId/payments">
         <PaymentResource />
       </Route>
+      <Route>Dashboard</Route>
     </Switch>
   );
 }

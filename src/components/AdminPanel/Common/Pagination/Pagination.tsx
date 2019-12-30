@@ -50,7 +50,7 @@ export function Pagination({ meta }: { meta?: PaginationMetadata }) {
           >
             Next
           </Button>
-          <IconButton
+          {/* <IconButton
             disabled={meta.isLastPage}
             onClick={() => {
               if (meta.nextUrl) {
@@ -59,7 +59,7 @@ export function Pagination({ meta }: { meta?: PaginationMetadata }) {
             }}
           >
             <LastPage />
-          </IconButton>
+          </IconButton> */}
         </Box>
       </Toolbar>
     </div>

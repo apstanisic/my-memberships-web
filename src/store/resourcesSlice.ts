@@ -39,6 +39,11 @@ const resourcesSlice = createSlice({
     // Notify epic to fetch data
     requestDataById(_, __: PayloadAction<RequestDataByIdPayload>) {},
     requestListData(_, __: PayloadAction<RequestManyPayload>) {},
+    // removeItems(state, _: PayloadAction<WithId[]>) {
+    //      Object.keys(state.responsesFromGetMany).forEach(url => {
+    //        if (url.includes(resource))
+    //      })
+    // },
     // When fetchEpic finishes, it calls this method to add resource to store
     // Anyone can call this method when he/she wants to store new data to store
     addToResource(state, action: PayloadAction<AddToResourcePayload>) {

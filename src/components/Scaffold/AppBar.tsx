@@ -8,7 +8,7 @@ import {
 import { ShouldShow } from "../AdminPanel/Common/ShouldShow";
 import React, { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { RootState, AppDispatch } from "src/store/store";
 import { Menu } from "@material-ui/icons";
 import { toggleSidebar } from "src/store/uiSlice";
@@ -16,7 +16,8 @@ import { logoutUser } from "src/components/Auth/authSlice";
 import { useIsInAdminPanel } from "../AdminPanel/Common/hooks/useIsInAdminPanel";
 
 export function ScaffoldAppBar({ classes }: { classes?: any }) {
-  const { auth } = useSelector((state: RootState) => state);
+  const location = useLocation();
+  const { auth, admin } = useSelector((state: RootState) => state);
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
   const inAdminPanel = useIsInAdminPanel();
@@ -35,16 +36,26 @@ export function ScaffoldAppBar({ classes }: { classes?: any }) {
             <Menu />
           </IconButton>
         </ShouldShow>
-        <Link to="/">
+        <Link
+          to={
+            location.pathname.includes("admin-panel/companies")
+              ? `${admin.url.company?.id}`
+              : "/"
+          }
+        >
           <Typography variant="h6" component="span">
-            <h1>My subscriptions</h1>
+            {location.pathname.includes("admin-panel/companies") ? (
+              <h1>{admin.url.company?.name}</h1>
+            ) : (
+              <h1>My subscriptions</h1>
+            )}
           </Typography>
         </Link>
         <div className="ml-auto">
           {auth.isLogged ? (
             <Fragment>
               <Link to="/admin-panel">
-                <Button color="inherit">Admin Panel</Button>
+                <Button color="inherit">All Companies</Button>
               </Link>
               <Button
                 color="inherit"

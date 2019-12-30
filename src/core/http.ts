@@ -22,9 +22,10 @@ export const http = Axios.create({
  * when wanting a file.
  * @param outside Should storage parse files that are not
  * in storage (enable http://test.com/ttt.jpg) to be parsed propertly
+ * Enabled by default, user can desable if he/she only wants predefined
  */
 export function storage(url: string, outside: boolean = true): string {
-  if (url.startsWith("http")) return url;
+  if (url.startsWith("http") && outside) return url;
   const fileUrl = url.startsWith("/") ? url : `/${url}`;
   return `${storageUrl}${fileUrl}`;
 }

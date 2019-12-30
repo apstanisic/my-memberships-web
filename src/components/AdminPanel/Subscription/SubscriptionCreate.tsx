@@ -1,16 +1,37 @@
 import { Box, Button, Card, CardContent, Toolbar } from "@material-ui/core";
-import { Form, Formik } from "formik";
 import dayjs from "dayjs";
+import { Form, Formik } from "formik";
 import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "src/store/store";
 import { DateInput } from "../Common/Input/DateInput";
+import { ReferenceSelectInput } from "../Common/Input/ReferenceSelectInput";
+import { SelectInput } from "../Common/Input/SelectInput";
 import { SwitchInput } from "../Common/Input/SwitchInput";
 import { TextInput } from "../Common/Input/TextInput";
 import { useEditOrCreateView } from "../Common/useEditOrCreateView";
 import { Subscription } from "./Subscription";
-import { ReferenceSelectInput } from "../Common/Input/ReferenceSelectInput";
-import { JLog } from "../Common/JLog";
 
 export function SubscriptionCreate() {
+  let subscriptionTypes = useSelector(
+    (state: RootState) => state.admin.settings?.config?.subscription?.types,
+  );
+
+  subscriptionTypes = {
+    ...subscriptionTypes,
+    special: {
+      duration: 1,
+      durationUnit: "month",
+      name: "special",
+      price: 100,
+      allowedUses: 31,
+    },
+  };
+
+  // const subTypeNames = Object.values(subscriptionTypes ?? {}).map(
+  //   val => val.name,
+  // );
+
   const [subscription, onSubmit, cancel] = useEditOrCreateView({
     transform: Subscription.create,
     method: "POST",
@@ -28,7 +49,7 @@ export function SubscriptionCreate() {
 
   return (
     <Formik
-      initialValues={subscription ?? ({} as Subscription)}
+      initialValues={subscription ?? {}}
       enableReinitialize={true}
       validateOnChange={false}
       onSubmit={onSubmit}
@@ -51,9 +72,27 @@ export function SubscriptionCreate() {
                   resourceName="subscriptions/users"
                 />
 
-                <JLog render={() => console.log(props.values)} />
-                <SwitchInput name="active" form={props} label="Active" />
-                <TextInput name="type" form={props} />
+                <SelectInput
+                  name="type"
+                  form={props}
+                  options={Object.values(subscriptionTypes ?? {}).map(
+                    t => t.name,
+                  )}
+                  label="Type"
+                  onChangeHook={val => {
+                    const sub = Object.values(subscriptionTypes ?? {}).filter(
+                      t => t.name === val,
+                    )[0];
+                    if (sub) {
+                      const expires = dayjs(props.values.startsAt)
+                        .add(sub.duration, sub.durationUnit as any)
+                        .subtract(1, "day");
+                      props.setFieldValue("price", sub.price);
+                      props.setFieldValue("allowedUses", sub.allowedUses);
+                      props.setFieldValue("expiresAt", expires.toDate());
+                    }
+                  }}
+                />
                 <TextInput name="price" form={props} type="number" />
                 <DateInput form={props} name="startsAt" label="Starts at" />
                 <DateInput form={props} name="expiresAt" label="Expires at" />
@@ -63,6 +102,7 @@ export function SubscriptionCreate() {
                   type="number"
                   label="Allowed Uses (leave empty for unlimited)"
                 />
+                <SwitchInput name="active" form={props} label="Active" />
               </div>
 
               <Box flexGrow={1} pt={2}>

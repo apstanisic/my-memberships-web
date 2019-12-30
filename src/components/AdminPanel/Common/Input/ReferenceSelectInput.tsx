@@ -73,7 +73,7 @@ export const ReferenceSelectInput = React.memo(
     }, [inputValue, fetch]);
 
     return (
-      <Box p={1} display="flex">
+      <Box py={1} display="flex">
         <Autocomplete
           autoHighlight
           freeSolo={freeSoloField !== undefined}

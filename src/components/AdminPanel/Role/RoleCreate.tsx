@@ -48,7 +48,7 @@ export function RoleCreate() {
                   resourceName="subscriptions/users"
                   form={props}
                 />
-                <Box p={1}>
+                <Box py={1}>
                   <Select
                     value={props.values.name ?? "placeholder"}
                     name="name"
@@ -63,7 +63,7 @@ export function RoleCreate() {
                     <MenuItem value="owner">Owner</MenuItem>
                   </Select>
                 </Box>
-                <Box p={1}>
+                <Box py={1}>
                   <TextField
                     label="Description"
                     multiline

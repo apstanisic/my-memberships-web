@@ -8,5 +8,6 @@ export interface Column<Row extends Struct = any> {
   render?: (data: Row) => any;
   align?: "inherit" | "left" | "center" | "right" | "justify";
   emptyValue?: Printable;
+  type?: string;
   [key: string]: any;
 }

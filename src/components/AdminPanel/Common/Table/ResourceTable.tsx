@@ -116,7 +116,9 @@ export function ResourceTable<ResourceType extends WithId = any>(
                     component="th"
                     scope="row"
                   >
-                    <div>{col.render?.(row) ?? decideFieldType(col, row)} </div>
+                    <div>
+                      {col.render?.(row) ?? decideFieldType(col, row, col.type)}
+                    </div>
                   </TableCell>
                 ))}
               </TableRow>
