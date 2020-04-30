@@ -1,16 +1,7 @@
 import { PayloadAction, Action, createNextState } from "@reduxjs/toolkit";
 import { combineEpics, Epic, ofType } from "redux-observable";
 import { defer } from "rxjs";
-import {
-  debounceTime,
-  filter,
-  map,
-  mergeMap,
-  retry,
-  tap,
-  merge,
-  mergeAll,
-} from "rxjs/operators";
+import { debounceTime, filter, map, mergeMap, retry, tap, merge, mergeAll } from "rxjs/operators";
 import { dataProvider } from "src/components/dataProvider";
 import { Struct, wait } from "src/core/utils/helpers";
 import { WithId } from "src/types";
@@ -37,11 +28,10 @@ const resourceMeta: Struct<Map<string, boolean>> = {};
  * more request for same resource by id. Combine ids
  * in one request
  */
-export const fetchByIdEpic: Epic<
-  PayloadAction<RequestDataByIdPayload>,
-  any,
-  RootState
-> = (action$, state$) =>
+export const fetchByIdEpic: Epic<PayloadAction<RequestDataByIdPayload>, any, RootState> = (
+  action$,
+  state$,
+) =>
   action$.pipe(
     ofType(requestDataById.type),
     // Create map for storing ids for specific resource if it does not exist
@@ -102,26 +92,21 @@ export const fetchByIdEpic: Epic<
 const urlsToFetch = new Map<string, boolean>();
 // It's dirty but i don't know rxjs verry well, so for now
 // it does the job
-export const fetchManyEpic: Epic<
-  PayloadAction<RequestManyPayload>,
-  any,
-  RootState
-> = (action$, state$) =>
+export const fetchManyEpic: Epic<PayloadAction<RequestManyPayload>, any, RootState> = (
+  action$,
+  state$,
+) =>
   action$.pipe(
     ofType(requestListData.type),
     filter(action => urlsToFetch.get(action.payload.url) !== true),
     tap(action => urlsToFetch.set(action.payload.url, true)),
     mergeMap(({ payload: { url, resourceName } }) =>
       defer(() =>
-        dataProvider
-          .getMany(url)
-          .then(response => ({ response, url, resourceName })),
+        dataProvider.getMany(url).then(response => ({ response, url, resourceName })),
       ).pipe(retry(1)),
     ),
     tap(action => wait(30000).then(() => urlsToFetch.delete(action.url))),
-    map(({ response, resourceName, url }) =>
-      addToListData({ response, url, resourceName }),
-    ),
+    map(({ response, resourceName, url }) => addToListData({ response, url, resourceName })),
   );
 
 // export const waitAuth: Epic<Action, any, RootState> = (action$, state$) =>

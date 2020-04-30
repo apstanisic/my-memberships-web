@@ -1,11 +1,5 @@
-import {
-  AppBar,
-  Button,
-  Toolbar,
-  Typography,
-  IconButton,
-} from "@material-ui/core";
-import { ShouldShow } from "../AdminPanel/Common/ShouldShow";
+import { AppBar, Button, Toolbar, Typography, IconButton } from "@material-ui/core";
+import { Show } from "../AdminPanel/common/ShouldShow";
 import React, { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
@@ -13,7 +7,7 @@ import { RootState, AppDispatch } from "src/store/store";
 import { Menu } from "@material-ui/icons";
 import { toggleSidebar } from "src/store/uiSlice";
 import { logoutUser } from "src/components/Auth/authSlice";
-import { useIsInAdminPanel } from "../AdminPanel/Common/hooks/useIsInAdminPanel";
+import { useIsInAdminPanel } from "../AdminPanel/common/hooks/useIsInAdminPanel";
 
 export function ScaffoldAppBar({ classes }: { classes?: any }) {
   const location = useLocation();
@@ -25,7 +19,7 @@ export function ScaffoldAppBar({ classes }: { classes?: any }) {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
-        <ShouldShow show={inAdminPanel}>
+        <Show If={inAdminPanel}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -35,12 +29,10 @@ export function ScaffoldAppBar({ classes }: { classes?: any }) {
           >
             <Menu />
           </IconButton>
-        </ShouldShow>
+        </Show>
         <Link
           to={
-            location.pathname.includes("admin-panel/companies")
-              ? `${admin.url.company?.id}`
-              : "/"
+            location.pathname.includes("admin-panel/companies") ? `${admin.url.company?.id}` : "/"
           }
         >
           <Typography variant="h6" component="span">

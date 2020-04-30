@@ -1,27 +1,13 @@
-import {
-  Button,
-  Hidden,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Typography,
-} from "@material-ui/core";
-import { SwapVert } from "@material-ui/icons";
+import { Hidden, List, ListItem, ListItemText, Paper, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import { useUrls } from "../Common/useUrls";
-import { ResourceTable } from "../Common/Table/ResourceTable";
-import { Location } from "./Location";
+import { ResourceTable } from "../common/table/ResourceTable";
 import { ArrivalFilterButton } from "./ArrivalFilterButton";
+import { Location } from "./Location";
 
 export function LocationList() {
-  const urls = useUrls();
-
   return (
     <Fragment>
       <Hidden xsDown>
-        {/* <MaterialTable {...helpers.config} title="Locations" /> */}
         <ResourceTable
           title="Locations"
           transform={Location.create}
@@ -31,9 +17,7 @@ export function LocationList() {
             { field: "phoneNumber", title: "Phone number" },
             {
               title: "Arrivals",
-              render: ({ id }) => (
-                <ArrivalFilterButton id={id} filterField={Location.ID} />
-              ),
+              render: ({ id }) => <ArrivalFilterButton id={id} filterField={Location.ID} />,
             },
           ]}
         />
@@ -50,27 +34,6 @@ export function LocationList() {
                 }
               />
             </ListItem>
-            {/* {locations.map(location => (
-              <ListItem
-                button
-                // onClick={() => helpers.show(location)}
-                key={location.id}
-              >
-                <ListItemText
-                  primary={location.name ?? "No name"}
-                  secondary={location.address}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    // onClick={() => helpers.edit(location)}
-                  >
-                    <AppIcons.Edit />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))} */}
           </List>
         </Paper>
       </Hidden>

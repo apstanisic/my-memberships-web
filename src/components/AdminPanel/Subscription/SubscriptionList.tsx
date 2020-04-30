@@ -1,6 +1,6 @@
 import React from "react";
 import { Link as MLink } from "@material-ui/core";
-import { ResourceTable } from "../Common/Table/ResourceTable";
+import { ResourceTable } from "../common/table/ResourceTable";
 import { UserReference } from "../User/UserReference";
 import { Subscription } from "./Subscription";
 import { ArrivalFilterButton } from "../Location/ArrivalFilterButton";
@@ -28,9 +28,7 @@ export function SubscriptionList() {
         { field: "expiresAt", title: "Expires at", type: "date" },
         {
           title: "Arrivals",
-          render: ({ id }) => (
-            <ArrivalFilterButton id={id} filterField={Subscription.ID} />
-          ),
+          render: ({ id }) => <ArrivalFilterButton id={id} filterField={Subscription.ID} />,
         },
         {
           title: "Uses",

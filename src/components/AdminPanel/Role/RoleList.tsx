@@ -1,6 +1,6 @@
 import { Role } from "src/core/auth/Role";
 import React from "react";
-import { ResourceTable } from "../Common/Table/ResourceTable";
+import { ResourceTable } from "../common/table/ResourceTable";
 import { UserReference } from "../User/UserReference";
 
 export function RoleList() {

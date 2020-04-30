@@ -1,18 +1,15 @@
-import React, { Fragment } from "react";
-import { useShowView } from "../Common/useShowView";
-import { Role } from "src/core/auth/Role";
-import { useUrls } from "../Common/useUrls";
 import { Card, CardContent, List } from "@material-ui/core";
-import dayjs from "dayjs";
-import { ShowViewItem } from "../Common/ShowViewItem";
-import { ReferenceField } from "../Common/ReferenceField";
-import { Link } from "react-router-dom";
-import { Subscription } from "rxjs";
-import { User } from "src/core/auth/User";
+import React, { Fragment } from "react";
+import { Role } from "src/core/auth/Role";
+import { ShowViewRow } from "../common/ShowViewItem";
+import { useShowView } from "../common/hooks/useShowView";
+import { useUrls } from "../common/hooks/useUrls";
 import { UserReference } from "../User/UserReference";
 
 export function RoleShow() {
-  const [role, Header] = useShowView(Role.NAME, Role.create, {
+  const { Header, resource: role } = useShowView({
+    resourceName: Role.NAME,
+    transform: Role.create,
     hasEdit: false,
   });
   const urls = useUrls();
@@ -22,14 +19,9 @@ export function RoleShow() {
         <CardContent>
           <Header title={role?.name} />
           <List>
-            <ShowViewItem
-              name="User"
-              val={<UserReference id={role?.userId} reverse />}
-            />
-            <ShowViewItem name="role" val={role?.name} />
-            {role?.description && (
-              <ShowViewItem name="Description" val={role?.description} />
-            )}
+            <ShowViewRow name="User" val={<UserReference id={role?.userId} reverse />} />
+            <ShowViewRow name="role" val={role?.name} />
+            {role?.description && <ShowViewRow name="Description" val={role?.description} />}
           </List>
         </CardContent>
       </Card>

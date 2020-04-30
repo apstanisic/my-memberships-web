@@ -24,9 +24,7 @@ export class ManageUserData<User extends IUser> {
 
   /**  Change user's info */
   async changeUsersInfo(newInfo: Partial<User>): Promise<User> {
-    const updatedUser = await http
-      .put<User>("/auth", newInfo)
-      .then(res => res.data);
+    const updatedUser = await http.put<User>("/auth", newInfo).then(res => res.data);
 
     await this.storage.set(StorageKeys.User, updatedUser);
     return updatedUser;
@@ -44,9 +42,7 @@ export class ManageUserData<User extends IUser> {
 
   /** Confirm user's email */
   async confirmUsersEmail(email: string, token: string): Promise<User> {
-    return http
-      .put<User>(`/auth/confirm-account/${email}/${token}`)
-      .then(res => res.data);
+    return http.put<User>(`/auth/confirm-account/${email}/${token}`).then(res => res.data);
   }
 }
 

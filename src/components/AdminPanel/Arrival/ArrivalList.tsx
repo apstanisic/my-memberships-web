@@ -3,11 +3,11 @@ import CardMembershipIcon from "@material-ui/icons/CardMembership";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { ReferenceField } from "../Common/ReferenceField";
-import { useUrls } from "../Common/useUrls";
+import { ReferenceField } from "../common/ReferenceField";
+import { useUrls } from "../common/hooks/useUrls";
 import { Location } from "../Location/Location";
 import { Subscription } from "../Subscription/Subscription";
-import { ResourceTable } from "../Common/Table/ResourceTable";
+import { ResourceTable } from "../common/table/ResourceTable";
 import { UserReference } from "../User/UserReference";
 import { Arrival } from "./Arrival";
 
@@ -27,21 +27,15 @@ export function ArrivalList() {
           {
             title: "Location",
             render: row => {
-              const path = `${url.root()}/${Location.NAME}/${
-                row.locationId
-              }/show`;
+              const path = url.show({ resourceName: Location.NAME, resourceId: row.locationId });
               return (
-                <MLink
-                  component={Link}
-                  to={path}
-                  className="whitespace-no-wrap flex items-center"
-                >
+                <MLink component={Link} to={path} className="whitespace-no-wrap flex items-center">
                   <ReferenceField
-                    resourceId={row.locationId ?? ""}
-                    resourceName="locations"
+                    resourceId={row.locationId}
+                    resourceName={Location.NAME}
                     render={(location: Location) => (
                       <Fragment>
-                        <LocationCityIcon />
+                        {/* <LocationCityIcon /> */}
                         <span className="pl-1">{location.name}</span>
                       </Fragment>
                     )}
@@ -54,9 +48,10 @@ export function ArrivalList() {
           {
             title: "Subscription",
             render: row => {
-              const path = `${url.root()}/${Subscription.NAME}/${
-                row.subscriptionId
-              }/show`;
+              const path = url.show({
+                resourceName: Subscription.NAME,
+                resourceId: row.subscriptionId,
+              });
               return (
                 <Link to={path}>
                   <Button color="primary" startIcon={<CardMembershipIcon />}>

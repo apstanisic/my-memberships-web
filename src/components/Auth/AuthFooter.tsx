@@ -1,13 +1,5 @@
+import { Box, Button, makeStyles, Paper } from "@material-ui/core";
 import React from "react";
-import { Padding } from "src/components/common/Padding";
-import {
-  Card,
-  CardContent,
-  Button,
-  makeStyles,
-  Paper,
-  Box,
-} from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 interface Props {

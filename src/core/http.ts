@@ -3,9 +3,7 @@ import Axios from "axios";
 /** Url for api requests */
 export const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:4000";
 /** Url where files are stored */
-const storageUrl =
-  process.env.REACT_APP_STORAGE_URL ||
-  "https://my-subs-test.s3.fr-par.scw.cloud";
+const storageUrl = process.env.REACT_APP_STORAGE_URL || "https://my-subs-test.s3.fr-par.scw.cloud";
 
 /** Http module with base url and some sane headers */
 export const http = Axios.create({
@@ -29,17 +27,3 @@ export function storage(url: string, outside: boolean = true): string {
   const fileUrl = url.startsWith("/") ? url : `/${url}`;
   return `${storageUrl}${fileUrl}`;
 }
-
-/** Pagination response */
-// export interface PaginationResult<T = any> {
-//   pagination: {
-//     amount: number;
-//     isLastPage: boolean;
-//     startsAt?: string;
-//     endsAt?: string;
-//     next?: string;
-//     previous?: string;
-//     [key: string]: any;
-//   };
-//   data: T[];
-// }

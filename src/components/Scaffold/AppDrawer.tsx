@@ -10,26 +10,36 @@ import {
 import { Inbox } from "@material-ui/icons";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useRouteMatch, matchPath } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RootState } from "src/store/store";
 import { toggleSidebar } from "src/store/uiSlice";
-import { urlHelper } from "src/store/adminSlice";
-import { ShouldShow } from "../AdminPanel/Common/ShouldShow";
-import { useIsInAdminPanel } from "../AdminPanel/Common/hooks/useIsInAdminPanel";
+import { Show } from "../AdminPanel/common/ShouldShow";
+import { useIsInAdminPanel } from "../AdminPanel/common/hooks/useIsInAdminPanel";
+import { resourceUrls } from "src/core/urlHelper";
+import { useUrls } from "../AdminPanel/common/hooks/useUrls";
 
 export function AppDrawer({ classes }: { classes: any }) {
-  const { ui, admin } = useSelector((state: RootState) => state);
+  const { ui, admin, auth } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   // const match = useRouteMatch();
   const inAdminPanel = useIsInAdminPanel();
+  const urls = useUrls();
 
   const items = [
     { name: "Subscriptions", path: "subscriptions" },
     { name: "Locations", path: "locations" },
     { name: "Roles", path: "roles" },
     { name: "Arrivals", path: "arrivals" },
-    { name: "Billing", path: "payments" },
+    // { name: "Billing", path: "payments" },
   ];
+
+  if (
+    auth.user?.roles
+      .filter(role => role.domain === admin.url.companyId)
+      .find(role => role.name === "owner" || role.name.startsWith("app_"))
+  ) {
+    items.push({ name: "Billing", path: "payments" });
+  }
 
   const drawerContent = (
     <div>
@@ -38,10 +48,8 @@ export function AppDrawer({ classes }: { classes: any }) {
       <List>
         {/* <ListItem>{admin.url.company?.name}</ListItem> */}
         {items.map((item, i) => (
-          <Link
-            to={urlHelper.changeResource(admin.url, item.path)}
-            key={item.path}
-          >
+          // <Link to={urlHelper.changeResource(admin.url, item.path)} key={item.path}>
+          <Link to={urls.list({ resourceName: item.path })} key={item.path}>
             <ListItem button key={item.path}>
               <ListItemIcon>
                 <Inbox />
@@ -55,7 +63,7 @@ export function AppDrawer({ classes }: { classes: any }) {
   );
 
   return (
-    <ShouldShow show={inAdminPanel}>
+    <Show If={inAdminPanel}>
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Hidden mdUp implementation="css">
           <Drawer
@@ -85,6 +93,6 @@ export function AppDrawer({ classes }: { classes: any }) {
           </Drawer>
         </Hidden>
       </nav>
-    </ShouldShow>
+    </Show>
   );
 }

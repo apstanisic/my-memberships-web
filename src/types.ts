@@ -1,7 +1,9 @@
-/** Type alias for hinting */
+// This file contains some common types that are used throughout the app
+
+/** Simple type alias to clarify that it's a UUID */
 export type UUID = string;
 
-/** Object must have id */
+/** Object with id. Every entity in db must have id */
 export interface WithId {
   id: UUID;
 }
@@ -14,8 +16,15 @@ export interface BaseEntity extends WithId {
   fetchedAt?: Date;
 }
 
+/**
+ * Resource base class.
+ * Examples of resource: Subscription, Arrivals, etc.
+ */
 export abstract class Resource {
+  /** Name of resource */
   static NAME: string;
+
+  /** Method to create given resource from plain object */
   static create: (val: any) => Resource;
 }
 
@@ -28,14 +37,20 @@ export interface ImageSizes {
 }
 
 /** Image in array of images */
-export interface Image {
-  id: UUID; // uuid
-  position: number; // In case of storing image in array. Zero index
-  sizes: ImageSizes;
+export interface Image extends BaseEntity {
+  position?: number; // In case of storing image in array. Zero index
+  prefix: string;
+  original?: string;
+  // Sizes
+  xs: string; // This size always exist (thumbnail)
+  sm?: string;
+  md?: string;
+  lg?: string;
+  xl?: string;
 }
 
 /** Response from pagination request */
-export interface PaginationResult<T = any> {
+export interface PaginationResult<T extends WithId = any> {
   pagination: PaginationMetadata;
   /** Retrived data */
   data: T[];
@@ -61,9 +76,7 @@ export interface WithChildren {
   [key: string]: any;
 }
 
+/** Any value that react know how to write on screen */
 export type Printable = string | React.ReactElement<any>;
 
-export type PreviewFile = {
-  file: File;
-  preview: any;
-};
+

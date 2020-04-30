@@ -1,12 +1,15 @@
+import { Box, Card, CardContent, Paper } from "@material-ui/core";
 import React from "react";
-import { Box, Card, Paper, CardContent } from "@material-ui/core";
-import { useShowView } from "../Common/useShowView";
 import { User } from "src/core/auth/User";
-import { ShowViewItem } from "../Common/ShowViewItem";
-import { Padding } from "src/components/common/Padding";
+import { ShowViewRow } from "../common/ShowViewItem";
+import { useShowView } from "../common/hooks/useShowView";
 
 export function UserShow() {
-  const [user, Header] = useShowView<User>(User.NAME);
+  const { Header, resource: user } = useShowView({
+    resourceName: User.NAME,
+    transform: User.create,
+  });
+
   return (
     <Card className="max-w-3xl mx-auto">
       <CardContent>
@@ -14,18 +17,14 @@ export function UserShow() {
         <div className="flex">
           <div className="w-1/2">
             <Box py={5}>
-              <ShowViewItem name="Email" val={user?.email} />
-              <ShowViewItem name="Phone number" val={user?.phoneNumber} />
+              <ShowViewRow name="Email" val={user?.email} />
+              <ShowViewRow name="Phone number" val={user?.phoneNumber} />
             </Box>
           </div>
           <div className="w-1/2">
             <Box p={3}>
               <Paper>
-                <img
-                  alt={user?.name}
-                  src={user?.avatar?.md}
-                  style={{ minHeight: 200 }}
-                />
+                <img alt={user?.name} src={user?.avatar?.md} style={{ minHeight: 200 }} />
               </Paper>
             </Box>
           </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { ResourceRouter } from "../Common/ResourceRouter";
+import { ResourceRouter } from "../common/ResourceRouter";
 import { Role } from "src/core/auth/Role";
 import { RoleList } from "./RoleList";
 import { RoleEdit } from "./RoleEdit";

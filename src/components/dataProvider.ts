@@ -1,85 +1,72 @@
 // in myRestProvider.js
-import { parse, stringify } from "query-string";
+import { stringify } from "query-string";
 import { http } from "src/core/http";
-import { removeEmptyItems, Struct } from "src/core/utils/helpers";
+import { convertSearch, SearchType } from "src/core/utils/convertSearch";
+import { Struct } from "src/core/utils/helpers";
 import { PaginationResult, UUID, WithId } from "src/types";
 
 interface Data<T = any> {
   data: T;
 }
-// type Data<T = any> = Promise<{ data: T }>;
 
-type SearchType = string | Struct;
-
-interface TempParams<T> {
-  id?: UUID;
-  data: T | Struct;
+interface CreateOrUpdateParams<T extends WithId> {
+  resource: string; // companies/f21f/arrivals
+  id?: UUID; // 9vjs
+  data: T | Struct; // { seen: true }
   method: "PUT" | "POST";
 }
 
-export function convertSearch(
-  search: string | Struct | undefined,
-  changeValue?: Struct,
-): string {
-  let searchQuery: Struct;
-  if (typeof search !== "object") {
-    searchQuery = parse(search ?? "");
-    Object.entries(changeValue ?? {}).forEach(([key, value]) => {
-      searchQuery[key] = value;
-    });
-    searchQuery = removeEmptyItems(searchQuery);
-    if (Object.keys(searchQuery).length === 0) return "";
-  } else {
-    searchQuery = search;
-  }
-  return `?${stringify(searchQuery)}`;
+/**
+ * Fetch data and cache result.
+ * Currently it's only fetching.
+ */
+async function getAndCache<T>(path: string): Promise<T> {
+  const { data } = await http.get<T>(path);
+  return data;
 }
 
-// Do caching
-function cacheGet<T>(path: string): Promise<T> {
-  return http.get<T>(path).then(res => res.data);
-}
-
+/**
+ * Object with all method and rules for fetching data from api
+ */
 export const dataProvider = {
+  /**
+   * If no method is apropriate, you can get http instance
+   */
   custom() {
     return http;
   },
 
-  async getMany<T = any>(
+  /** Get paginated list */
+  async getMany<T extends WithId = any>(
     path: string,
     search?: SearchType,
   ): Promise<PaginationResult<T>> {
     const url = `${path}${convertSearch(search)}`;
-    return cacheGet(url);
+    return getAndCache(url);
   },
 
-  // Dont use search for now. If we fetch by id should we
-  // accept search params?
-  async getOneById<T = any>(
-    path: string,
-    params: { id: string; search?: any },
-  ): Promise<T> {
-    return cacheGet(`${path}/${params.id}`);
+  /** Get resource by id */
+  async getOneById<T = any>(path: string, params: { id: string; search?: SearchType }): Promise<T> {
+    return getAndCache(`${path}/${params.id}${convertSearch(params.search)}`);
   },
 
+  /** Get many resources by their id */
   async getByIds<T = any>(
     resource: string,
-    params: { ids: string[] },
+    params: { ids: string[]; search?: SearchType },
   ): Promise<T[]> {
-    // console.log("requested ", resource);
-    // console.log(params.ids);
-
     const ids = params.ids.join(",");
-    return cacheGet(`${resource}/ids?${stringify({ ids })}`);
+    const query = convertSearch(params.search, { ids });
+
+    return getAndCache(`${resource}/ids${query}`);
   },
 
-  async create<T = any>(
-    resource: string,
-    params: { data: Struct },
-  ): Promise<Data<T>> {
+  /** Create resource */
+  async create<T = any>(resource: string, params: { data: Struct }): Promise<Data<T>> {
     return http.post(resource, params.data);
   },
 
+  /** Update resource */
   async update<T extends WithId = any>(
     resource: string,
     params: { id?: UUID; data: T | Struct },
@@ -90,28 +77,28 @@ export const dataProvider = {
     return http.put(`/${resource}/${id}`, params.data);
   },
 
-  async createOrUpdate<T extends WithId = any>(
-    resource: string,
-    { data, method, id }: TempParams<T>,
-  ): Promise<Data<T>> {
+  /** This will either update or create resource @Todo make this more clear */
+  async createOrUpdate<T extends WithId = any>({
+    data,
+    method,
+    id,
+    resource,
+  }: CreateOrUpdateParams<T>): Promise<Data<T>> {
+    // Take id from data if id not specificly provided
     id = id ?? data?.id;
-    if (!id && method === "PUT") throw new Error("No id provided");
+    // If there is no id, request can not be put
+    if (!id && method === "PUT") throw new Error("For updating, id must be provided.");
+    // If request is post, ignore id, othervise use it
     const url = method === "POST" ? resource : `/${resource}/${id}`;
 
     return http({ url, method, data });
   },
 
-  /** Params can either be id or object with params */
-  async delete<T = any>(
-    resource: string,
-    params?: { id: UUID } | UUID,
-  ): Promise<Data<T>> {
-    let id: string = "";
-    if (typeof params === "string") {
-      id = `/${params}`;
-    } else if (params?.id) {
-      id = `/${params.id}`;
+  /** Delete resource. User can provide string himself or pass id seperatly to be concatinated */
+  async delete<T = any>(resource: string, params?: { id: UUID }): Promise<Data<T>> {
+    if (!params) {
+      return http.delete(resource);
     }
-    return http.delete(`${resource}${id}`);
+    return http.delete(`${resource}/${params.id}`);
   },
 };

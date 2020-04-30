@@ -5,11 +5,10 @@ import { RequestDataByIdPayload } from "./resourcesSlice";
 import { RootState } from "./store";
 import { tempCache } from "./tempCache";
 
-export const deleteEpic: Epic<
-  PayloadAction<RequestDataByIdPayload>,
-  any,
-  RootState
-> = (action$, state$) =>
+export const deleteEpic: Epic<PayloadAction<RequestDataByIdPayload>, any, RootState> = (
+  action$,
+  state$,
+) =>
   action$.pipe(
     // ofType(requestListData.type),
     // filter(action => urlsToFetch.get(action.payload.url) !== true),

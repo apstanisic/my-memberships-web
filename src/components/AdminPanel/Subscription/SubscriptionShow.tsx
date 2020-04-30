@@ -1,31 +1,18 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  List,
-  ListItem,
-  ListItemText,
-} from "@material-ui/core";
-import { SwapVert } from "@material-ui/icons";
-import { Padding } from "src/components/common/Padding";
-import { Spacer } from "src/components/common/Spacer";
-import React from "react";
-import { Link } from "react-router-dom";
-import { EmailField } from "../Common/EmailField";
-import { ShowViewItem } from "../Common/ShowViewItem";
-import { useShowView } from "../Common/useShowView";
-import { useUrls } from "../Common/useUrls";
-import { Subscription } from "./Subscription";
+import { Card, CardContent, List } from "@material-ui/core";
 import dayjs from "dayjs";
+import React from "react";
 import { capitalize } from "src/core/utils/helpers";
+import { ShowViewRow } from "../common/ShowViewItem";
+import { useShowView } from "../common/hooks/useShowView";
 import { ArrivalFilterButton } from "../Location/ArrivalFilterButton";
 import { UserReference } from "../User/UserReference";
+import { Subscription } from "./Subscription";
 
 export function SubscriptionShow() {
-  const [subscription, Header] = useShowView(
-    Subscription.NAME,
-    Subscription.create,
-  );
+  const { Header, resource: subscription } = useShowView({
+    resourceName: Subscription.NAME,
+    transform: Subscription.create,
+  });
   // const url = useUrls().root();
   function format(date: Date | string | undefined) {
     return dayjs(date).format("DD.MM.YYYY.");
@@ -41,33 +28,21 @@ export function SubscriptionShow() {
           )} - ${format(subscription?.expiresAt)}`}
         />
         <List>
-          <ShowViewItem
-            name="User"
-            val={<UserReference id={subscription?.ownerId} reverse />}
-          />
-          <ShowViewItem
-            val={dayjs(subscription?.startsAt).format("DD.MM.YYYY")}
-            name="Starts at"
-          />
-          <ShowViewItem
+          <ShowViewRow name="User" val={<UserReference id={subscription?.ownerId} reverse />} />
+          <ShowViewRow val={dayjs(subscription?.startsAt).format("DD.MM.YYYY")} name="Starts at" />
+          <ShowViewRow
             val={dayjs(subscription?.expiresAt).format("DD.MM.YYYY")}
             name="Expiers at"
           />
-          <ShowViewItem val={subscription?.price} name="Price" />
-          <ShowViewItem val={subscription?.type} name="Type" />
-          <ShowViewItem
-            val={`${subscription?.usedAmount ??
-              0} / ${subscription?.allowedUses ?? "∞"} `}
+          <ShowViewRow val={subscription?.price} name="Price" />
+          <ShowViewRow val={subscription?.type} name="Type" />
+          <ShowViewRow
+            val={`${subscription?.usedAmount ?? 0} / ${subscription?.allowedUses ?? "∞"} `}
             name="Used / allowed uses"
           />
-          <ShowViewItem
+          <ShowViewRow
             name="Arrivals"
-            val={
-              <ArrivalFilterButton
-                id={subscription?.id}
-                filterField={Subscription.ID}
-              />
-            }
+            val={<ArrivalFilterButton id={subscription?.id} filterField={Subscription.ID} />}
           />
         </List>
       </CardContent>

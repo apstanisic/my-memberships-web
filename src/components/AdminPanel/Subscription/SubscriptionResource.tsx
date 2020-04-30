@@ -1,5 +1,5 @@
 import React from "react";
-import { ResourceRouter } from "../Common/ResourceRouter";
+import { ResourceRouter } from "../common/ResourceRouter";
 import { Subscription } from "./Subscription";
 import { SubscriptionEdit } from "./SubscriptionEdit";
 import { SubscriptionList } from "./SubscriptionList";

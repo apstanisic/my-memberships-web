@@ -1,5 +1,5 @@
 import React from "react";
-import { ResourceRouter } from "../Common/ResourceRouter";
+import { ResourceRouter } from "../common/ResourceRouter";
 import { Payment } from "./Payment";
 import { PaymentShow } from "./PaymentShow";
 import { PaymentList } from "./PaymentList";

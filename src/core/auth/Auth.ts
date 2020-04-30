@@ -60,11 +60,13 @@ class AuthController<User extends IUser = IUser> {
 
     this.setAuthHeader(token);
     try {
-      const roles = await http
-        .get<Role[]>("/auth/account/roles")
-        .then(res => res.data);
+      const roles = await http.get<Role[]>("/auth/account/roles").then(res => res.data);
+      console.log(roles);
+
       user.roles = roles;
-    } catch (error) {}
+    } catch (error) {
+      console.log("error", error);
+    }
 
     await this.storage.set(StorageKeys.Token, token);
     await this.storage.set(StorageKeys.User, user);
@@ -73,11 +75,7 @@ class AuthController<User extends IUser = IUser> {
   }
 
   /* Register new user */
-  async register(
-    email: string,
-    password: string,
-    additionalFields: Struct,
-  ): Promise<User> {
+  async register(email: string, password: string, additionalFields: Struct): Promise<User> {
     // const body = { email, password };
     const { user, token } = await http
       .post<{ user: User; token: string }>("/auth/register", {

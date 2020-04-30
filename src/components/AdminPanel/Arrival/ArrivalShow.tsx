@@ -1,19 +1,21 @@
 import React, { Fragment } from "react";
 import { Arrival } from "./Arrival";
 import { Location } from "../Location/Location";
-import { useShowView } from "../Common/useShowView";
+import { useShowView } from "../common/hooks/useShowView";
 import { Card, CardContent, List, Link as MLink } from "@material-ui/core";
-import { ShowViewItem } from "../Common/ShowViewItem";
+import { ShowViewRow } from "../common/ShowViewItem";
 import dayjs from "dayjs";
-import { ReferenceField } from "../Common/ReferenceField";
+import { ReferenceField } from "../common/ReferenceField";
 import { User } from "src/core/auth/User";
-import { EmailField } from "../Common/EmailField";
+import { EmailField } from "../common/EmailField";
 import { Link } from "react-router-dom";
-import { useUrls } from "../Common/useUrls";
+import { useUrls } from "../common/hooks/useUrls";
 import { Subscription } from "../Subscription/Subscription";
 
 export function ArrivalShow() {
-  const [arrival, Header] = useShowView(Arrival.NAME, Arrival.create, {
+  const { Header, resource: arrival } = useShowView({
+    resourceName: Arrival.NAME,
+    transform: Arrival.create,
     hasEdit: false,
   });
   const urls = useUrls();
@@ -22,26 +24,20 @@ export function ArrivalShow() {
     <Fragment>
       <Card className="max-w-3xl mx-auto">
         <CardContent>
-          <Header
-            title={`Arrival at ${dayjs(arrival?.arrivedAt).format(
-              "HH:mm DD.MM.",
-            ) ?? ""}`}
-          />
+          <Header title={`Arrival at ${dayjs(arrival?.arrivedAt).format("HH:mm DD.MM.") ?? ""}`} />
           <List>
-            <ShowViewItem
+            <ShowViewRow
               val={
                 <ReferenceField
                   resourceId={arrival?.locationId}
-                  resourceName="locations"
+                  resourceName={Location.NAME}
                   render={(location: Location) => (
                     <MLink
                       component={Link}
-                      to={
-                        urls.changeResource(
-                          Location.NAME,
-                          arrival?.locationId,
-                        ) + "/show"
-                      }
+                      to={urls.show({
+                        resourceName: Location.NAME,
+                        resourceId: arrival?.locationId,
+                      })}
                     >
                       {location.name}
                     </MLink>
@@ -50,23 +46,21 @@ export function ArrivalShow() {
               }
               name="Location"
             />
-            <ShowViewItem
+            <ShowViewRow
               val={
                 <MLink
                   component={Link}
-                  to={
-                    urls.changeResource(
-                      Subscription.NAME,
-                      arrival?.subscriptionId,
-                    ) + "/show"
-                  }
+                  to={urls.show({
+                    resourceName: Subscription.NAME,
+                    resourceId: arrival?.subscriptionId,
+                  })}
                 >
                   {arrival?.subscriptionId ?? ""}
                 </MLink>
               }
               name="Subscription"
             />
-            <ShowViewItem
+            <ShowViewRow
               val={
                 <ReferenceField
                   resourceId={arrival?.userId}
@@ -74,10 +68,10 @@ export function ArrivalShow() {
                   render={(user: User) => (
                     <MLink
                       component={Link}
-                      to={
-                        urls.changeResource(User.NAME, arrival?.userId) +
-                        "/show"
-                      }
+                      to={urls.show({
+                        resourceName: User.NAME,
+                        resourceId: arrival?.userId,
+                      })}
                     >
                       {user.name ?? ""}
                     </MLink>
@@ -86,26 +80,21 @@ export function ArrivalShow() {
               }
               name="User"
             />
-            <ShowViewItem val={arrival?.address} name="Adrress" />
-            <ShowViewItem
+            <ShowViewRow val={arrival?.address} name="Adrress" />
+            <ShowViewRow
               val={dayjs(arrival?.arrivedAt).format("HH:mm DD.MM.YYYY.")}
               name="Arrived at"
             />
-            <ShowViewItem
+            <ShowViewRow
               val={
-                arrival?.leftAt
-                  ? dayjs(arrival?.leftAt).format("HH:mm DD.MM.YYYY.")
-                  : "Not entered"
+                arrival?.leftAt ? dayjs(arrival?.leftAt).format("HH:mm DD.MM.YYYY.") : "Not entered"
               }
               name="Left at"
             />
             {arrival?.leftAt && (
-              <ShowViewItem
+              <ShowViewRow
                 name="Time spent"
-                val={
-                  dayjs(arrival.arrivedAt).diff(arrival.leftAt, "minute") +
-                  " minutes"
-                }
+                val={dayjs(arrival.arrivedAt).diff(arrival.leftAt, "minute") + " minutes"}
               />
             )}
           </List>

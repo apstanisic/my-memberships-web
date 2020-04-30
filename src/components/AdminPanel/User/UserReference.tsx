@@ -3,15 +3,16 @@ import { Person } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
 import { User } from "src/core/auth/User";
-import { ReferenceField } from "../Common/ReferenceField";
+import { ReferenceField } from "../common/ReferenceField";
 
 interface Props {
-  id?: string;
-  reverse?: boolean;
+  id?: string; // Id is optional because maybe user is still not fetched
+  reverse?: boolean; // Should reverse padding
 }
 
 export function UserReference({ id, reverse }: Props) {
   if (!id) return <span></span>;
+
   return (
     <div className={`flex ${reverse ? "justify-end" : ""}`}>
       <ReferenceField
@@ -31,10 +32,7 @@ export function UserReference({ id, reverse }: Props) {
             </Box>
             <Avatar src={user.avatar?.xs} /> */}
               {user.avatar?.xs ? (
-                <Avatar
-                  className="bg-blue-200 rounded-full border"
-                  src={user.avatar.xs}
-                />
+                <Avatar className="bg-blue-200 rounded-full border" src={user.avatar.xs} />
               ) : (
                 <Box className="bg-blue-100 border rounded-full center w-full h-full">
                   <Person />

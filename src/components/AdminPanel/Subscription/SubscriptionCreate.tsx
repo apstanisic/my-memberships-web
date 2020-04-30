@@ -4,12 +4,12 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "src/store/store";
-import { DateInput } from "../Common/Input/DateInput";
-import { ReferenceSelectInput } from "../Common/Input/ReferenceSelectInput";
-import { SelectInput } from "../Common/Input/SelectInput";
-import { SwitchInput } from "../Common/Input/SwitchInput";
-import { TextInput } from "../Common/Input/TextInput";
-import { useEditOrCreateView } from "../Common/useEditOrCreateView";
+import { DateInput } from "../common/input/DateInput";
+import { ReferenceSelectInput } from "../common/input/ReferenceSelectInput";
+import { SelectInput } from "../common/input/SelectInput";
+import { SwitchInput } from "../common/input/SwitchInput";
+import { TextInput } from "../common/input/TextInput";
+import { useEditOrCreateView } from "../common/hooks/useEditOrCreateView";
 import { Subscription } from "./Subscription";
 
 export function SubscriptionCreate() {
@@ -32,7 +32,7 @@ export function SubscriptionCreate() {
   //   val => val.name,
   // );
 
-  const [subscription, onSubmit, cancel] = useEditOrCreateView({
+  const { form } = useEditOrCreateView({
     transform: Subscription.create,
     method: "POST",
     changeDefaultValue: (val: Subscription) => {
@@ -48,79 +48,65 @@ export function SubscriptionCreate() {
   });
 
   return (
-    <Formik
-      initialValues={subscription ?? {}}
-      enableReinitialize={true}
-      validateOnChange={false}
-      onSubmit={onSubmit}
-      // validationSchema={validLocation}
-    >
-      {props => (
-        <Card>
-          <CardContent>
-            <Form>
-              <div>
-                <Toolbar>
-                  <Box className="text-2xl mx-auto">Add subscription</Box>
-                </Toolbar>
-                <ReferenceSelectInput
-                  freeSoloField="ownerEmail"
-                  form={props}
-                  label="User"
-                  fieldToShow="email"
-                  idField="ownerId"
-                  resourceName="subscriptions/users"
-                />
+    <Card>
+      <CardContent>
+        <Form>
+          <div>
+            <Toolbar>
+              <Box className="text-2xl mx-auto">Add subscription</Box>
+            </Toolbar>
+            <ReferenceSelectInput
+              freeSoloField="ownerEmail"
+              form={form}
+              label="User"
+              fieldToShow="email"
+              idField="ownerId"
+              resourceName="subscriptions/users"
+            />
 
-                <SelectInput
-                  name="type"
-                  form={props}
-                  options={Object.values(subscriptionTypes ?? {}).map(
-                    t => t.name,
-                  )}
-                  label="Type"
-                  onChangeHook={val => {
-                    const sub = Object.values(subscriptionTypes ?? {}).filter(
-                      t => t.name === val,
-                    )[0];
-                    if (sub) {
-                      const expires = dayjs(props.values.startsAt)
-                        .add(sub.duration, sub.durationUnit as any)
-                        .subtract(1, "day");
-                      props.setFieldValue("price", sub.price);
-                      props.setFieldValue("allowedUses", sub.allowedUses);
-                      props.setFieldValue("expiresAt", expires.toDate());
-                    }
-                  }}
-                />
-                <TextInput name="price" form={props} type="number" />
-                <DateInput form={props} name="startsAt" label="Starts at" />
-                <DateInput form={props} name="expiresAt" label="Expires at" />
-                <TextInput
-                  name="allowedUses"
-                  form={props}
-                  type="number"
-                  label="Allowed Uses (leave empty for unlimited)"
-                />
-                <SwitchInput name="active" form={props} label="Active" />
-              </div>
+            <SelectInput
+              name="type"
+              form={form}
+              options={Object.values(subscriptionTypes ?? {}).map(t => t.name)}
+              label="Type"
+              onChangeHook={val => {
+                const sub = Object.values(subscriptionTypes ?? {}).filter(t => t.name === val)[0];
+                if (sub) {
+                  const expires = dayjs(form.values.startsAt)
+                    .add(sub.duration, sub.durationUnit as any)
+                    .subtract(1, "day");
+                  form.setFieldValue("price", sub.price);
+                  form.setFieldValue("allowedUses", sub.allowedUses);
+                  form.setFieldValue("expiresAt", expires.toDate());
+                }
+              }}
+            />
+            <TextInput name="price" form={form} type="number" />
+            <DateInput form={form} name="startsAt" label="Starts at" />
+            <DateInput form={form} name="expiresAt" label="Expires at" />
+            <TextInput
+              name="allowedUses"
+              form={form}
+              type="number"
+              label="Allowed Uses (leave empty for unlimited)"
+            />
+            <SwitchInput name="active" form={form} label="Active" />
+          </div>
 
-              <Box flexGrow={1} pt={2}>
-                <Button
-                  type="submit"
-                  disabled={props.isSubmitting}
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                >
-                  Submit
-                </Button>
-              </Box>
-            </Form>
-          </CardContent>
-        </Card>
-      )}
-    </Formik>
+          <Box flexGrow={1} pt={2}>
+            <Button
+              type="submit"
+              disabled={form.isSubmitting}
+              fullWidth
+              variant="contained"
+              color="primary"
+              size="large"
+            >
+              Submit
+            </Button>
+          </Box>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }

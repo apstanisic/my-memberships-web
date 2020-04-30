@@ -1,16 +1,16 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { Login } from "./Login";
-import { Register } from "./Register";
+import { LoginPage } from "./LoginPage";
+import { RegisterPage } from "./RegisterPage";
 
 export function Auth() {
   return (
     <Switch>
       <Route path="/auth/login">
-        <Login />
+        <LoginPage />
       </Route>
       <Route path="/auth/register">
-        <Register />
+        <RegisterPage />
       </Route>
     </Switch>
   );

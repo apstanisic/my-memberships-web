@@ -9,16 +9,11 @@ interface Props {
   //   position?: "center" | "stretch";
 }
 
-/**
- * @todo switch from || to ?? when enabled in cra
- */
 export function Image({ src, alt, height, width, center }: Props) {
   return (
     <img
       src={src}
-      alt={alt || ""}
-      //   height={height || "auto"}
-      //   width={width || "auto"}
+      alt={alt ?? ""}
       style={{
         // height,
         height,

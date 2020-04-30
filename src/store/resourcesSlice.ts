@@ -79,4 +79,5 @@ export const {
   requestListData,
   addToListData,
 } = resourcesSlice.actions;
+
 export const resourcesReducer = resourcesSlice.reducer;

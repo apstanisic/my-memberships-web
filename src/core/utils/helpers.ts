@@ -9,12 +9,6 @@ interface WithId {
   [key: string]: any;
 }
 
-/*
-  AirBnb recommend instead of obj.hasOwnProperty(key)
-  has.call(object, property)
-*/
-// export const has = Object.prototype.hasOwnProperty;
-
 /** Trim every property on object (recursive) */
 export function trimStrings<T extends Struct<any>>(obj: T): T {
   const cloned: any = {};

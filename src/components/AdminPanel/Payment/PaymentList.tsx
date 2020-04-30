@@ -1,5 +1,5 @@
 import React from "react";
-import { ResourceTable } from "../Common/Table/ResourceTable";
+import { ResourceTable } from "../common/table/ResourceTable";
 
 export function PaymentList() {
   // return <div>payment list</div>;

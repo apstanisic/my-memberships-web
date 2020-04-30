@@ -1,9 +1,4 @@
-import {
-  Action,
-  combineReducers,
-  configureStore,
-  getDefaultMiddleware,
-} from "@reduxjs/toolkit";
+import { Action, combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { createEpicMiddleware } from "redux-observable";
 import { ThunkAction } from "redux-thunk";
 import { authReducer } from "src/components/Auth/authSlice";
@@ -34,20 +29,4 @@ export type RootState = ReturnType<typeof reducer>;
 
 export type AppDispatch = typeof store.dispatch;
 
-export type AppThunk<Return = void> = ThunkAction<
-  Return,
-  RootState,
-  null,
-  Action<string>
->;
-
-// This will intergrate Http into Redux (handle errors)
-// Http.interceptors.response.use(
-//   r => r,
-//   (error: AxiosError) => {
-//     // throw new Error("my error");
-//     // alert("e rroorrr");
-//     console.log(error);
-//     return error;
-//   },
-// );
+export type AppThunk<Return = void> = ThunkAction<Return, RootState, null, Action<string>>;
